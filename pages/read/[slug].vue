@@ -80,7 +80,7 @@ import { useSettingsStore } from '~/stores/settings'
 
 // Use reading layout
 definePageMeta({
-  layout: 'reading'
+  layout: 'default'
 })
 
 const settingsStore = useSettingsStore()

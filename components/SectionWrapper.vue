@@ -13,7 +13,7 @@ const props = defineProps({
   },
   py: {
     type: String,
-    default: 'py-16'
+    default: 'pt-8'
   }
 })
 
