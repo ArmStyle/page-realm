@@ -35,9 +35,11 @@
     <!-- Content -->
     <div class="p-2 sm:p-3">
       <!-- Title -->
-      <h3 class="font-semibold text-gray-800 dark:text-white text-xs sm:text-sm mb-1 line-clamp-2 group-hover:text-primary transition-colors leading-tight">
-        {{ item.title }}
-      </h3>
+      <NuxtLink :to="`/detail/${item.slug || item.id}`">
+        <h3 class="font-semibold text-gray-800 dark:text-white text-xs sm:text-sm mb-1 line-clamp-2 group-hover:text-primary transition-colors leading-tight cursor-pointer">
+          {{ item.title }}
+        </h3>
+      </NuxtLink>
       
       <!-- Author -->
       <p class="text-xs text-gray-500 dark:text-gray-400 mb-2 truncate">
@@ -60,12 +62,20 @@
       </p>
       
       <!-- Action Button - Smaller -->
-      <NuxtLink 
-        :to="`/read/${item.id}`"
-        class="block w-full text-center bg-primary hover:bg-primary-dark text-white py-1.5 rounded-md transition-colors text-xs font-medium"
-      >
-        อ่าน
-      </NuxtLink>
+      <div class="flex gap-1">
+        <NuxtLink 
+          :to="`/detail/${item.slug || item.id}`"
+          class="flex-1 text-center bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 py-1.5 rounded-md transition-colors text-xs font-medium"
+        >
+          รายละเอียด
+        </NuxtLink>
+        <NuxtLink 
+          :to="`/read/${item.slug || item.id}`"
+          class="flex-1 text-center bg-primary hover:bg-primary-dark text-white py-1.5 rounded-md transition-colors text-xs font-medium"
+        >
+          อ่าน
+        </NuxtLink>
+      </div>
     </div>
   </div>
 </template>
