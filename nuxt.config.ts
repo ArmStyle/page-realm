@@ -1,4 +1,5 @@
 export default defineNuxtConfig({
+  compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   modules: [
     '@nuxtjs/tailwindcss',
@@ -11,7 +12,7 @@ export default defineNuxtConfig({
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { hid: 'description', name: 'description', content: 'แพลตฟอร์มอ่านมังงะและนิยายออนไลน์ที่ดีที่สุด' }
+        { name: 'description', content: 'แพลตฟอร์มอ่านมังงะและนิยายออนไลน์ที่ดีที่สุด' }
       ],
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
