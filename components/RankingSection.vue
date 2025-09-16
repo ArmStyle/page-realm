@@ -1,7 +1,7 @@
 <template>
   <SectionWrapper>
-    <div class="mb-8 text-center">
-      <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">
+    <div class="mb-5">
+      <h2 class="text-3xl font-bold text-gray-800 dark:text-white">
         🏆 อันดับยอดนิยม
       </h2>
       <p class="text-gray-600 dark:text-gray-400">
@@ -10,7 +10,7 @@
     </div>
 
     <!-- Ranking Categories in Row -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
       <!-- Top 5 Popular Novels -->
       <div class="novels-section ranking-card">
         <div class="ranking-header">

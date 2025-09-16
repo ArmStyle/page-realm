@@ -16,16 +16,20 @@
             :class="['w-4 h-4 sm:w-5 sm:h-5', themeClasses.muted]" 
             fill="none" stroke="currentColor" viewBox="0 0 24 24"
           >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
           </svg>
-          <h3 :class="['text-lg font-semibold', themeClasses.text]">
-            ปรับแต่งเพื่อสายตา
+          <h3 :class="['text-base sm:text-lg font-semibold', themeClasses.text]">
+            ปรับแต่งการอ่าน
           </h3>
         </div>
         <button
           @click="emit('close')"
-          :class="['p-1 rounded-lg transition-colors', themeClasses.hoverBg]"
+          :class="[
+            'p-1 rounded-lg transition-colors',
+            themeClasses.hoverBg,
+            themeClasses.muted
+          ]"
         >
           <svg :class="['w-4 h-4 sm:w-5 sm:h-5', themeClasses.muted]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -33,12 +37,12 @@
         </button>
       </div>
 
-      <!-- Theme Selection (4 modes) -->
+      <!-- Theme Selection (3 modes) -->
       <div class="mb-4 sm:mb-6">
         <h4 :class="['text-sm font-medium mb-3', themeClasses.headerMuted]">
           ธีม
         </h4>
-        <div class="grid grid-cols-2 gap-2">
+        <div class="grid grid-cols-3 gap-2">
           <!-- Light Theme -->
           <button
             @click="settingsStore.setTheme('light')"
@@ -89,28 +93,7 @@
                 <path fill-rule="evenodd" d="M15.312 11.424a5.5 5.5 0 01-9.201 2.466l-.312-.311h2.433a.75.75 0 000-1.5H3.989a.75.75 0 00-.75.75v4.242a.75.75 0 001.5 0v-2.43l.31.31a7 7 0 0011.712-3.138.75.75 0 00-1.449-.389z" clip-rule="evenodd" />
               </svg>
             </div>
-            <span class="text-xs font-medium">ถนอมตาสว่าง</span>
-          </button>
-
-          <!-- Eye Care Dark Theme -->
-          <button
-            @click="settingsStore.setTheme('eyecare-dark')"
-            :class="[
-              'flex flex-col items-center justify-center gap-1 py-2 sm:py-3 px-2 rounded-lg border-2 transition-all',
-              settingsStore.theme === 'eyecare-dark' 
-                ? 'border-primary bg-primary text-white' 
-                : themeClasses.buttonBorder + ' hover:border-primary ' + themeClasses.text
-            ]"
-          >
-            <div class="relative">
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-              </svg>
-              <svg class="w-2 h-2 absolute -top-0.5 -right-0.5" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M15.312 11.424a5.5 5.5 0 01-9.201 2.466l-.312-.311h2.433a.75.75 0 000-1.5H3.989a.75.75 0 00-.75.75v4.242a.75.75 0 001.5 0v-2.43l.31.31a7 7 0 0011.712-3.138.75.75 0 00-1.449-.389z" clip-rule="evenodd" />
-              </svg>
-            </div>
-            <span class="text-xs font-medium">ถนอมตามืด</span>
+            <span class="text-xs font-medium">ถนอมสายตา</span>
           </button>
         </div>
       </div>
@@ -154,78 +137,22 @@
         <h4 :class="['text-sm font-medium mb-3', themeClasses.headerMuted]">
           ระยะห่างบรรทัด
         </h4>
-        <div class="flex items-center gap-3">
+        <div class="grid grid-cols-5 gap-2">
           <button
-            @click="settingsStore.setLineHeight(settingsStore.lineHeight - 0.1)"
+            v-for="height in [1.2, 1.4, 1.6, 1.8, 2.0]"
+            :key="height"
+            @click="settingsStore.setLineHeight(height)"
             :class="[
-              'w-8 h-8 sm:w-10 sm:h-10 rounded-lg border-2 transition-all flex items-center justify-center',
-              themeClasses.buttonBorder + ' hover:border-primary'
+              'py-2 px-1 rounded-lg border-2 transition-all flex items-center justify-center',
+              settingsStore.lineHeight === height 
+                ? 'border-primary bg-primary text-white' 
+                : themeClasses.buttonBorder + ' hover:border-primary ' + themeClasses.text
             ]"
           >
-            <span :class="['text-lg font-bold', themeClasses.muted]">-</span>
+            <span class="text-xs font-medium">{{ height }}</span>
           </button>
-          <div class="flex-1 text-center">
-            <span :class="['text-xl sm:text-2xl font-bold', themeClasses.text]">
-              {{ settingsStore.lineHeight.toFixed(1) }}
-            </span>
-          </div>
-          <button
-            @click="settingsStore.setLineHeight(settingsStore.lineHeight + 0.1)"
-            :class="[
-              'w-8 h-8 sm:w-10 sm:h-10 rounded-lg border-2 transition-all flex items-center justify-center',
-              themeClasses.buttonBorder + ' hover:border-primary'
-            ]"
-          >
-            <span :class="['text-lg font-bold', themeClasses.muted]">+</span>
-          </button>
-        </div>
-        <!-- Slider -->
-        <div class="mt-3 sm:mt-4">
-          <input
-            type="range"
-            min="1.2"
-            max="2.5"
-            step="0.1"
-            :value="settingsStore.lineHeight"
-            @input="settingsStore.setLineHeight(parseFloat(($event.target as HTMLInputElement).value))"
-            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
-          />
         </div>
       </div>
-
-      <!-- Tip -->
-      <!-- <div 
-        :class="[
-          'mt-4 p-3 rounded-lg border',
-          settingsStore.isEyeCareMode 
-            ? themeClasses.border + ' ' + themeClasses.card
-            : 'border-yellow-200 dark:border-yellow-800 bg-yellow-50 dark:bg-yellow-900/20'
-        ]"
-      >
-        <div class="flex items-start gap-2">
-          <svg 
-            :class="[
-              'w-4 h-4 mt-0.5 flex-shrink-0',
-              settingsStore.isEyeCareMode 
-                ? themeClasses.muted
-                : 'text-yellow-600 dark:text-yellow-400'
-            ]" 
-            fill="currentColor" viewBox="0 0 20 20"
-          >
-            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
-          </svg>
-          <p 
-            :class="[
-              'text-xs',
-              settingsStore.isEyeCareMode 
-                ? themeClasses.text
-                : 'text-yellow-800 dark:text-yellow-200'
-            ]"
-          >
-            <strong>เคล็ดลับ:</strong> กดปุ่ม Ctrl + หรือ - เพื่อปรับขนาดอย่างรวดเร็ว
-          </p>
-        </div>
-      </div> -->
     </div>
   </Transition>
 </template>
@@ -260,16 +187,6 @@ const themeClasses = computed(() => {
         hoverBg: 'hover:bg-eyecare-border',
         card: 'bg-eyecare-card'
       }
-    case 'eyecare-dark':
-      return {
-        text: 'text-eyecare-dark-text',
-        muted: 'text-eyecare-dark-muted',
-        headerMuted: 'text-eyecare-dark-muted',
-        border: 'border-eyecare-dark-border',
-        buttonBorder: 'border-eyecare-dark-border',
-        hoverBg: 'hover:bg-eyecare-dark-border',
-        card: 'bg-eyecare-dark-card'
-      }
     default: // 'light' or 'dark'
       return {
         text: 'text-gray-800 dark:text-gray-200',
@@ -289,7 +206,6 @@ const getThemeDisplayName = () => {
     case 'light': return 'ธีมสว่าง'
     case 'dark': return 'ธีมมืด'
     case 'eyecare-light': return 'ถนอมสายตา (สว่าง)'
-    case 'eyecare-dark': return 'ถนอมสายตา (มืด)'
     default: return 'ธีมสว่าง'
   }
 }
@@ -300,7 +216,6 @@ const getThemeIndicatorColor = () => {
     case 'light': return 'bg-yellow-400'
     case 'dark': return 'bg-gray-700'
     case 'eyecare-light': return 'bg-orange-400'
-    case 'eyecare-dark': return 'bg-orange-800'
     default: return 'bg-yellow-400'
   }
 }

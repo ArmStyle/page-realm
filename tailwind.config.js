@@ -20,14 +20,6 @@ module.exports = {
           text: '#2d3748',
           border: '#d4c5a9',
           muted: '#4a5568',
-        },
-        'eyecare-dark': {
-          bg: '#1a1611',
-          card: '#231f1a',
-          text: '#e8e2d4',
-          border: '#3a342a',
-          muted: '#b8b0a0',
-          accent: '#2d271f',
         }
       },
       fontFamily: {

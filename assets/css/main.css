@@ -28,25 +28,15 @@
     font-size: var(--font-size, 1rem);
   }
   
-  /* Eye Care Mode Styles */
+  /* Eye Care Light Mode Styles */
   .eye-care-mode {
     background-color: #f5f3f0 !important;
     color: #2d3748 !important;
   }
   
-  .eye-care-dark-mode {
-    background-color: #1a1611 !important;
-    color: #e8e2d4 !important;
-  }
-  
   .eyecare {
     background-color: #f5f3f0;
     color: #2d3748;
-  }
-  
-  .eyecare-dark {
-    background-color: #1a1611;
-    color: #e8e2d4;
   }
   
   /* Eye Care Theme Utility Classes */
@@ -58,14 +48,6 @@
     background-color: #f9f7f4;
   }
   
-  .bg-eyecare-dark-bg {
-    background-color: #1a1611;
-  }
-  
-  .bg-eyecare-dark-card {
-    background-color: #231f1a;
-  }
-  
   .text-eyecare-text {
     color: #2d3748;
   }
@@ -74,20 +56,8 @@
     color: #4a5568;
   }
   
-  .text-eyecare-dark-text {
-    color: #e8e2d4;
-  }
-  
-  .text-eyecare-dark-muted {
-    color: #b8b0a0;
-  }
-  
   .border-eyecare-border {
     border-color: #d4c5a9;
-  }
-  
-  .border-eyecare-dark-border {
-    border-color: #3a342a;
   }
   
   .hover\\:bg-eyecare-border:hover {
@@ -143,58 +113,6 @@
   
   .eyecare .hover\\:bg-gray-700:hover {
     background-color: #e6e2da !important;
-  }
-  
-  /* Eye Care Dark Mode Styles */
-  .eyecare-dark .card,
-  .eyecare-dark .bg-white {
-    background-color: #231f1a !important;
-    border-color: #3a342a !important;
-  }
-  
-  .eyecare-dark .bg-gray-50 {
-    background-color: #231f1a !important;
-  }
-  
-  .eyecare-dark .bg-gray-100 {
-    background-color: #2d271f !important;
-  }
-  
-  .eyecare-dark .bg-gray-800 {
-    background-color: #1a1611 !important;
-  }
-  
-  .eyecare-dark .text-gray-800,
-  .eyecare-dark .text-gray-900 {
-    color: #e8e2d4 !important;
-  }
-  
-  .eyecare-dark .text-gray-600,
-  .eyecare-dark .text-gray-700 {
-    color: #b8b0a0 !important;
-  }
-  
-  .eyecare-dark .text-gray-400,
-  .eyecare-dark .text-gray-500 {
-    color: #8a8170 !important;
-  }
-  
-  .eyecare-dark .border-gray-200,
-  .eyecare-dark .border-gray-300 {
-    border-color: #3a342a !important;
-  }
-  
-  .eyecare-dark .border-gray-600,
-  .eyecare-dark .border-gray-700 {
-    border-color: #4a453a !important;
-  }
-  
-  .eyecare-dark .hover\\:bg-gray-100:hover {
-    background-color: #2d271f !important;
-  }
-  
-  .eyecare-dark .hover\\:bg-gray-700:hover {
-    background-color: #3a342a !important;
   }
   
   /* Content Layout Utilities */

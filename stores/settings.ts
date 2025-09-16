@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 
 export interface SettingsState {
-  theme: 'light' | 'dark' | 'eyecare-light' | 'eyecare-dark'
+  theme: 'light' | 'dark' | 'eyecare-light'
   fontSize: number
   lineHeight: number
   eyeCareMode: boolean
@@ -18,7 +18,7 @@ export const useSettingsStore = defineStore('settings', {
   }),
 
   actions: {
-    setTheme(theme: 'light' | 'dark' | 'eyecare-light' | 'eyecare-dark') {
+    setTheme(theme: 'light' | 'dark' | 'eyecare-light') {
       this.theme = theme
       if (typeof window !== 'undefined') {
         // Remove all theme classes first
@@ -31,9 +31,6 @@ export const useSettingsStore = defineStore('settings', {
         } else if (theme === 'eyecare-light') {
           document.documentElement.classList.add('eyecare')
           document.body.classList.add('eye-care-mode')
-        } else if (theme === 'eyecare-dark') {
-          document.documentElement.classList.add('eyecare', 'eyecare-dark')
-          document.body.classList.add('eye-care-mode', 'eye-care-dark-mode')
         }
         
         localStorage.setItem('theme', theme)
@@ -67,10 +64,10 @@ export const useSettingsStore = defineStore('settings', {
     initSettings() {
       if (typeof window !== 'undefined') {
         // Load theme - check system preference if no saved theme
-        const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | 'eyecare-light' | 'eyecare-dark'
-        let theme: 'light' | 'dark' | 'eyecare-light' | 'eyecare-dark' = 'light'
+        const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | 'eyecare-light'
+        let theme: 'light' | 'dark' | 'eyecare-light' = 'light'
         
-        if (savedTheme && ['light', 'dark', 'eyecare-light', 'eyecare-dark'].includes(savedTheme)) {
+        if (savedTheme && ['light', 'dark', 'eyecare-light'].includes(savedTheme)) {
           theme = savedTheme
         } else {
           // Check system preference
@@ -90,7 +87,7 @@ export const useSettingsStore = defineStore('settings', {
         this.setLineHeight(savedLineHeight)
 
         // Update eyeCareMode based on theme for backward compatibility
-        this.eyeCareMode = theme === 'eyecare-light' || theme === 'eyecare-dark'
+        this.eyeCareMode = theme === 'eyecare-light'
 
         // Load quick settings visibility
         const savedQuickSettingsVisible = localStorage.getItem('quickSettingsVisible') === 'true'
@@ -107,15 +104,11 @@ export const useSettingsStore = defineStore('settings', {
     },
     
     isEyeCareMode(): boolean {
-      return this.theme === 'eyecare-light' || this.theme === 'eyecare-dark'
-    },
-    
-    isEyeCareDarkMode(): boolean {
-      return this.theme === 'eyecare-dark'
+      return this.theme === 'eyecare-light'
     },
     
     isDarkMode(): boolean {
-      return this.theme === 'dark' || this.theme === 'eyecare-dark'
+      return this.theme === 'dark'
     }
   }
 })

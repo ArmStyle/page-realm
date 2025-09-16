@@ -1,11 +1,11 @@
 <template>
   <div
-    class="min-h-screen bg-gradient-to-br from-primary/10 via-white to-purple-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 eyecare:from-amber-50 eyecare:via-amber-25 eyecare:to-amber-100 eyecare-dark:from-amber-900 eyecare-dark:via-amber-800 eyecare-dark:to-amber-900 flex items-center justify-center py-12 px-4"
+    class="min-h-screen bg-gradient-to-br from-primary/10 via-white to-purple-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center py-12 px-4"
   >
     <div class="max-w-md w-full">
       <!-- Register Form -->
       <div
-        class="bg-white dark:bg-gray-800 eyecare:bg-amber-50 eyecare-dark:bg-amber-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 eyecare:border-amber-200 eyecare-dark:border-amber-700 p-8"
+        class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 p-8"
       >
         <!-- Header -->
         <div class="text-center mb-8">

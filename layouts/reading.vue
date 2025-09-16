@@ -2,10 +2,8 @@
   <div 
     :class="[
       'min-h-screen transition-colors duration-300',
-      settingsStore.eyeCareMode 
-        ? settingsStore.isEyeCareDarkMode
-          ? 'bg-eyecare-dark-bg'
-          : 'bg-eyecare-bg'
+      settingsStore.isEyeCareMode 
+        ? 'bg-eyecare-bg'
         : 'bg-gray-50 dark:bg-gray-900'
     ]"
   >
@@ -13,10 +11,8 @@
     <header 
       :class="[
         'fixed top-0 left-0 right-0 z-40 shadow-md border-b backdrop-blur-sm transition-colors duration-300',
-        settingsStore.eyeCareMode 
-          ? settingsStore.isEyeCareDarkMode
-            ? 'bg-eyecare-dark-card/90 border-eyecare-dark-border'
-            : 'bg-eyecare-card/90 border-eyecare-border'
+        settingsStore.isEyeCareMode 
+          ? 'bg-eyecare-card/90 border-eyecare-border'
           : 'bg-white/90 dark:bg-gray-800/90 border-gray-200 dark:border-gray-700'
       ]"
     >
