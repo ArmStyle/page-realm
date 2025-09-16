@@ -59,6 +59,23 @@
         :novels="popularNovels"
       />
 
+      <!-- Ranking Section -->
+      <RankingSection
+        :top-novels="topNovels"
+        :top-manga="topManga"
+        :top-new-releases="topNewReleases"
+      />
+
+      <!-- Last Update Section -->
+      <LastUpdateSection
+        :items="lastUpdates"
+        :show-load-more="true"
+        :loading="false"
+        @load-more="handleLoadMore"
+        @item-click="handleItemClick"
+        @refresh="handleRefresh"
+      />
+
       <!-- Features Section -->
       <SectionWrapper bg-class="bg-white dark:bg-gray-800">
         <div class="text-center mb-12">
@@ -154,32 +171,6 @@
         </div>
       </SectionWrapper>
 
-      <!-- Social Links Section -->
-      <SectionWrapper bg-class="bg-primary text-white" py="py-12">
-        <div class="text-center">
-          <h3 class="text-2xl font-bold mb-6">ติดตามเราได้ที่</h3>
-          <div class="flex justify-center gap-6">
-            <a
-              href="#"
-              class="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-6 py-3 rounded-lg transition-colors"
-            >
-              📘 Facebook
-            </a>
-            <a
-              href="#"
-              class="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-6 py-3 rounded-lg transition-colors"
-            >
-              💬 Line
-            </a>
-            <a
-              href="#"
-              class="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-6 py-3 rounded-lg transition-colors"
-            >
-              ✉️ Email
-            </a>
-          </div>
-        </div>
-      </SectionWrapper>
     </ContentWrapper>
   </div>
 </template>
@@ -565,6 +556,247 @@ const categories = [
   { name: "สยองขวัญ", emoji: "👻", count: 298, slug: "horror" },
 ];
 
+// Top 5 Novels for ranking
+const topNovels = [
+  {
+    id: 1,
+    title: "เทพธิดาแห่งความมืด",
+    author: "นักเขียนลึกลับ",
+    rating: 4.8,
+    views: "89K",
+    slug: "goddess-of-darkness",
+    cover: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=250&h=350&fit=crop",
+  },
+  {
+    id: 20,
+    title: "ดาบเทพแห่งสวรรค์",
+    author: "สวรรค์เขียน",
+    rating: 4.9,
+    views: "298K",
+    slug: "heaven-divine-sword",
+    cover: "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=250&h=350&fit=crop",
+  },
+  {
+    id: 29,
+    title: "ยอดนักสู้แห่งจักรวาล",
+    author: "จักรวาลเขียน",
+    rating: 4.8,
+    views: "345K",
+    slug: "universe-fighter",
+    cover: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=250&h=350&fit=crop",
+  },
+  {
+    id: 19,
+    title: "นักฆ่าแห่งเงา",
+    author: "เงาเขียน",
+    rating: 4.7,
+    views: "167K",
+    slug: "shadow-assassin",
+    cover: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=250&h=350&fit=crop",
+  },
+  {
+    id: 6,
+    title: "จักรพรรดิแห่งดาว",
+    author: "อวกาศนิยาย",
+    rating: 4.7,
+    views: "267K",
+    slug: "star-emperor",
+    cover: "https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=250&h=350&fit=crop",
+  },
+];
+
+// Top 5 Manga for ranking
+const topManga = [
+  {
+    id: 31,
+    title: "นักสู้ซามูไรโบราณ",
+    author: "มังงะซึยาม่า",
+    rating: 4.9,
+    views: "456K",
+    slug: "ancient-samurai-warrior",
+    cover: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=250&h=350&fit=crop",
+  },
+  {
+    id: 32,
+    title: "เทพีการ์ตูนสีชมพู",
+    author: "มังงะคิวท์",
+    rating: 4.8,
+    views: "389K",
+    slug: "pink-manga-goddess",
+    cover: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=250&h=350&fit=crop",
+  },
+  {
+    id: 33,
+    title: "มหาศึกนินจาแห่งอนาคต",
+    author: "นินจะเมกะ",
+    rating: 4.7,
+    views: "234K",
+    slug: "future-ninja-battle",
+    cover: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=250&h=350&fit=crop",
+  },
+  {
+    id: 34,
+    title: "โรงเรียนยอดฮีโร่",
+    author: "สคูลมังงะ",
+    rating: 4.6,
+    views: "312K",
+    slug: "hero-academy-school",
+    cover: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=250&h=350&fit=crop",
+  },
+  {
+    id: 35,
+    title: "ราชินีแห่งมนตรา",
+    author: "แฟนตาซีมังงะ",
+    rating: 4.5,
+    views: "278K",
+    slug: "magic-queen",
+    cover: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=250&h=350&fit=crop",
+  },
+];
+
+// Top 5 New Releases
+const topNewReleases = [
+  {
+    id: 30,
+    title: "มังกรทองแห่งตำนาน",
+    author: "มังกรเขียน",
+    rating: 4.9,
+    views: "567K",
+    slug: "golden-dragon-legend",
+    cover: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=250&h=350&fit=crop",
+  },
+  {
+    id: 26,
+    title: "ฮีโร่โรงเรียนมายากล",
+    author: "โรงเรียนเขียน",
+    rating: 4.6,
+    views: "189K",
+    slug: "magic-school-hero",
+    cover: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=250&h=350&fit=crop",
+  },
+  {
+    id: 21,
+    title: "จักรพรรดินีแห่งไฟ",
+    author: "ไฟเขียน",
+    rating: 4.6,
+    views: "234K",
+    slug: "fire-empress",
+    cover: "https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=250&h=350&fit=crop",
+  },
+  {
+    id: 15,
+    title: "ราชาแห่งแสง",
+    author: "แสงเขียน",
+    rating: 4.8,
+    views: "234K",
+    slug: "king-of-light",
+    cover: "https://images.unsplash.com/photo-1578662015886-3683d21bfe50?w=250&h=350&fit=crop",
+  },
+  {
+    id: 12,
+    title: "เจ้าหญิงพิทักษ์ป่า",
+    author: "ธรรมชาติเขียน",
+    rating: 4.5,
+    views: "118K",
+    slug: "forest-guardian-princess",
+    cover: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=250&h=350&fit=crop",
+  },
+];
+
+// Last 10 Updates
+const lastUpdates = [
+  {
+    id: 1,
+    title: "เทพธิดาแห่งความมืด",
+    author: "นักเขียนลึกลับ",
+    slug: "goddess-of-darkness",
+    latestChapter: 125,
+    updateTime: "2 ชม.",
+    cover: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=250&h=350&fit=crop",
+  },
+  {
+    id: 30,
+    title: "มังกรทองแห่งตำนาน",
+    author: "มังกรเขียน",
+    slug: "golden-dragon-legend",
+    latestChapter: 312,
+    updateTime: "4 ชม.",
+    cover: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=250&h=350&fit=crop",
+  },
+  {
+    id: 20,
+    title: "ดาบเทพแห่งสวรรค์",
+    author: "สวรรค์เขียน",
+    slug: "heaven-divine-sword",
+    latestChapter: 267,
+    updateTime: "6 ชม.",
+    cover: "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=250&h=350&fit=crop",
+  },
+  {
+    id: 29,
+    title: "ยอดนักสู้แห่งจักรวาล",
+    author: "จักรวาลเขียน",
+    slug: "universe-fighter",
+    latestChapter: 278,
+    updateTime: "8 ชม.",
+    cover: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=250&h=350&fit=crop",
+  },
+  {
+    id: 31,
+    title: "นักสู้ซามูไรโบราณ",
+    author: "มังงะซึยาม่า",
+    slug: "ancient-samurai-warrior",
+    latestChapter: 89,
+    updateTime: "12 ชม.",
+    cover: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=250&h=350&fit=crop",
+  },
+  {
+    id: 21,
+    title: "จักรพรรดินีแห่งไฟ",
+    author: "ไฟเขียน",
+    slug: "fire-empress",
+    latestChapter: 189,
+    updateTime: "14 ชม.",
+    cover: "https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=250&h=350&fit=crop",
+  },
+  {
+    id: 19,
+    title: "นักฆ่าแห่งเงา",
+    author: "เงาเขียน",
+    slug: "shadow-assassin",
+    latestChapter: 143,
+    updateTime: "18 ชม.",
+    cover: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=250&h=350&fit=crop",
+  },
+  {
+    id: 32,
+    title: "เทพีการ์ตูนสีชมพู",
+    author: "มังงะคิวท์",
+    slug: "pink-manga-goddess",
+    latestChapter: 56,
+    updateTime: "1 วัน",
+    cover: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=250&h=350&fit=crop",
+  },
+  {
+    id: 26,
+    title: "ฮีโร่โรงเรียนมายากล",
+    author: "โรงเรียนเขียน",
+    slug: "magic-school-hero",
+    latestChapter: 167,
+    updateTime: "1 วัน",
+    cover: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=250&h=350&fit=crop",
+  },
+  {
+    id: 15,
+    title: "ราชาแห่งแสง",
+    author: "แสงเขียน",
+    slug: "king-of-light",
+    latestChapter: 211,
+    updateTime: "2 วัน",
+    cover: "https://images.unsplash.com/photo-1578662015886-3683d21bfe50?w=250&h=350&fit=crop",
+  },
+];
+
 // Navigation functions
 const navigateToNovel = (slug) => {
   navigateTo(`/read/${slug}`);
@@ -572,6 +804,22 @@ const navigateToNovel = (slug) => {
 
 const navigateToCategory = (slug) => {
   navigateTo(`/category/${slug}`);
+};
+
+// LastUpdate handlers
+const handleLoadMore = () => {
+  // TODO: Load more updates from API
+  console.log('Loading more updates...');
+};
+
+const handleItemClick = (slug) => {
+  console.log('Item clicked:', slug);
+  // Additional tracking or actions
+};
+
+const handleRefresh = () => {
+  // TODO: Refresh latest updates from API
+  console.log('Refreshing updates...');
 };
 
 // SEO
