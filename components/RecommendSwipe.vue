@@ -3,9 +3,9 @@
     <div class="flex items-center justify-between mb-3 md:mb-5">
       <div>
         <span class="text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-2">
-          🤩นิยายยอดฮิต...ติดใจ
+          {{ title }}
         </span>
-        <p class="text-xs md:text-base text-gray-500 dark:text-gray-400">เรื่องราวที่ทุกคนหลงใหล อ่านแล้วติดตามต่อ</p>
+        <p class="text-xs md:text-base text-gray-500 dark:text-gray-400">{{ subtitle }}</p>
       </div>
       <NuxtLink 
         to="/novels" 
@@ -139,6 +139,14 @@ import 'swiper/css/navigation'
 
 // Props
 const props = defineProps({
+  title: {
+    type: String,
+    default: '🤩นิยายยอดฮิต...ติดใจ'
+  },
+  subtitle: {
+    type: String,
+    default: 'อ่านแล้วติดใจ'
+  },
   novels: {
     type: Array,
     default: () => []

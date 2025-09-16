@@ -48,27 +48,19 @@
               >
                 {{ authStore.user?.profileName }}
               </h3>
-              <p
-                class="text-xs text-gray-500 dark:text-gray-400 truncate"
-              >
+              <p class="text-xs text-gray-500 dark:text-gray-400 truncate">
                 @{{ authStore.user?.username }}
               </p>
             </div>
           </div>
 
           <!-- Coin Balance -->
-          <div
-            class="mt-3 p-2 bg-white/50 dark:bg-gray-800/50 rounded-lg"
-          >
+          <div class="mt-2 p-2 bg-transparent rounded-lg">
             <div class="flex items-center justify-between gap-2">
               <span
                 class="text-yellow-600 dark:text-yellow-400 font-bold flex items-center gap-2"
               >
-                <svg
-                  class="w-4 h-4"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                   <circle cx="10" cy="10" r="8" />
                 </svg>
                 <span class="text-sm"
@@ -86,7 +78,7 @@
 
         <!-- Desktop Menu Items -->
         <div
-          class="p-1 max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent"
+          class="p-1 max-h-48 md:max-h-none overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent"
         >
           <NuxtLink
             v-for="item in menuItems"
@@ -96,7 +88,7 @@
             class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 group"
           >
             <span
-              class="text-base group-hover:scale-110 transition-transform duration-200 flex-shrink-0"
+              class="text-base transition-transform duration-200 flex-shrink-0"
               >{{ item.icon }}</span
             >
             <span
@@ -107,9 +99,7 @@
         </div>
 
         <!-- Desktop Logout -->
-        <div
-          class="p-1 border-t border-gray-200 dark:border-gray-700"
-        >
+        <div class="p-1 border-t border-gray-200 dark:border-gray-700">
           <button
             @click="handleLogout"
             class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-200 group"
@@ -195,7 +185,7 @@
           </div>
 
           <!-- Mobile Coin Balance -->
-          <div class="mt-6 p-4 bg-white/50 dark:bg-gray-800/50 rounded-xl">
+          <div class="mt-6 p-4 bg-transparent rounded-xl">
             <div class="flex items-center justify-between">
               <span
                 class="text-yellow-600 dark:text-yellow-400 font-bold flex items-center gap-3"
@@ -265,7 +255,7 @@
 import { ref, onMounted, onUnmounted, nextTick, watch } from "vue";
 import { useAuthStore } from "~/stores/auth";
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(["close"]);
 
 const authStore = useAuthStore();
 const showUserMenu = ref(false);
@@ -336,7 +326,7 @@ watch([showUserMenu, isMobile], ([isMenuOpen, mobile]) => {
 function toggleUserMenu() {
   showUserMenu.value = !showUserMenu.value;
   if (showUserMenu.value) {
-    emit('close')
+    emit("close");
     // Check position after DOM update
     nextTick(() => {
       checkDropdownPosition();
@@ -411,8 +401,8 @@ onUnmounted(() => {
 
 // Expose methods to parent
 defineExpose({
-  close: handleClose
-})
+  close: handleClose,
+});
 </script>
 
 <style scoped>

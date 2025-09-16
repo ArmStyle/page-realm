@@ -3,7 +3,7 @@
     <div
       v-if="visible"
       :class="[
-        'quick-settings-panel fixed top-20 right-4 z-50 rounded-xl shadow-2xl border max-h-[calc(100vh-6rem)] overflow-y-auto',
+        'quick-settings-panel fixed top-16 right-4 z-50 rounded-xl shadow-2xl border max-h-[calc(100vh-6rem)] overflow-y-auto',
         'w-80 max-w-[calc(100vw-2rem)] sm:max-w-[90vw] p-4 sm:p-6',
         themeClasses.card,
         themeClasses.border
