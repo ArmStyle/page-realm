@@ -1,0 +1,224 @@
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Sarabun', sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200;
+  }
+  
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-primary-dark;
+  }
+  
+  .card {
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700;
+  }
+  
+  .reading-content {
+    line-height: var(--line-height, 1.6);
+    font-size: var(--font-size, 1rem);
+  }
+  
+  /* Eye Care Mode Styles */
+  .eye-care-mode {
+    background-color: #f5f3f0 !important;
+    color: #2d3748 !important;
+  }
+  
+  .eye-care-dark-mode {
+    background-color: #1a1611 !important;
+    color: #e8e2d4 !important;
+  }
+  
+  .eyecare {
+    background-color: #f5f3f0;
+    color: #2d3748;
+  }
+  
+  .eyecare-dark {
+    background-color: #1a1611;
+    color: #e8e2d4;
+  }
+  
+  /* Eye Care Theme Utility Classes */
+  .bg-eyecare-bg {
+    background-color: #f5f3f0;
+  }
+  
+  .bg-eyecare-card {
+    background-color: #f9f7f4;
+  }
+  
+  .bg-eyecare-dark-bg {
+    background-color: #1a1611;
+  }
+  
+  .bg-eyecare-dark-card {
+    background-color: #231f1a;
+  }
+  
+  .text-eyecare-text {
+    color: #2d3748;
+  }
+  
+  .text-eyecare-muted {
+    color: #4a5568;
+  }
+  
+  .text-eyecare-dark-text {
+    color: #e8e2d4;
+  }
+  
+  .text-eyecare-dark-muted {
+    color: #b8b0a0;
+  }
+  
+  .border-eyecare-border {
+    border-color: #d4c5a9;
+  }
+  
+  .border-eyecare-dark-border {
+    border-color: #3a342a;
+  }
+  
+  .hover\\:bg-eyecare-border:hover {
+    background-color: #d4c5a9;
+  }
+  
+  .eyecare .card,
+  .eyecare .bg-white {
+    background-color: #f9f7f4 !important;
+    border-color: #d4c5a9 !important;
+  }
+  
+  .eyecare .bg-gray-50 {
+    background-color: #f9f7f4 !important;
+  }
+  
+  .eyecare .bg-gray-100 {
+    background-color: #f1ede6 !important;
+  }
+  
+  .eyecare .bg-gray-800 {
+    background-color: #e6e2da !important;
+  }
+  
+  .eyecare .text-gray-800,
+  .eyecare .text-gray-900 {
+    color: #2d3748 !important;
+  }
+  
+  .eyecare .text-gray-600,
+  .eyecare .text-gray-700 {
+    color: #4a5568 !important;
+  }
+  
+  .eyecare .text-gray-400,
+  .eyecare .text-gray-500 {
+    color: #6b7280 !important;
+  }
+  
+  .eyecare .border-gray-200,
+  .eyecare .border-gray-300 {
+    border-color: #d4c5a9 !important;
+  }
+  
+  .eyecare .border-gray-600,
+  .eyecare .border-gray-700 {
+    border-color: #a1917a !important;
+  }
+  
+  .eyecare .hover\\:bg-gray-100:hover {
+    background-color: #f1ede6 !important;
+  }
+  
+  .eyecare .hover\\:bg-gray-700:hover {
+    background-color: #e6e2da !important;
+  }
+  
+  /* Eye Care Dark Mode Styles */
+  .eyecare-dark .card,
+  .eyecare-dark .bg-white {
+    background-color: #231f1a !important;
+    border-color: #3a342a !important;
+  }
+  
+  .eyecare-dark .bg-gray-50 {
+    background-color: #231f1a !important;
+  }
+  
+  .eyecare-dark .bg-gray-100 {
+    background-color: #2d271f !important;
+  }
+  
+  .eyecare-dark .bg-gray-800 {
+    background-color: #1a1611 !important;
+  }
+  
+  .eyecare-dark .text-gray-800,
+  .eyecare-dark .text-gray-900 {
+    color: #e8e2d4 !important;
+  }
+  
+  .eyecare-dark .text-gray-600,
+  .eyecare-dark .text-gray-700 {
+    color: #b8b0a0 !important;
+  }
+  
+  .eyecare-dark .text-gray-400,
+  .eyecare-dark .text-gray-500 {
+    color: #8a8170 !important;
+  }
+  
+  .eyecare-dark .border-gray-200,
+  .eyecare-dark .border-gray-300 {
+    border-color: #3a342a !important;
+  }
+  
+  .eyecare-dark .border-gray-600,
+  .eyecare-dark .border-gray-700 {
+    border-color: #4a453a !important;
+  }
+  
+  .eyecare-dark .hover\\:bg-gray-100:hover {
+    background-color: #2d271f !important;
+  }
+  
+  .eyecare-dark .hover\\:bg-gray-700:hover {
+    background-color: #3a342a !important;
+  }
+  
+  /* Content Layout Utilities */
+  .content-wrapper {
+    @apply max-w-[1310px] mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .section-wrapper {
+    @apply -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8;
+  }
+  
+  .full-width-section {
+    @apply w-full relative;
+  }
+}
+
+/* Quick Settings Animation */
+.quick-settings-enter-active,
+.quick-settings-leave-active {
+  transition: all 0.3s ease;
+}
+
+.quick-settings-enter-from,
+.quick-settings-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
