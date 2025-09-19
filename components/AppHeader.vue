@@ -67,6 +67,12 @@
           >
             🏆 จัดอันดับ
           </NuxtLink>
+          <NuxtLink
+            to="/write"
+            class="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors font-medium flex items-center gap-2"
+          >
+            ✍️ นักเขียน
+          </NuxtLink>
         </nav>
 
         <!-- Right Side Controls -->
@@ -166,6 +172,13 @@
               @click="showMobileMenu = false"
             >
               🏆 จัดอันดับ
+            </NuxtLink>
+            <NuxtLink
+              to="/writer"
+              class="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors font-medium flex items-center gap-2 py-2"
+              @click="showMobileMenu = false"
+            >
+              ✍️ นักเขียน
             </NuxtLink>
           </nav>
         </div>

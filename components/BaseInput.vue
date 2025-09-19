@@ -14,6 +14,7 @@
         :readonly="readonly"
         :min="min"
         :max="max"
+        :maxlength="maxlength"
         :class="inputClasses"
         @input="$emit('update:modelValue', $event.target.value)"
         @focus="$emit('focus', $event)"
@@ -34,15 +35,23 @@
       </div>
     </div>
     
+    <!-- Character Counter -->
+    <div v-if="showCounter && maxlength" class="mt-1 flex justify-end">
+      <span class="text-xs text-gray-500 dark:text-gray-400">
+        {{ String(modelValue).length }}/{{ maxlength }}
+      </span>
+    </div>
+    
     <!-- Error Message -->
     <p v-if="error" class="mt-1 text-sm text-red-600 dark:text-red-400 eyecare:text-red-700 eyecare-dark:text-red-300">
       {{ error }}
     </p>
     
-    <!-- Help Text -->
-    <p v-if="help && !error" class="mt-1 text-xs text-gray-500 dark:text-gray-400 eyecare:text-amber-600 eyecare-dark:text-amber-400">
-      {{ help }}
-    </p>
+    <!-- Help Text and Counter -->
+    <div v-if="help || (showCounter && maxlength)" class="mt-1 flex justify-between text-xs text-gray-500 dark:text-gray-400 eyecare:text-amber-600 eyecare-dark:text-amber-400">
+      <span v-if="help && !error">{{ help }}</span>
+      <span v-if="showCounter && maxlength" class="ml-auto">{{ String(modelValue).length }}/{{ maxlength }}</span>
+    </div>
     
   </div>
 </template>
@@ -112,6 +121,14 @@ const props = defineProps({
   max: {
     type: [String, Number],
     default: undefined
+  },
+  maxlength: {
+    type: [String, Number],
+    default: undefined
+  },
+  showCounter: {
+    type: Boolean,
+    default: false
   },
   class: {
     type: [String, Array, Object],
