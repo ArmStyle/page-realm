@@ -3,28 +3,28 @@
     <!-- Responsive Wrapper -->
     <div class="w-full max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 overflow-x-auto">
       <!-- Works Header -->
-      <div class="bg-white rounded-xl shadow-sm p-4 sm:p-6 mb-6 w-full">
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 sm:p-6 mb-6 w-full">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-2">
-          <h2 class="text-2xl font-bold text-gray-800">ผลงานนิยาย</h2>
+          <h2 class="text-2xl font-bold text-gray-800 dark:text-white">ผลงานนิยาย</h2>
         </div>
 
         <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6 w-full">
           <div
-            class="stats-card bg-gradient-to-r from-purple-100 to-indigo-100 p-4 sm:p-6 rounded-xl min-w-0"
+            class="stats-card bg-gradient-to-r from-purple-100 to-indigo-100 dark:from-purple-900 dark:to-indigo-900 p-4 sm:p-6 rounded-xl min-w-0"
           >
             <div class="flex items-center justify-between">
               <div>
-                <h3 class="text-lg font-semibold text-gray-700">
+                <h3 class="text-lg font-semibold text-gray-700 dark:text-purple-100">
                   ผลงานนิยายทั้งหมด
                 </h3>
-                <p class="text-3xl font-bold text-purple-600 mt-2 break-words">
+                <p class="text-3xl font-bold text-purple-600 dark:text-purple-300 mt-2 break-words">
                   {{ novelsStore.stats.totalWorks }}
                 </p>
-                <p class="text-sm text-gray-600 mt-1">เรื่อง</p>
+                <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">เรื่อง</p>
               </div>
               <div
-                class="w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-full flex items-center justify-center"
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center"
               >
                 <span class="text-xl sm:text-2xl">📖</span>
               </div>
@@ -32,20 +32,20 @@
           </div>
 
           <div
-            class="stats-card bg-gradient-to-r from-blue-100 to-cyan-100 p-4 sm:p-6 rounded-xl min-w-0"
+            class="stats-card bg-gradient-to-r from-blue-100 to-cyan-100 dark:from-blue-900 dark:to-cyan-900 p-4 sm:p-6 rounded-xl min-w-0"
           >
             <div class="flex items-center justify-between">
               <div>
-                <h3 class="text-lg font-semibold text-gray-700">
+                <h3 class="text-lg font-semibold text-gray-700 dark:text-blue-100">
                   คนกำลังติดตาม
                 </h3>
-                <p class="text-3xl font-bold text-blue-600 mt-2 break-words">
+                <p class="text-3xl font-bold text-blue-600 dark:text-blue-300 mt-2 break-words">
                   {{ novelsStore.stats.totalFavorites }}
                 </p>
-                <p class="text-sm text-gray-600 mt-1">คน</p>
+                <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">คน</p>
               </div>
               <div
-                class="w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-full flex items-center justify-center"
+                class="w-12 h-12 sm:w-16 sm:h-16 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center"
               >
                 <span class="text-xl sm:text-2xl">👥</span>
               </div>
@@ -78,7 +78,7 @@
         <div class="flex justify-end w-full">
           <button
             @click="applyFilters"
-            class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors flex items-center space-x-2"
+            class="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 px-4 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors flex items-center space-x-2"
           >
             <span>🔍</span>
             <span>กรอง</span>
@@ -87,27 +87,27 @@
       </div>
 
       <!-- Works List or Empty State -->
-      <div class="bg-white rounded-xl shadow-sm p-4 sm:p-6 w-full overflow-x-auto">
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 sm:p-6 w-full overflow-x-auto">
         <!-- Loading State -->
         <div v-if="novelsStore.loading" class="text-center py-12">
           <div
-            class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"
+            class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500 dark:border-purple-300"
           ></div>
-          <p class="mt-4 text-gray-600">กำลังโหลด...</p>
+          <p class="mt-4 text-gray-600 dark:text-gray-300">กำลังโหลด...</p>
         </div>
 
         <!-- Error State -->
         <div v-else-if="novelsStore.error" class="text-center py-12">
           <div
-            class="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center"
+            class="w-16 h-16 mx-auto mb-4 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center"
           >
             <span class="text-2xl">⚠️</span>
           </div>
-          <h3 class="text-xl font-bold text-gray-700 mb-2">เกิดข้อผิดพลาด</h3>
-          <p class="text-gray-600 mb-4 break-words">{{ novelsStore.error }}</p>
+          <h3 class="text-xl font-bold text-gray-700 dark:text-red-200 mb-2">เกิดข้อผิดพลาด</h3>
+          <p class="text-gray-600 dark:text-gray-300 mb-4 break-words">{{ novelsStore.error }}</p>
           <button
             @click="novelsStore.fetchNovels()"
-            class="bg-purple-500 text-white px-6 py-2 rounded-lg hover:bg-purple-600 transition-colors"
+            class="bg-purple-500 dark:bg-purple-700 text-white px-6 py-2 rounded-lg hover:bg-purple-600 dark:hover:bg-purple-800 transition-colors"
           >
             ลองใหม่
           </button>
@@ -118,12 +118,12 @@
           <div
             v-for="work in filteredWorks"
             :key="work.id"
-            class="work-card border border-gray-200 rounded-lg p-4 sm:p-6 hover:shadow-md transition-shadow w-full min-w-0 overflow-x-auto"
+            class="work-card border border-gray-200 dark:border-gray-700 rounded-lg p-4 sm:p-6 hover:shadow-md transition-shadow w-full min-w-0 overflow-x-auto"
           >
             <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
               <!-- Cover Image -->
               <div
-                class="w-16 h-20 bg-gray-200 rounded-lg flex-shrink-0 overflow-hidden mb-2 sm:mb-0"
+                class="w-16 h-20 bg-gray-200 dark:bg-gray-800 rounded-lg flex-shrink-0 overflow-hidden mb-2 sm:mb-0"
               >
                 <img
                   v-if="work.coverImage"
@@ -135,7 +135,7 @@
                   v-else
                   class="w-full h-full flex items-center justify-center"
                 >
-                  <span class="text-gray-400 text-sm">📖</span>
+                  <span class="text-gray-400 dark:text-gray-500 text-sm">📖</span>
                 </div>
               </div>
 
@@ -143,10 +143,10 @@
               <div class="flex-1 min-w-0">
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
                   <div class="flex-1 min-w-0">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-1 truncate">
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-1 truncate">
                       {{ work.title }}
                     </h3>
-                    <p class="text-gray-600 text-sm mb-2 line-clamp-2 break-words">
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-2 line-clamp-2 break-words">
                       {{ work.description }}
                     </p>
 
@@ -155,13 +155,13 @@
                       <span
                         v-for="tag in work.tags.slice(0, 3)"
                         :key="tag"
-                        class="bg-purple-100 text-purple-600 px-2 py-1 rounded text-xs truncate"
+                        class="bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-200 px-2 py-1 rounded text-xs truncate"
                       >
                         {{ tag }}
                       </span>
                       <span
                         v-if="work.tags.length > 3"
-                        class="text-gray-500 text-xs px-2 py-1"
+                        class="text-gray-500 dark:text-gray-400 text-xs px-2 py-1"
                       >
                         +{{ work.tags.length - 3 }}
                       </span>
@@ -169,7 +169,7 @@
 
                     <!-- Stats -->
                     <div
-                      class="flex flex-wrap items-center space-x-2 sm:space-x-4 text-sm text-gray-500"
+                      class="flex flex-wrap items-center space-x-2 sm:space-x-4 text-sm text-gray-500 dark:text-gray-400"
                     >
                       <span>👁️ {{ work.viewCount.toLocaleString() }}</span>
                       <span>❤️ {{ work.favoriteCount.toLocaleString() }}</span>
@@ -192,13 +192,13 @@
                     </div>
 
                     <div class="flex space-x-2">
-                      <button class="text-blue-600 hover:text-blue-800 text-sm">
+                      <button class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 text-sm">
                         แก้ไข
                       </button>
-                      <button class="text-gray-600 hover:text-gray-800 text-sm">
+                      <button class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white text-sm">
                         สถิติ
                       </button>
-                      <button class="text-red-600 hover:text-red-800 text-sm">
+                      <button class="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 text-sm">
                         ลบ
                       </button>
                     </div>
@@ -212,19 +212,19 @@
         <!-- Empty State -->
         <div v-else class="text-center py-12">
           <div
-            class="w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-6 bg-gradient-to-r from-purple-100 to-indigo-100 rounded-full flex items-center justify-center"
+            class="w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-6 bg-gradient-to-r from-purple-100 to-indigo-100 dark:from-purple-900 dark:to-indigo-900 rounded-full flex items-center justify-center"
           >
             <span class="text-4xl sm:text-6xl">📖</span>
           </div>
-          <h3 class="text-2xl font-bold text-gray-700 mb-4">
+          <h3 class="text-2xl font-bold text-gray-700 dark:text-white mb-4">
             ยังไม่มีผลงานนิยาย
           </h3>
-          <p class="text-gray-500 mb-8 max-w-md mx-auto">
+          <p class="text-gray-500 dark:text-gray-300 mb-8 max-w-md mx-auto">
             เริ่มต้นเขียนนิยายเรื่องแรกของคุณ
           </p>
           <button
             @click="addNewWork"
-            class="btn-primary bg-gradient-to-r from-purple-400 to-indigo-400 text-white px-8 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-300 flex items-center space-x-2 mx-auto"
+            class="btn-primary bg-gradient-to-r from-purple-400 to-indigo-400 dark:from-purple-700 dark:to-indigo-700 text-white px-8 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-300 flex items-center space-x-2 mx-auto"
           >
             <span>+</span>
             <span>นิยายใหม่</span>
