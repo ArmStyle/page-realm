@@ -32,13 +32,7 @@
   
   /* Eye Care Light Mode Styles */
   .eye-care-mode {
-    background-color: #f5f3f0 !important;
-    color: #2d3748 !important;
-  }
-  
-  .eyecare {
-    background-color: #f5f3f0;
-    color: #2d3748;
+    @apply !bg-eyecare-bg !text-eyecare-text;
   }
   
   /* Eye Care Theme Utility Classes */
