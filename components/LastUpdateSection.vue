@@ -1,7 +1,7 @@
 <template>
   <SectionWrapper>
     <!-- Last Updates Section -->
-    <div class="section-bg rounded-xl p-6 shadow-sm border border-gray-200/50 dark:border-gray-700/50">
+    <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 shadow-md border border-gray-200/50 dark:border-gray-700/50">
       <div class="flex items-center justify-between mb-6">
         <div class="flex items-center">
           <div class="icon-bg w-10 h-10 text-white rounded-lg flex items-center justify-center mr-3">
@@ -21,7 +21,7 @@
         <div
           v-for="item in items"
           :key="item.id"
-          class="item-bg flex items-center gap-3 p-3 rounded-lg hover:shadow-md transition-all duration-300 cursor-pointer hover:scale-[1.02]"
+          class="bg-light-card flex items-center gap-3 p-3 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer hover:scale-[1.02]"
           @click="navigateToDetail(item.slug)"
         >
           <!-- Cover Image -->
