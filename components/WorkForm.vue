@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-8 container mt-6 !max-w-[1000px] mx-auto">
+  <div class="space-y-8 container !max-w-[1000px] mx-auto">
     <ClientOnly>
       <!-- Cover Image & Basic Information -->
       <Card>

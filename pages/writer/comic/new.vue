@@ -1,7 +1,9 @@
 <template>
-  <ContentWrapper>
-    <WorkForm type="comic" @success="onSuccess" @error="onError" />
-  </ContentWrapper>
+  <WriterLayout>
+    <ContentWrapper>
+      <WorkForm type="comic" @success="onSuccess" @error="onError" />
+    </ContentWrapper>
+  </WriterLayout>
 </template>
 
 <script setup lang="ts">
