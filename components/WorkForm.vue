@@ -1,90 +1,84 @@
 <template>
   <div class="space-y-8 container mt-6 !max-w-[1000px] mx-auto">
-    <!-- Cover Image & Basic Information -->
-    <div class="bg-white rounded-lg shadow-sm p-6">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        <!-- Cover Image (Left) -->
-        <div class="lg:col-span-4">
-          <FileUpload
-            v-model="form.coverImage"
-            label="รูปหน้าปก"
-            required
-            :error="errors.coverImage"
-            help="อัปโหลดรูปหน้าปกสำหรับผลงาน (ขนาด 3:4 ไม่เกิน 2MB)"
-            @error="handleFileError"
-            :initial-url="currentCoverUrl"
-          />
-        </div>
+    <ClientOnly>
+      <!-- Cover Image & Basic Information -->
+      <Card>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <!-- Cover Image (Left) -->
+          <div class="lg:col-span-4">
+            <FileUpload
+              v-model="form.coverImage"
+              label="รูปหน้าปก"
+              required
+              :error="errors.coverImage"
+              help="อัปโหลดรูปหน้าปกสำหรับผลงาน (ขนาด 3:4 ไม่เกิน 2MB)"
+              @error="handleFileError"
+              :initial-url="currentCoverUrl"
+            />
+          </div>
 
-        <!-- Basic Information (Right) -->
-        <div class="lg:col-span-8">
-          <h2 class="text-xl font-semibold text-gray-900 mb-6">
-            ข้อมูลพื้นฐาน
-          </h2>
+          <!-- Basic Information (Right) -->
+          <div class="lg:col-span-8">
+            <h2
+              class="text-xl font-semibold mb-6"
+              style="color: var(--color-heading)"
+            >
+              ข้อมูลพื้นฐาน
+            </h2>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Title -->
-            <div class="md:col-span-2">
-              <BaseInput
-                v-model="form.title"
-                label="ชื่อเรื่อง"
-                placeholder="ใส่ชื่อเรื่อง..."
-                required
-                :maxlength="120"
-                :error="errors.title"
-                :show-counter="true"
-              />
-            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <!-- Title -->
+              <div class="md:col-span-2">
+                <BaseInput
+                  v-model="form.title"
+                  label="ชื่อเรื่อง"
+                  placeholder="ใส่ชื่อเรื่อง..."
+                  required
+                  :maxlength="120"
+                  :error="errors.title"
+                  :show-counter="true"
+                />
+              </div>
 
-            <!-- Category: Primary -->
-            <div>
-              <BaseSelect
-                v-model="form.primaryCategory"
-                label="หมวดหมู่หลัก"
-                :options="categoryOptions"
-                placeholder="เลือกหมวดหมู่หลัก"
-                required
-                :error="errors.primaryCategory"
-              />
-            </div>
-            <!-- Category: Secondary -->
-            <div>
-              <BaseSelect
-                v-model="form.secondaryCategory"
-                label="หมวดหมู่รอง"
-                :options="secondaryCategoryOptions"
-                placeholder="เลือกหมวดหมู่รอง"
-                :error="errors.secondaryCategory"
-                :disabled="!form.primaryCategory"
-              />
+              <!-- Category: Primary -->
+              <div>
+                <BaseSelect
+                  v-model="form.primaryCategory"
+                  label="หมวดหมู่หลัก"
+                  :options="categoryOptions"
+                  placeholder="เลือกหมวดหมู่หลัก"
+                  required
+                  :error="errors.primaryCategory"
+                />
+              </div>
+              <!-- Category: Secondary -->
+              <div>
+                <BaseSelect
+                  v-model="form.secondaryCategory"
+                  label="หมวดหมู่รอง"
+                  :options="secondaryCategoryOptions"
+                  placeholder="เลือกหมวดหมู่รอง"
+                  :error="errors.secondaryCategory"
+                  :disabled="!form.primaryCategory"
+                />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- Short Description -->
-      <div class="mt-6">
-        <label
-          for="description"
-          class="block text-sm font-medium text-gray-700 mb-2"
-        >
-          คำโปรย
-        </label>
-        <textarea
-          v-model="form.description"
-          id="description"
-          rows="3"
-          :maxlength="200"
-          placeholder="เขียนคำโปรยสั้นๆ..."
-          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none"
-        />
-        <div class="mt-1 flex justify-between text-sm text-gray-500">
-          <span v-if="errors.description" class="text-red-600">{{
-            errors.description
-          }}</span>
-          <span class="ml-auto">{{ form.description.length }}/200</span>
+        <!-- Short Description -->
+        <div class="mt-6">
+          <BaseTextarea
+            v-model="form.description"
+            id="description"
+            label="คำโปรย"
+            :maxlength="200"
+            placeholder="เขียนคำโปรยสั้นๆ..."
+            required
+            :error="errors.description"
+            class="w-full"
+            showCounter
+          />
         </div>
-      </div>
-      <client-only>
         <QuillEditor
           v-model="form.synopsis"
           label="เรื่องย่อ"
@@ -93,112 +87,120 @@
           :error="errors.synopsis"
           help="เขียนเรื่องย่อที่น่าสนใจเพื่อดึงดูดผู้อ่าน"
         />
-      </client-only>
-    </div>
+      </Card>
 
-    <!-- Tags and Content Warnings -->
-    <div class="bg-white rounded-lg shadow-sm p-6">
-      <h2 class="text-xl font-semibold text-gray-900 mb-6">แท็กและคำเตือน</h2>
+      <!-- Tags and Content Warnings -->
+      <Card>
+        <h2
+          class="text-xl font-semibold mb-6"
+          style="color: var(--color-heading)"
+        >
+          แท็กและคำเตือน
+        </h2>
 
-      <div class="space-y-6">
-        <!-- Tags -->
-        <TagInput
-          v-model="form.tags"
-          label="แท็ก"
-          placeholder="เพิ่มแท็ก... (กด Enter, Space หรือ Comma เพื่อเพิ่ม)"
-          :max-tags="40"
-          :max-tag-length="30"
-          :error="errors.tags"
-          help="แท็กช่วยให้ผู้อ่านค้นหาผลงานของคุณได้ง่าย"
-        />
+        <div class="space-y-6">
+          <!-- Tags -->
+          <TagInput
+            v-model="form.tags"
+            label="แท็ก"
+            placeholder="เพิ่มแท็ก... (กด Enter หรือ Space  เพื่อเพิ่ม)"
+            :max-tags="40"
+            :max-tag-length="30"
+            :error="errors.tags"
+          />
 
-        <!-- Content Warnings -->
-        <TagInput
-          v-model="form.contentWarnings"
-          label="คำเตือนเนื้อหา"
-          placeholder="เพิ่มคำเตือนเนื้อหา..."
-          :max-tags="10"
-          :max-tag-length="30"
-          :error="errors.contentWarnings"
-          help="ระบุคำเตือนเนื้อหาที่อาจไม่เหมาะสมกับผู้อ่านบางกลุ่ม"
-        />
-      </div>
-    </div>
+          <!-- Content Warnings -->
+          <TagInput
+            v-model="form.contentWarnings"
+            label="คำเตือนเนื้อหา"
+            placeholder="เพิ่มคำเตือนเนื้อหา... (กด Enter หรือ Space  เพื่อเพิ่ม)"
+            :max-tags="10"
+            :max-tag-length="30"
+            :error="errors.contentWarnings"
+          />
+        </div>
+      </Card>
 
-    <!-- Settings -->
-    <div class="bg-white rounded-lg shadow-sm p-6">
-      <h2 class="text-xl font-semibold text-gray-900 mb-6">การตั้งค่า</h2>
+      <!-- Settings -->
+      <Card>
+        <h2
+          class="text-xl font-semibold mb-6"
+          style="color: var(--color-heading)"
+        >
+          การตั้งค่า
+        </h2>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- Status -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-3">
-            สถานะ
-          </label>
-          <div class="space-y-2 flex items-center gap-4">
-            <div>
-              <label class="flex items-center cursor-pointer">
-                <input
-                  v-model="form.status"
-                  type="radio"
-                  value="published"
-                  class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 cursor-pointer"
-                />
-                <span class="ml-2 text-sm text-gray-700">เผยแพร่ทันที</span>
-              </label>
-            </div>
-            <div class="!mt-0">
-              <label class="flex items-center cursor-pointer">
-                <input
-                  v-model="form.status"
-                  type="radio"
-                  value="hidden"
-                  class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 cursor-pointer"
-                />
-                <span class="ml-2 text-sm text-gray-700">ซ่อน</span>
-              </label>
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700 dark:text-gray-300"
+        >
+          <!-- Status -->
+          <div>
+            <label class="block text-sm font-medium mb-3"> สถานะ </label>
+            <div class="space-y-2 flex items-center gap-4">
+              <div>
+                <label class="flex items-center cursor-pointer">
+                  <input
+                    v-model="form.status"
+                    type="radio"
+                    value="published"
+                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 cursor-pointer"
+                  />
+                  <span class="ml-2 text-sm">เผยแพร่ทันที</span>
+                </label>
+              </div>
+              <div class="!mt-0">
+                <label class="flex items-center cursor-pointer">
+                  <input
+                    v-model="form.status"
+                    type="radio"
+                    value="hidden"
+                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 cursor-pointer"
+                  />
+                  <span class="ml-2 text-sm">ซ่อน</span>
+                </label>
+              </div>
             </div>
           </div>
         </div>
+
+        <ToggleSwitch
+          class="mt-4"
+          v-model="form.isCompleted"
+          label="จบแล้ว"
+          :description="form.isCompleted ? 'จบสมบูรณ์แล้ว' : 'ยังไม่จบ'"
+          :error="errors.isCompleted"
+        />
+        <ToggleSwitch
+          class="mt-4"
+          v-model="form.allowComments"
+          label="แสดงความคิดเห็น"
+          description="อนุญาตให้ผู้อ่านแสดงความคิดเห็นในผลงานนี้"
+          :error="errors.allowComments"
+        />
+      </Card>
+
+      <!-- Submit Buttons -->
+      <div class="flex justify-end gap-4">
+        <slot name="cancel-button">
+          <NuxtLink
+            to="/writer"
+            class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+          >
+            ยกเลิก
+          </NuxtLink>
+        </slot>
+
+        <form>
+          <BaseButton
+            :disabled="isSubmitting"
+            :loading="isSubmitting"
+            @click="handleSubmit"
+          >
+            บันทึก
+          </BaseButton>
+        </form>
       </div>
-
-      <ToggleSwitch
-        class="mt-4"
-        v-model="form.isCompleted"
-        label="จบแล้ว"
-        :description="form.isCompleted ? 'จบสมบูรณ์แล้ว' : 'ยังไม่จบ'"
-        :error="errors.isCompleted"
-      />
-      <ToggleSwitch
-        class="mt-4"
-        v-model="form.allowComments"
-        label="แสดงความคิดเห็น"
-        description="อนุญาตให้ผู้อ่านแสดงความคิดเห็นในผลงานนี้"
-        :error="errors.allowComments"
-      />
-    </div>
-
-    <!-- Submit Buttons -->
-    <div class="flex justify-end gap-4">
-      <slot name="cancel-button">
-        <NuxtLink
-          to="/writer"
-          class="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
-        >
-          ยกเลิก
-        </NuxtLink>
-      </slot>
-
-      <form>
-        <BaseButton
-          :disabled="isSubmitting"
-          :loading="isSubmitting"
-          @click="handleSubmit"
-        >
-          บันทึก
-        </BaseButton>
-      </form>
-    </div>
+    </ClientOnly>
   </div>
 </template>
 
@@ -207,7 +209,7 @@ import { ref, watch, computed } from "vue";
 import type { WorkFormType } from "~/types/work-form";
 
 interface Props {
-  type: 'novel' | 'comic';
+  type: "novel" | "comic";
   isEditMode?: boolean;
   currentCoverUrl?: string;
   modelValue?: WorkFormType;
@@ -222,10 +224,12 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
   success: [value: WorkFormType];
   error: [message: string];
-  'update:modelValue': [value: WorkFormType];
+  "update:modelValue": [value: WorkFormType];
 }>();
 
-const defaultCategory = computed(() => props.type === 'novel' ? 'novel' : 'manga');
+const defaultCategory = computed(() =>
+  props.type === "novel" ? "novel" : "manga"
+);
 
 const form = ref<WorkFormType>({
   coverImage: null,
@@ -255,7 +259,7 @@ watch(
   (val, oldVal) => {
     // emit เฉพาะเมื่อค่าจริงๆ เปลี่ยน
     if (JSON.stringify(val) !== JSON.stringify(oldVal)) {
-      emit('update:modelValue', { ...val })
+      emit("update:modelValue", { ...val });
     }
   },
   { deep: true }
@@ -267,12 +271,14 @@ const isSubmitting = ref(false);
 function validate() {
   errors.value = {};
   if (!form.value.title.trim()) errors.value.title = "กรุณากรอกชื่อเรื่อง";
-  if (!form.value.primaryCategory) errors.value.primaryCategory = "กรุณาเลือกหมวดหมู่";
+  if (!form.value.primaryCategory)
+    errors.value.primaryCategory = "กรุณาเลือกหมวดหมู่";
   if (!form.value.description.trim())
     errors.value.description = "กรุณากรอกคำโปรย";
   if (form.value.description.length > 200)
     errors.value.description = "คำโปรยต้องไม่เกิน 200 ตัวอักษร";
-  if (!form.value.coverImage && !props.currentCoverUrl) errors.value.coverImage = "กรุณาเลือกรูปหน้าปก";
+  if (!form.value.coverImage && !props.currentCoverUrl)
+    errors.value.coverImage = "กรุณาเลือกรูปหน้าปก";
 }
 
 async function handleSubmit() {
@@ -301,8 +307,8 @@ async function handleSubmit() {
           2
         )
     );
-    emit('success', { ...form.value });
-    emit('update:modelValue', { ...form.value });
+    emit("success", { ...form.value });
+    emit("update:modelValue", { ...form.value });
     if (!props.isEditMode) {
       // reset form only if not edit mode
       Object.assign(form.value, {
@@ -320,7 +326,7 @@ async function handleSubmit() {
       });
     }
   } catch (e) {
-    emit('error', 'เกิดข้อผิดพลาด');
+    emit("error", "เกิดข้อผิดพลาด");
     alert("เกิดข้อผิดพลาด");
   } finally {
     isSubmitting.value = false;

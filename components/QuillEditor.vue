@@ -1,6 +1,6 @@
 <template>
   <div class="quill-editor">
-    <label v-if="label" :for="id" class="block text-sm font-medium text-gray-700 mb-2">
+    <label v-if="label" :for="id" class="block text-sm font-medium mb-2" style="color: var(--color-label)">
       {{ label }}
       <span v-if="required" class="text-red-500">*</span>
     </label>
@@ -12,7 +12,7 @@
         content-type="html"
         @textChange="handleTextChange"
         :placeholder="placeholder"
-        class="min-h-[200px]"
+        class="min-h-[200px] text-gray-700 dark:text-gray-300"
       />
     </div>
     

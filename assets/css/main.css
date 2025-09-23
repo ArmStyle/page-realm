@@ -139,3 +139,17 @@
   opacity: 0;
   transform: translateY(-10px);
 }
+
+:root {
+  --color-bg: #fff;
+  --color-text: #222;
+  --color-label: #374151;
+  --color-heading: #111827;
+}
+
+.dark {
+  --color-bg: #18181b;
+  --color-text: #f4f4f5;
+  --color-label: #d1d5db;
+  --color-heading: #f3f4f6;
+}

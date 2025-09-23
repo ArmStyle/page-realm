@@ -1,6 +1,6 @@
 <template>
   <div class="toggle-switch">
-    <label v-if="label" class="block text-sm font-medium text-gray-700 mb-2">
+    <label v-if="label" class="block text-sm font-medium text-gray-700 dark:text-gray-300 eyecare:text-amber-800 eyecare-dark:text-amber-200 mb-2">
       {{ label }}
       <span v-if="required" class="text-red-500">*</span>
     </label>
@@ -27,7 +27,7 @@
 
       <label
         v-if="description"
-        class="text-sm text-gray-600 cursor-pointer"
+        class="text-sm cursor-pointer text-gray-700 dark:text-gray-300"
         :for="toggleId"
         @click.prevent="toggle"
       >
