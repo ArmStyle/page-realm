@@ -6,7 +6,6 @@
 
 <script setup lang="ts">
 import WorkForm from '~/components/WorkForm.vue';
-import ContentWrapper from '~/components/ContentWrapper.vue';
 
 function onSuccess(data: any) {
   // handle success (optional)

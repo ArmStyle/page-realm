@@ -11,17 +11,9 @@
         <img 
           :src="previewUrl" 
           :alt="fileName"
-          class="w-48 h-64 object-cover rounded-lg border-2 border-gray-200 shadow-sm"
+          class="w-48 h-64 object-cover rounded-lg border-2 border-gray-200 shadow-sm cursor-pointer"
+          @click="triggerFileInput"
         />
-        <button
-          type="button"
-          @click="removeFile"
-          class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 transition-colors"
-        >
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
-          </svg>
-        </button>
       </div>
       
       <!-- Upload Area -->
@@ -75,13 +67,15 @@ interface Props {
   id?: string
   maxSizeMB?: number
   acceptedTypes?: string
+  initialUrl?: string // เพิ่ม prop สำหรับ url ของรูปปกเดิม
 }
 
 const props = withDefaults(defineProps<Props>(), {
   required: false,
   id: () => `file-upload-${Math.random().toString(36).substr(2, 9)}`,
   maxSizeMB: 2,
-  acceptedTypes: 'image/jpeg,image/png,image/webp'
+  acceptedTypes: 'image/jpeg,image/png,image/webp',
+  initialUrl: ''
 })
 
 const emit = defineEmits<{
@@ -120,7 +114,8 @@ const processFile = (file: File) => {
     emit('error', validationError)
     return
   }
-  
+  // ลบ error ถ้ามีการอัพโหลดใหม่และไฟล์ผ่าน
+  emit('error', '')
   fileName.value = file.name
   fileSize.value = file.size
   
@@ -139,6 +134,9 @@ const handleFileSelect = (event: Event) => {
   const file = target.files?.[0]
   if (file) {
     processFile(file)
+  } else {
+    // ถ้าเลือกไฟล์ใหม่แต่ยกเลิก ให้ลบ error
+    emit('error', '')
   }
 }
 
@@ -147,6 +145,8 @@ const handleDrop = (event: DragEvent) => {
   const file = event.dataTransfer?.files[0]
   if (file) {
     processFile(file)
+  } else {
+    emit('error', '')
   }
 }
 
@@ -171,7 +171,21 @@ const formatFileSize = (bytes: number): string => {
 // Watch for external changes to modelValue
 watch(() => props.modelValue, (newFile) => {
   if (!newFile) {
-    removeFile()
+    // ถ้าไม่มีไฟล์ใหม่ ให้แสดง initialUrl ถ้ามี
+    if (props.initialUrl) {
+      previewUrl.value = props.initialUrl
+      fileName.value = ''
+      fileSize.value = 0
+    } else {
+      removeFile()
+    }
+  }
+})
+
+// แสดง initialUrl เป็น preview ตอน mount ถ้ายังไม่มีไฟล์ใหม่
+onMounted(() => {
+  if (!props.modelValue && props.initialUrl) {
+    previewUrl.value = props.initialUrl
   }
 })
 </script>

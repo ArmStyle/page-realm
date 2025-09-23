@@ -12,19 +12,8 @@
             :error="errors.coverImage"
             help="อัปโหลดรูปหน้าปกสำหรับผลงาน (ขนาด 3:4 ไม่เกิน 2MB)"
             @error="handleFileError"
+            :initial-url="currentCoverUrl"
           />
-
-          <!-- Current Cover Preview (for edit mode) -->
-          <div v-if="currentCoverUrl && !form.coverImage" class="mt-4">
-            <p class="text-sm font-medium text-gray-700 mb-2">
-              รูปหน้าปกปัจจุบัน
-            </p>
-            <img
-              :src="currentCoverUrl"
-              alt="Current cover"
-              class="w-48 h-64 object-cover rounded-lg border-2 border-gray-200 shadow-sm"
-            />
-          </div>
         </div>
 
         <!-- Basic Information (Right) -->
@@ -200,18 +189,13 @@
         </NuxtLink>
       </slot>
 
-      <form @submit.prevent="handleSubmit">
+      <form>
         <BaseButton
           :disabled="isSubmitting"
           :loading="isSubmitting"
+          @click="handleSubmit"
         >
-          {{
-            form.status === "published"
-              ? isEditMode
-                ? "อัปเดตและเผยแพร่"
-                : "เผยแพร่"
-              : "บันทึก"
-          }}
+          บันทึก
         </BaseButton>
       </form>
     </div>
@@ -226,16 +210,19 @@ interface Props {
   type: 'novel' | 'comic';
   isEditMode?: boolean;
   currentCoverUrl?: string;
+  modelValue?: WorkFormType;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   isEditMode: false,
   currentCoverUrl: "",
+  modelValue: undefined,
 });
 
 const emit = defineEmits<{
   success: [value: WorkFormType];
   error: [message: string];
+  'update:modelValue': [value: WorkFormType];
 }>();
 
 const defaultCategory = computed(() => props.type === 'novel' ? 'novel' : 'manga');
@@ -254,6 +241,26 @@ const form = ref<WorkFormType>({
   isCompleted: false,
 });
 
+// Sync modelValue (edit mode)
+watch(
+  () => props.modelValue,
+  (val) => {
+    if (val) form.value = { ...val };
+  },
+  { immediate: true, deep: true }
+);
+// Emit update:modelValue on change
+watch(
+  form,
+  (val, oldVal) => {
+    // emit เฉพาะเมื่อค่าจริงๆ เปลี่ยน
+    if (JSON.stringify(val) !== JSON.stringify(oldVal)) {
+      emit('update:modelValue', { ...val })
+    }
+  },
+  { deep: true }
+);
+
 const errors = ref<Record<string, string>>({});
 const isSubmitting = ref(false);
 
@@ -265,7 +272,7 @@ function validate() {
     errors.value.description = "กรุณากรอกคำโปรย";
   if (form.value.description.length > 200)
     errors.value.description = "คำโปรยต้องไม่เกิน 200 ตัวอักษร";
-  if (!form.value.coverImage) errors.value.coverImage = "กรุณาเลือกรูปหน้าปก";
+  if (!form.value.coverImage && !props.currentCoverUrl) errors.value.coverImage = "กรุณาเลือกรูปหน้าปก";
 }
 
 async function handleSubmit() {
@@ -286,7 +293,7 @@ async function handleSubmit() {
         JSON.stringify(
           {
             ...form.value,
-            coverImage: coverImageString,
+            coverImage: coverImageString || props.currentCoverUrl,
             category: defaultCategory.value,
             status: workStatus,
           },
@@ -295,20 +302,23 @@ async function handleSubmit() {
         )
     );
     emit('success', { ...form.value });
-    // reset form
-    Object.assign(form.value, {
-      coverImage: null,
-      title: "",
-      primaryCategory: "",
-      secondaryCategory: "",
-      description: "",
-      synopsis: "",
-      tags: [],
-      contentWarnings: [],
-      status: "published",
-      allowComments: true,
-      isCompleted: false,
-    });
+    emit('update:modelValue', { ...form.value });
+    if (!props.isEditMode) {
+      // reset form only if not edit mode
+      Object.assign(form.value, {
+        coverImage: null,
+        title: "",
+        primaryCategory: "",
+        secondaryCategory: "",
+        description: "",
+        synopsis: "",
+        tags: [],
+        contentWarnings: [],
+        status: "published",
+        allowComments: true,
+        isCompleted: false,
+      });
+    }
   } catch (e) {
     emit('error', 'เกิดข้อผิดพลาด');
     alert("เกิดข้อผิดพลาด");
