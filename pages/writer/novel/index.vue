@@ -6,6 +6,13 @@
       <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 sm:p-6 mb-6 w-full">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-2">
           <h2 class="text-2xl font-bold text-gray-800 dark:text-white">ผลงานนิยาย</h2>
+          <button
+            @click="addNewWork"
+            class="btn-primary bg-gradient-to-r from-purple-400 to-indigo-400 dark:from-purple-700 dark:to-indigo-700 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-300 flex items-center space-x-2"
+          >
+            <span>+</span>
+            <span>นิยายใหม่</span>
+          </button>
         </div>
 
         <!-- Stats Cards -->
@@ -317,7 +324,7 @@ const filteredWorks = computed(() => {
 
 // Functions
 const addNewWork = () => {
-  router.push("/writer/new?type=novel");
+  router.push("/writer/novel/new");
 };
 
 const applyFilters = () => {
