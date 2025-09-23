@@ -6,7 +6,6 @@
       :errors="errors"
       :currentCoverUrl="''"
       @submit="handleSubmit"
-      @save-draft="handleSaveDraft"
       @file-error="handleFileError"
     />
   </ContentWrapper>
@@ -23,13 +22,15 @@ definePageMeta({ ssr: false });
 const form = ref<WorkFormType>({
   coverImage: null,
   title: "",
-  category: "manga",
+  primaryCategory: "",
+  secondaryCategory: "",
   description: "",
   synopsis: "",
   tags: [],
   contentWarnings: [],
   status: "published",
   allowComments: true,
+  isCompleted: false,
 });
 let coverImageString: string | undefined = undefined;
 const errors = ref<Record<string, string>>({});
@@ -38,7 +39,7 @@ const isSubmitting = ref(false);
 function validate() {
   errors.value = {};
   if (!form.value.title.trim()) errors.value.title = "กรุณากรอกชื่อเรื่อง";
-  if (!form.value.category) errors.value.category = "กรุณาเลือกหมวดหมู่";
+  if (!form.value.primaryCategory) errors.value.category = "กรุณาเลือกหมวดหมู่";
   if (!form.value.description.trim())
     errors.value.description = "กรุณากรอกคำโปรย";
   if (form.value.description.length > 200)
@@ -97,9 +98,6 @@ function fileToBase64(file: File): Promise<string> {
     reader.onerror = reject;
     reader.readAsDataURL(file);
   });
-}
-function handleSaveDraft() {
-  // save draft logic
 }
 function handleFileError(msg: string) {
   errors.value.coverImage = msg;
