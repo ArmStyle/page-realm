@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-8">
+  <div class="space-y-8 container mt-6">
     <!-- Cover Image & Basic Information -->
     <div class="bg-white rounded-lg shadow-sm p-6">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -110,14 +110,16 @@
     <!-- Synopsis -->
     <div class="bg-white rounded-lg shadow-sm p-6">
       <h2 class="text-xl font-semibold text-gray-900 mb-6">เรื่องย่อ</h2>
-      <QuillEditor
-        v-model="form.synopsis"
-        label="เรื่องย่อ"
-        placeholder="เขียนเรื่องย่อโดยละเอียด..."
-        required
-        :error="errors.synopsis"
-        help="เขียนเรื่องย่อที่น่าสนใจเพื่อดึงดูดผู้อ่าน"
-      />
+      <client-only>
+        <QuillEditor
+          v-model="form.synopsis"
+          label="เรื่องย่อ"
+          placeholder="เขียนเรื่องย่อโดยละเอียด..."
+          required
+          :error="errors.synopsis"
+          help="เขียนเรื่องย่อที่น่าสนใจเพื่อดึงดูดผู้อ่าน"
+        />
+      </client-only>
     </div>
 
     <!-- Tags and Content Warnings -->
@@ -180,34 +182,25 @@
         บันทึกร่าง
       </BaseButton>
       
-      <BaseButton
-        @click="$emit('submit')"
-        :disabled="isSubmitting"
-        :loading="isSubmitting"
-      >
-        {{ form.status === 'published' ? (isEditMode ? 'อัปเดตและเผยแพร่' : 'เผยแพร่') : 'บันทึก' }}
-      </BaseButton>
+      <form @submit.prevent>
+        <BaseButton
+          @click="$emit('submit')"
+          :disabled="isSubmitting"
+          :loading="isSubmitting"
+        >
+          {{ form.status === 'published' ? (isEditMode ? 'อัปเดตและเผยแพร่' : 'เผยแพร่') : 'บันทึก' }}
+        </BaseButton>
+      </form>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { z } from 'zod'
-
-interface WorkForm {
-  coverImage: File | null
-  title: string
-  category: string
-  description: string
-  synopsis: string
-  tags: string[]
-  contentWarnings: string[]
-  status: 'published' | 'hidden'
-  allowComments: boolean
-}
+import { ref, watch } from 'vue'
+import type { WorkFormType } from '~/types/work-form'
 
 interface Props {
-  modelValue: WorkForm
+  modelValue: WorkFormType
   errors?: Record<string, string>
   isSubmitting?: boolean
   isEditMode?: boolean
@@ -222,16 +215,26 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<{
-  'update:modelValue': [value: WorkForm]
+  'update:modelValue': [value: WorkFormType]
   'submit': []
   'save-draft': []
   'file-error': [message: string]
 }>()
 
-const form = computed({
-  get: () => props.modelValue,
-  set: (value) => emit('update:modelValue', value)
-})
+// ใช้ ref form ภายใน component
+const form = ref<WorkFormType>({ ...props.modelValue })
+
+// sync form -> parent
+watch(form, (val) => {
+  emit('update:modelValue', { ...val })
+}, { deep: true })
+
+// sync parent -> form
+watch(() => props.modelValue, (val) => {
+  if (val && JSON.stringify(val) !== JSON.stringify(form.value)) {
+    form.value = { ...val }
+  }
+}, { deep: true })
 
 // Category options
 const categoryOptions = [

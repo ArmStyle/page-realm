@@ -48,9 +48,8 @@
     </p>
     
     <!-- Help Text and Counter -->
-    <div v-if="help || (showCounter && maxlength)" class="mt-1 flex justify-between text-xs text-gray-500 dark:text-gray-400 eyecare:text-amber-600 eyecare-dark:text-amber-400">
+    <div v-if="help" class="mt-1 flex justify-between text-xs text-gray-500 dark:text-gray-400 eyecare:text-amber-600 eyecare-dark:text-amber-400">
       <span v-if="help && !error">{{ help }}</span>
-      <span v-if="showCounter && maxlength" class="ml-auto">{{ String(modelValue).length }}/{{ maxlength }}</span>
     </div>
     
   </div>
