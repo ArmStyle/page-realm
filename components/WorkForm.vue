@@ -200,9 +200,8 @@
         </NuxtLink>
       </slot>
 
-      <form @submit.prevent>
+      <form @submit.prevent="handleSubmit">
         <BaseButton
-          @click="$emit('submit')"
           :disabled="isSubmitting"
           :loading="isSubmitting"
         >
@@ -224,49 +223,111 @@ import { ref, watch, computed } from "vue";
 import type { WorkFormType } from "~/types/work-form";
 
 interface Props {
-  modelValue: WorkFormType;
-  errors?: Record<string, string>;
-  isSubmitting?: boolean;
+  type: 'novel' | 'comic';
   isEditMode?: boolean;
   currentCoverUrl?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  errors: () => ({}),
-  isSubmitting: false,
   isEditMode: false,
   currentCoverUrl: "",
 });
 
 const emit = defineEmits<{
-  "update:modelValue": [value: WorkFormType];
-  submit: [];
-  "save-draft": [];
-  "file-error": [message: string];
+  success: [value: WorkFormType];
+  error: [message: string];
 }>();
 
-// ใช้ ref form ภายใน component
-const form = ref<WorkFormType>({ ...props.modelValue });
+const defaultCategory = computed(() => props.type === 'novel' ? 'novel' : 'manga');
 
-// sync form -> parent
-watch(
-  form,
-  (val) => {
-    emit("update:modelValue", { ...val });
-  },
-  { deep: true }
-);
+const form = ref<WorkFormType>({
+  coverImage: null,
+  title: "",
+  primaryCategory: "",
+  secondaryCategory: "",
+  description: "",
+  synopsis: "",
+  tags: [],
+  contentWarnings: [],
+  status: "published",
+  allowComments: false,
+  isCompleted: false,
+});
 
-// sync parent -> form
-watch(
-  () => props.modelValue,
-  (val) => {
-    if (val && JSON.stringify(val) !== JSON.stringify(form.value)) {
-      form.value = { ...val };
+const errors = ref<Record<string, string>>({});
+const isSubmitting = ref(false);
+
+function validate() {
+  errors.value = {};
+  if (!form.value.title.trim()) errors.value.title = "กรุณากรอกชื่อเรื่อง";
+  if (!form.value.primaryCategory) errors.value.primaryCategory = "กรุณาเลือกหมวดหมู่";
+  if (!form.value.description.trim())
+    errors.value.description = "กรุณากรอกคำโปรย";
+  if (form.value.description.length > 200)
+    errors.value.description = "คำโปรยต้องไม่เกิน 200 ตัวอักษร";
+  if (!form.value.coverImage) errors.value.coverImage = "กรุณาเลือกรูปหน้าปก";
+}
+
+async function handleSubmit() {
+  console.log("Submitting form:", form.value);
+  validate();
+  if (Object.keys(errors.value).length > 0) return;
+  isSubmitting.value = true;
+  try {
+    let coverImageString: string | undefined = undefined;
+    if (process.client && form.value.coverImage instanceof File) {
+      coverImageString = await fileToBase64(form.value.coverImage);
     }
-  },
-  { deep: true }
-);
+    let workStatus: "ongoing" | "completed" | "hiatus" = "ongoing";
+    if (form.value.status === "hidden") workStatus = "hiatus";
+    // alert ข้อมูลที่กรอก
+    alert(
+      "ข้อมูลที่กรอก:\n" +
+        JSON.stringify(
+          {
+            ...form.value,
+            coverImage: coverImageString,
+            category: defaultCategory.value,
+            status: workStatus,
+          },
+          null,
+          2
+        )
+    );
+    emit('success', { ...form.value });
+    // reset form
+    Object.assign(form.value, {
+      coverImage: null,
+      title: "",
+      primaryCategory: "",
+      secondaryCategory: "",
+      description: "",
+      synopsis: "",
+      tags: [],
+      contentWarnings: [],
+      status: "published",
+      allowComments: true,
+      isCompleted: false,
+    });
+  } catch (e) {
+    emit('error', 'เกิดข้อผิดพลาด');
+    alert("เกิดข้อผิดพลาด");
+  } finally {
+    isSubmitting.value = false;
+  }
+}
+function fileToBase64(file: File): Promise<string> {
+  if (!process.client) throw new Error("fileToBase64 can only run on client");
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+const handleFileError = (msg: string) => {
+  errors.value.coverImage = msg;
+};
 
 // Category options
 const categoryOptions = [
@@ -300,8 +361,4 @@ const secondaryCategoryOptions = computed(() => {
     (opt) => opt.value !== form.value.primaryCategory
   );
 });
-
-const handleFileError = (message: string) => {
-  emit("file-error", message);
-};
 </script>
