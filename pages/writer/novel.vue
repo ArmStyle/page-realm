@@ -5,34 +5,34 @@
       <!-- Works Header -->
       <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 sm:p-6 mb-6 w-full">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-2">
-          <h2 class="text-2xl font-bold text-gray-800 dark:text-white">ผลงานการ์ตูน</h2>
+          <h2 class="text-2xl font-bold text-gray-800 dark:text-white">ผลงานนิยาย</h2>
         </div>
 
         <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6 w-full">
           <div
-            class="stats-card bg-gradient-to-r from-orange-100 to-pink-100 dark:from-orange-900 dark:to-pink-900 p-4 sm:p-6 rounded-xl min-w-0"
+            class="stats-card bg-gradient-to-r from-purple-100 to-indigo-100 dark:from-purple-900 dark:to-indigo-900 p-4 sm:p-6 rounded-xl min-w-0"
           >
             <div class="flex items-center justify-between">
               <div>
-                <h3 class="text-lg font-semibold text-gray-700 dark:text-orange-100">
-                  ผลงานการ์ตูนทั้งหมด
+                <h3 class="text-lg font-semibold text-gray-700 dark:text-purple-100">
+                  ผลงานนิยายทั้งหมด
                 </h3>
-                <p class="text-3xl font-bold text-orange-600 dark:text-orange-300 mt-2 break-words">
-                  {{ worksStore.stats.totalWorks }}
+                <p class="text-3xl font-bold text-purple-600 dark:text-purple-300 mt-2 break-words">
+                  {{ novelsStore.stats.totalWorks }}
                 </p>
                 <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">เรื่อง</p>
               </div>
               <div
                 class="w-12 h-12 sm:w-16 sm:h-16 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center"
               >
-                <span class="text-xl sm:text-2xl">✏️</span>
+                <span class="text-xl sm:text-2xl">📖</span>
               </div>
             </div>
           </div>
 
           <div
-            class="stats-card bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 p-4 sm:p-6 rounded-xl min-w-0"
+            class="stats-card bg-gradient-to-r from-blue-100 to-cyan-100 dark:from-blue-900 dark:to-cyan-900 p-4 sm:p-6 rounded-xl min-w-0"
           >
             <div class="flex items-center justify-between">
               <div>
@@ -40,7 +40,7 @@
                   คนกำลังติดตาม
                 </h3>
                 <p class="text-3xl font-bold text-blue-600 dark:text-blue-300 mt-2 break-words">
-                  {{ worksStore.stats.totalFavorites }}
+                  {{ novelsStore.stats.totalFavorites }}
                 </p>
                 <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">คน</p>
               </div>
@@ -89,25 +89,25 @@
       <!-- Works List or Empty State -->
       <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 sm:p-6 w-full overflow-x-auto">
         <!-- Loading State -->
-        <div v-if="worksStore.loading" class="text-center py-12">
+        <div v-if="novelsStore.loading" class="text-center py-12">
           <div
-            class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 dark:border-orange-300"
+            class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500 dark:border-purple-300"
           ></div>
           <p class="mt-4 text-gray-600 dark:text-gray-300">กำลังโหลด...</p>
         </div>
 
         <!-- Error State -->
-        <div v-else-if="worksStore.error" class="text-center py-12">
+        <div v-else-if="novelsStore.error" class="text-center py-12">
           <div
             class="w-16 h-16 mx-auto mb-4 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center"
           >
             <span class="text-2xl">⚠️</span>
           </div>
           <h3 class="text-xl font-bold text-gray-700 dark:text-red-200 mb-2">เกิดข้อผิดพลาด</h3>
-          <p class="text-gray-600 dark:text-gray-300 mb-4 break-words">{{ worksStore.error }}</p>
+          <p class="text-gray-600 dark:text-gray-300 mb-4 break-words">{{ novelsStore.error }}</p>
           <button
-            @click="worksStore.fetchWorks()"
-            class="bg-orange-500 dark:bg-orange-700 text-white px-6 py-2 rounded-lg hover:bg-orange-600 dark:hover:bg-orange-800 transition-colors"
+            @click="novelsStore.fetchNovels()"
+            class="bg-purple-500 dark:bg-purple-700 text-white px-6 py-2 rounded-lg hover:bg-purple-600 dark:hover:bg-purple-800 transition-colors"
           >
             ลองใหม่
           </button>
@@ -155,7 +155,7 @@
                       <span
                         v-for="tag in work.tags.slice(0, 3)"
                         :key="tag"
-                        class="bg-orange-100 dark:bg-orange-900 text-orange-600 dark:text-orange-200 px-2 py-1 rounded text-xs truncate"
+                        class="bg-purple-100 dark:bg-purple-900 text-purple-600 dark:text-purple-200 px-2 py-1 rounded text-xs truncate"
                       >
                         {{ tag }}
                       </span>
@@ -173,7 +173,7 @@
                     >
                       <span>👁️ {{ work.viewCount.toLocaleString() }}</span>
                       <span>❤️ {{ work.favoriteCount.toLocaleString() }}</span>
-                      <span>🎨 {{ work.chapterCount }} ตอน</span>
+                      <span>📄 {{ work.chapterCount }} ตอน</span>
                       <span>{{ formatDate(work.updatedAt) }}</span>
                     </div>
                   </div>
@@ -212,22 +212,22 @@
         <!-- Empty State -->
         <div v-else class="text-center py-12">
           <div
-            class="w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-6 bg-gradient-to-r from-orange-100 to-pink-100 dark:from-orange-900 dark:to-pink-900 rounded-full flex items-center justify-center"
+            class="w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-6 bg-gradient-to-r from-purple-100 to-indigo-100 dark:from-purple-900 dark:to-indigo-900 rounded-full flex items-center justify-center"
           >
-            <span class="text-4xl sm:text-6xl">✏️</span>
+            <span class="text-4xl sm:text-6xl">📖</span>
           </div>
           <h3 class="text-2xl font-bold text-gray-700 dark:text-white mb-4">
-            ยังไม่มีผลงานการ์ตูน
+            ยังไม่มีผลงานนิยาย
           </h3>
           <p class="text-gray-500 dark:text-gray-300 mb-8 max-w-md mx-auto">
-            เริ่มต้นสร้างการ์ตูนเรื่องแรกของคุณ
+            เริ่มต้นเขียนนิยายเรื่องแรกของคุณ
           </p>
           <button
             @click="addNewWork"
-            class="btn-primary bg-gradient-to-r from-orange-400 to-pink-400 dark:from-orange-700 dark:to-pink-700 text-white px-8 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-300 flex items-center space-x-2 mx-auto"
+            class="btn-primary bg-gradient-to-r from-purple-400 to-indigo-400 dark:from-purple-700 dark:to-indigo-700 text-white px-8 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-300 flex items-center space-x-2 mx-auto"
           >
             <span>+</span>
-            <span>การ์ตูนใหม่</span>
+            <span>นิยายใหม่</span>
           </button>
         </div>
       </div>
@@ -242,11 +242,11 @@ definePageMeta({
   layout: "default",
 });
 
-const worksStore = useWorksStore();
+const novelsStore = useWorksStore();
 const router = useRouter();
 
 // Form data
-const selectedCategory = ref("ผลงานการ์ตูน");
+const selectedCategory = ref("ผลงานนิยาย");
 const filterBy = ref("อัปเดต");
 const statusFilter = ref("ทั้งหมด");
 const publishFilter = ref("ทั้งหมด");
@@ -260,28 +260,15 @@ const statusOptions = ["ทั้งหมด", "กำลังเขียน"
 
 const publishStatusOptions = ["ทั้งหมด", "เผยแพร่", "ร่าง", "รออนุมัติ"];
 
-// Methods
-const handleCategoryChange = (value) => {
-  const routes = {
-    รายงานสถิติ: "/write/dashboard",
-    ผลงานนิยาย: "/write/novel",
-    ผลงานการ์ตูน: "/write/comic",
-  };
-  if (routes[value]) {
-    router.push(routes[value]);
-  }
-};
-
-// โหลดข้อมูลผลงานเมื่อ component mount
 onMounted(() => {
-  worksStore.fetchWorks("comic");
+  novelsStore.fetchWorks("novel");
 });
 
-// ฟังก์ชันสำหรับกรองผลงาน
+// Computed
 const filteredWorks = computed(() => {
-  let filtered = [...worksStore.works.filter((work) => work.type === "comic")];
+  let filtered = [...novelsStore.works.filter((work) => work.type === "novel")];
 
-  // กรองตามสถานะเรื่อง
+  // Apply filters
   if (statusFilter.value !== "ทั้งหมด") {
     const statusMap = {
       กำลังเขียน: "ongoing",
@@ -293,7 +280,6 @@ const filteredWorks = computed(() => {
     );
   }
 
-  // กรองตามสถานะการเผยแพร่
   if (publishFilter.value !== "ทั้งหมด") {
     const publishMap = {
       เผยแพร่: "published",
@@ -305,7 +291,7 @@ const filteredWorks = computed(() => {
     );
   }
 
-  // เรียงลำดับ
+  // Apply sorting
   switch (filterBy.value) {
     case "ชื่อเรื่อง":
       filtered.sort((a, b) => a.title.localeCompare(b.title));
@@ -329,12 +315,11 @@ const filteredWorks = computed(() => {
   return filtered;
 });
 
-// ฟังก์ชันเพื่อเพิ่มผลงานใหม่
+// Functions
 const addNewWork = () => {
-  router.push("/write/new?type=comic");
+  router.push("/writer/new?type=novel");
 };
 
-// Functions
 const applyFilters = () => {
   // This function could trigger an API call in a real app
   console.log("Applying filters:", {
@@ -346,16 +331,6 @@ const applyFilters = () => {
 
 const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString("th-TH");
-};
-
-// ฟังก์ชันสำหรับแปลงสถานะ
-const getStatusText = (status) => {
-  const statusMap = {
-    ongoing: "กำลังเขียน",
-    completed: "จบแล้ว",
-    hiatus: "หยุดชั่วคราว",
-  };
-  return statusMap[status] || status;
 };
 
 const getPublishStatusText = (status) => {
@@ -378,11 +353,6 @@ const getPublishStatusColor = (status) => {
 </script>
 
 <style scoped>
-/* เพิ่ม custom styles ถ้าจำเป็น */
-.gradient-bg {
-  background: linear-gradient(135deg, #ff9a56 0%, #ffad56 100%);
-}
-
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -391,7 +361,6 @@ const getPublishStatusColor = (status) => {
   overflow: hidden;
 }
 
-/* Hover animations */
 .work-card {
   transition: all 0.3s ease;
   min-width: 0;
@@ -403,30 +372,6 @@ const getPublishStatusColor = (status) => {
     0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-/* Custom scrollbar for sidebar */
-.sidebar-scroll {
-  scrollbar-width: thin;
-  scrollbar-color: #e2e8f0 transparent;
-}
-
-.sidebar-scroll::-webkit-scrollbar {
-  width: 4px;
-}
-
-.sidebar-scroll::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.sidebar-scroll::-webkit-scrollbar-thumb {
-  background-color: #e2e8f0;
-  border-radius: 4px;
-}
-
-.sidebar-scroll::-webkit-scrollbar-thumb:hover {
-  background-color: #cbd5e0;
-}
-
-/* Stats card animations */
 .stats-card {
   transition: all 0.3s ease;
   min-width: 0;
@@ -437,28 +382,12 @@ const getPublishStatusColor = (status) => {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-/* Button animations */
 .btn-primary {
   transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(251, 146, 60, 0.3);
-}
-
-/* Loading animation */
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-}
-
-.animate-pulse {
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3);
 }
 </style>

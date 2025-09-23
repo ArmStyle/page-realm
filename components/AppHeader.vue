@@ -68,7 +68,7 @@
             🏆 จัดอันดับ
           </NuxtLink>
           <NuxtLink
-            to="/write"
+            to="/writer"
             class="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors font-medium flex items-center gap-2"
           >
             ✍️ นักเขียน

@@ -69,7 +69,7 @@
           <h5 class="font-bold text-lg mb-4 text-primary">สำหรับนักเขียน</h5>
           <ul class="space-y-3 text-gray-400">
             <li>
-              <NuxtLink to="/write" class="hover:text-white transition-colors flex items-center gap-2">
+              <NuxtLink to="/writer" class="hover:text-white transition-colors flex items-center gap-2">
                 ✍️ เริ่มเขียน
               </NuxtLink>
             </li>

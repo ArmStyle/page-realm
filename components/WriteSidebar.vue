@@ -2,10 +2,10 @@
   <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 sticky top-20">
     <nav class="space-y-2">
       <NuxtLink
-        to="/write/dashboard"
+        to="/writer/dashboard"
         class="flex items-center space-x-3 p-3 rounded-lg transition-colors"
         :class="[
-          $route.path === '/write/dashboard'
+          $route.path === '/writer/dashboard'
             ? 'text-primary bg-primary/10 dark:text-primary dark:bg-primary-dark/20'
             : 'text-gray-700 hover:text-primary hover:bg-primary/10 dark:text-gray-200 dark:hover:text-primary dark:hover:bg-primary-dark/20',
         ]"
@@ -14,10 +14,10 @@
         <span>รายงานสถิติ</span>
       </NuxtLink>
       <NuxtLink
-        to="/write/novel"
+        to="/writer/novel"
         class="flex items-center space-x-3 p-3 rounded-lg transition-colors"
         :class="[
-          $route.path === '/write/novel'
+          $route.path === '/writer/novel'
             ? 'text-primary bg-primary/10 dark:text-primary dark:bg-primary-dark/20'
             : 'text-gray-700 hover:text-primary hover:bg-primary/10 dark:text-gray-200 dark:hover:text-primary dark:hover:bg-primary-dark/20',
         ]"
@@ -26,10 +26,10 @@
         <span>ผลงานนิยาย</span>
       </NuxtLink>
       <NuxtLink
-        to="/write/comic"
+        to="/writer/comic"
         class="flex items-center space-x-3 p-3 rounded-lg transition-colors"
         :class="[
-          $route.path === '/write/comic' || $route.path === '/write'
+          $route.path === '/writer/comic' || $route.path === '/writer'
             ? 'text-primary bg-primary/10 dark:text-primary dark:bg-primary-dark/20'
             : 'text-gray-700 hover:text-primary hover:bg-primary/10 dark:text-gray-200 dark:hover:text-primary dark:hover:bg-primary-dark/20',
         ]"

@@ -317,7 +317,7 @@ const createWork = async () => {
     alert('สร้างผลงานเรียบร้อยแล้ว!')
     
     // Redirect to works page
-    await router.push('/write')
+    await router.push('/writer')
   } catch (error) {
     console.error('Error creating work:', error)
     alert('เกิดข้อผิดพลาดในการสร้างผลงาน กรุณาลองใหม่')

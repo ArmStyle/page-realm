@@ -3,8 +3,8 @@ definePageMeta({
   layout: 'default'
 })
 
-// Redirect to dashboard when accessing /write
-await navigateTo('/write/dashboard')
+// Redirect to dashboard when accessing /writer
+await navigateTo('/writer/dashboard')
 </script>
 
 <template>

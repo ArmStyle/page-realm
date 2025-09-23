@@ -1,9 +1,11 @@
 <template>
   <WriterLayout>
     <!-- Responsive Wrapper -->
-    <div class="w-full max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 overflow-x-auto">
+    <div
+      class="w-full max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 overflow-x-auto"
+    >
       <!-- Dashboard Header -->
-      <div class="rounded-xl shadow-sm p-6 mb-6 bg-white dark:bg-gray-900">
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 sm:p-6 mb-6 w-full">
         <h2 class="text-2xl text-gray-800 dark:text-white font-bold mb-6">
           รายงานสถิติ
         </h2>
@@ -11,17 +13,23 @@
         <!-- Overview Stats -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-6">
           <div
-            class="stats-card bg-gradient-to-r from-orange-100 to-pink-100 dark:from-orange-900 dark:to-pink-900 p-4 sm:p-6 rounded-xl min-w-0"
+            class="p-4 stats-card bg-gradient-to-r from-orange-100 to-pink-100 dark:from-orange-900 dark:to-pink-900 rounded-xl min-w-0"
           >
             <div class="flex items-center justify-between">
               <div>
-                <h3 class="text-lg font-semibold text-gray-700 dark:text-orange-100">
+                <h3
+                  class="text-lg font-semibold text-gray-700 dark:text-orange-100"
+                >
                   ผลงานทั้งหมด
                 </h3>
-                <p class="text-3xl font-bold text-orange-600 dark:text-orange-300 mt-2">
+                <p
+                  class="text-3xl font-bold text-orange-600 dark:text-orange-300 mt-2"
+                >
                   {{ totalWorks }}
                 </p>
-                <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">เรื่อง</p>
+                <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">
+                  เรื่อง
+                </p>
               </div>
               <div
                 class="w-12 h-12 sm:w-16 sm:h-16 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center"
@@ -32,15 +40,23 @@
           </div>
 
           <div
-            class="stats-card bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 p-4 sm:p-6 rounded-xl min-w-0"
+            class="p-4 stats-card bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-xl min-w-0"
           >
             <div class="flex items-center justify-between">
               <div>
-                <h3 class="text-lg font-semibold text-gray-700 dark:text-blue-100">ยอดวิวรวม</h3>
-                <p class="text-3xl font-bold text-blue-600 dark:text-blue-300 mt-2">
+                <h3
+                  class="text-lg font-semibold text-gray-700 dark:text-blue-100"
+                >
+                  ยอดวิวรวม
+                </h3>
+                <p
+                  class="text-3xl font-bold text-blue-600 dark:text-blue-300 mt-2"
+                >
                   {{ totalViews.toLocaleString() }}
                 </p>
-                <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">ครั้ง</p>
+                <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">
+                  ครั้ง
+                </p>
               </div>
               <div
                 class="w-12 h-12 sm:w-16 sm:h-16 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center"
@@ -51,14 +67,18 @@
           </div>
 
           <div
-            class="stats-card bg-gradient-to-r from-green-100 to-teal-100 dark:from-green-900 dark:to-teal-900 p-4 sm:p-6 rounded-xl min-w-0"
+            class="p-4 stats-card bg-gradient-to-r from-green-100 to-teal-100 dark:from-green-900 dark:to-teal-900 rounded-xl min-w-0"
           >
             <div class="flex items-center justify-between">
               <div>
-                <h3 class="text-lg font-semibold text-gray-700 dark:text-green-100">
+                <h3
+                  class="text-lg font-semibold text-gray-700 dark:text-green-100"
+                >
                   ผู้ติดตามรวม
                 </h3>
-                <p class="text-3xl font-bold text-green-600 dark:text-green-300 mt-2">
+                <p
+                  class="text-3xl font-bold text-green-600 dark:text-green-300 mt-2"
+                >
                   {{ totalFollowers.toLocaleString() }}
                 </p>
                 <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">คน</p>
@@ -76,18 +96,24 @@
       <!-- Charts Section -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6">
         <!-- Views Chart -->
-        <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm p-4 sm:p-6">
-          <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">ยอดวิวรายวัน</h3>
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 sm:p-6 w-full">
+          <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">
+            ยอดวิวรายวัน
+          </h3>
           <div
             class="h-64 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900 dark:to-purple-900 rounded-lg flex items-center justify-center"
           >
-            <p class="text-gray-500 dark:text-gray-300">กราฟยอดวิว (ใน development)</p>
+            <p class="text-gray-500 dark:text-gray-300">
+              กราฟยอดวิว (ใน development)
+            </p>
           </div>
         </div>
 
         <!-- Popular Works -->
-        <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm p-4 sm:p-6">
-          <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">ผลงานยอดนิยม</h3>
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 sm:p-6 w-full">
+          <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">
+            ผลงานยอดนิยม
+          </h3>
           <div class="space-y-3">
             <div
               v-for="work in popularWorks"
@@ -101,8 +127,12 @@
                   {{ work.rank }}
                 </div>
                 <div>
-                  <p class="font-medium text-gray-800 dark:text-white">{{ work.title }}</p>
-                  <p class="text-sm text-gray-600 dark:text-gray-300">{{ work.type }}</p>
+                  <p class="font-medium text-gray-800 dark:text-white">
+                    {{ work.title }}
+                  </p>
+                  <p class="text-sm text-gray-600 dark:text-gray-300">
+                    {{ work.type }}
+                  </p>
                 </div>
               </div>
               <div class="text-right">
@@ -117,17 +147,23 @@
       </div>
 
       <!-- Recent Activity -->
-      <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm p-4 sm:p-6">
-        <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">กิจกรรมล่าสุด</h3>
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 sm:p-6 mb-6 w-full">
+        <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">
+          กิจกรรมล่าสุด
+        </h3>
         <div class="space-y-4">
           <div
             v-for="activity in recentActivities"
             :key="activity.id"
             class="flex items-start space-x-4"
           >
-            <div class="w-2 h-2 bg-orange-400 dark:bg-orange-600 rounded-full mt-2"></div>
+            <div
+              class="w-2 h-2 bg-orange-400 dark:bg-orange-600 rounded-full mt-2"
+            ></div>
             <div class="flex-1">
-              <p class="text-gray-800 dark:text-white">{{ activity.message }}</p>
+              <p class="text-gray-800 dark:text-white">
+                {{ activity.message }}
+              </p>
               <p class="text-sm text-gray-600 dark:text-gray-300">
                 {{ formatDate(activity.date) }}
               </p>
