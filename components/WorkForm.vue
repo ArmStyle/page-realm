@@ -190,7 +190,7 @@
     </div>
 
     <!-- Submit Buttons -->
-    <div class="flex justify-end gap-4 pt-6">
+    <div class="flex justify-end gap-4">
       <slot name="cancel-button">
         <NuxtLink
           to="/writer"
