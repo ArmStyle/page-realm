@@ -1,6 +1,9 @@
 <template>
   <header
-    class="fixed top-0 left-0 right-0 z-40 bg-white dark:bg-gray-800 shadow-md border-b border-gray-200 dark:border-gray-700 backdrop-blur-sm bg-white/90 dark:bg-gray-800/90"
+    :class="[{
+      '-translate-y-full': !showHeader,
+      'translate-y-0': showHeader
+    }, 'fixed top-0 left-0 right-0 z-40 bg-white dark:bg-gray-800 shadow-md border-b border-gray-200 dark:border-gray-700 backdrop-blur-sm bg-white/90 dark:bg-gray-800/90 transition-transform duration-300']"
   >
     <div class="container mx-auto px-4">
       <div class="flex items-center justify-between h-12 md:h-16">
@@ -157,10 +160,44 @@ function toggleMobileMenu() {
   showMobileMenu.value = !showMobileMenu.value;
 }
 
+const showHeader = ref(true);
+const lastScrollY = ref(window.scrollY);
+let ticking = false;
 
+function handleScroll() {
+  const currentY = window.scrollY;
+  if (Math.abs(currentY - lastScrollY.value) < 10) return; // ignore small scrolls
+  if (currentY > lastScrollY.value && currentY > 60) {
+    showHeader.value = false; // scroll down, hide
+  } else {
+    showHeader.value = true; // scroll up, show
+  }
+  lastScrollY.value = currentY;
+}
+
+onMounted(() => {
+  window.addEventListener("scroll", () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        handleScroll();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll);
+});
 </script>
 
 <style scoped>
+.header-transition {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Tailwind utility classes used for transform */
 .mobile-nav-enter-active,
 .mobile-nav-leave-active,
 .search-enter-active,
@@ -171,7 +208,7 @@ function toggleMobileMenu() {
 .mobile-nav-enter-from,
 .mobile-nav-leave-to,
 .search-enter-from,
-.search-leave-to {
+search-leave-to {
   opacity: 0;
   transform: translateY(-10px);
 }
