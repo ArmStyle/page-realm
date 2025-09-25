@@ -137,7 +137,7 @@ export const useAuthStore = defineStore('auth', {
         localStorage.removeItem('auth_token')
         localStorage.removeItem('user')
       }
-      navigateTo('/login')
+      navigateTo('/')
     },
 
     // Initialize auth state from localStorage

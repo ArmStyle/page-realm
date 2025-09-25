@@ -161,7 +161,7 @@ function toggleMobileMenu() {
 }
 
 const showHeader = ref(true);
-const lastScrollY = ref(window.scrollY);
+const lastScrollY = ref(0); // set default to 0 to avoid SSR error
 let ticking = false;
 
 function handleScroll() {
@@ -176,6 +176,7 @@ function handleScroll() {
 }
 
 onMounted(() => {
+  lastScrollY.value = window.scrollY; // set initial value on client only
   window.addEventListener("scroll", () => {
     if (!ticking) {
       window.requestAnimationFrame(() => {
