@@ -87,12 +87,10 @@
           :error="errors.synopsis"
           help="เขียนเรื่องย่อที่น่าสนใจเพื่อดึงดูดผู้อ่าน"
         />
-      </Card>
 
       <!-- Tags and Content Warnings -->
-      <Card>
         <h2
-          class="text-xl font-semibold mb-6"
+          class="text-xl font-semibold my-6"
           style="color: var(--color-heading)"
         >
           แท็กและคำเตือน
@@ -119,12 +117,10 @@
             :error="errors.contentWarnings"
           />
         </div>
-      </Card>
 
       <!-- Settings -->
-      <Card>
         <h2
-          class="text-xl font-semibold mb-6"
+          class="text-xl font-semibold my-6"
           style="color: var(--color-heading)"
         >
           การตั้งค่า
