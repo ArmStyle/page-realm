@@ -5,10 +5,20 @@
       class="relative w-10 h-10 rounded-full overflow-hidden border-2 border-transparent hover:border-primary transition-all duration-200 shadow-md hover:shadow-lg"
     >
       <img
+        v-if="authStore.userProfileImg"
         :src="authStore.userProfileImg"
         alt="avatar"
         class="w-full h-full object-cover"
       />
+      <div
+        v-else
+        class="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700"
+      >
+        <Icon
+          icon="mdi:account-circle"
+          class="w-8 h-8 text-gray-400 dark:text-gray-500"
+        />
+      </div>
       <div
         class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-10 transition-all duration-200"
       ></div>
@@ -25,7 +35,7 @@
     >
       <div
         v-if="showUserMenu && !isMobile"
-        class="user-dropdown absolute mt-3 w-72 md:w-80 max-w-[95vw] max-h-[75vh] bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 z-50 overflow-hidden backdrop-blur-lg"
+        class="user-dropdown absolute mt-0 w-72 md:w-80 max-w-[95vw] bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 z-50 overflow-hidden backdrop-blur-lg"
         :class="{
           'right-0 origin-top-right': dropdownPosition === 'right',
           'left-0 origin-top-left': dropdownPosition === 'left',
@@ -38,10 +48,20 @@
         >
           <div class="flex items-center gap-3">
             <img
+              v-if="authStore.userProfileImg"
               :src="authStore.userProfileImg"
               alt="avatar"
               class="w-12 h-12 rounded-full border-3 border-white shadow-lg"
             />
+            <div
+              v-else
+              class="w-12 h-12 rounded-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 border-3 border-white shadow-lg"
+            >
+              <Icon
+                icon="mdi:account-circle"
+                class="w-8 h-8 text-gray-400 dark:text-gray-500"
+              />
+            </div>
             <div class="flex-1 min-w-0">
               <h3
                 class="font-bold text-base text-gray-800 dark:text-white truncate"
@@ -60,9 +80,7 @@
               <span
                 class="text-yellow-600 dark:text-yellow-400 font-bold flex items-center gap-2"
               >
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                  <circle cx="10" cy="10" r="8" />
-                </svg>
+                <Icon icon="mdi:coin" class="w-4 h-4" />
                 <span class="text-sm"
                   >{{ authStore.userCoin.toFixed(2) }} เหรียญ</span
                 >
@@ -78,7 +96,7 @@
 
         <!-- Desktop Menu Items -->
         <div
-          class="p-1 max-h-48 md:max-h-none overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent"
+          class="grid gap-2 py-3 px-1 max-h-48 md:max-h-none overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent"
         >
           <NuxtLink
             v-for="item in menuItems"
@@ -88,9 +106,10 @@
             class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 group"
           >
             <span
-              class="text-base transition-transform duration-200 flex-shrink-0"
-              >{{ item.icon }}</span
+              class="text-base flex-shrink-0 text-gray-700 dark:text-gray-200 group-hover:text-primary transition-colors"
             >
+              <component :is="item.icon" />
+            </span>
             <span
               class="font-medium text-sm text-gray-700 dark:text-gray-200 group-hover:text-primary transition-colors duration-200 truncate"
               >{{ item.label }}</span
@@ -105,9 +124,10 @@
             class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-200 group"
           >
             <span
-              class="text-base group-hover:scale-110 transition-transform duration-200 flex-shrink-0"
-              >🚪</span
+              class="text-base flex-shrink-0 text-red-600 dark:text-red-400 group-hover:text-red-700 dark:group-hover:text-red-300 transition-colors"
             >
+              <Icon icon="mdi:logout" class="w-5 h-5" />
+            </span>
             <span
               class="font-medium text-sm text-red-600 dark:text-red-400 group-hover:text-red-700 dark:group-hover:text-red-300 transition-colors duration-200"
               >ออกจากระบบ</span
@@ -130,13 +150,13 @@
     >
       <div
         v-if="showUserMenu && isMobile"
-        class="fixed inset-0 bg-white dark:bg-gray-900 z-[9999] overflow-y-auto"
+        class="fixed inset-0 bg-white dark:bg-gray-800 z-[9999] overflow-y-auto"
         style="z-index: 9999"
         data-mobile-menu
       >
         <!-- Mobile Header -->
         <div
-          class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 sticky top-0 z-10 backdrop-blur-sm"
+          class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 sticky top-0 z-10 backdrop-blur-sm"
         >
           <h2 class="text-lg font-bold text-gray-800 dark:text-white">
             เมนูผู้ใช้
@@ -168,10 +188,20 @@
         >
           <div class="flex items-center gap-4">
             <img
+              v-if="authStore.userProfileImg"
               :src="authStore.userProfileImg"
               alt="avatar"
               class="w-20 h-20 rounded-full border-3 border-white shadow-lg"
             />
+            <div
+              v-else
+              class="w-20 h-20 rounded-full flex items-center justify-center bg-gray-200 dark:bg-gray-700 border-3 border-white shadow-lg"
+            >
+              <Icon
+                icon="mdi:account-circle"
+                class="w-12 h-12 text-gray-400 dark:text-gray-500"
+              />
+            </div>
             <div class="flex-1 min-w-0">
               <h3
                 class="font-bold text-2xl text-gray-800 dark:text-white truncate"
@@ -190,9 +220,7 @@
               <span
                 class="text-yellow-600 dark:text-yellow-400 font-bold flex items-center gap-3"
               >
-                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                  <circle cx="10" cy="10" r="8" />
-                </svg>
+                <Icon icon="mdi:coin" class="w-8 h-8" />
                 <span class="text-xl"
                   >{{ authStore.userCoin.toFixed(2) }} เหรียญ</span
                 >
@@ -216,9 +244,10 @@
             class="flex items-center gap-4 px-4 py-4 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 group mb-2"
           >
             <span
-              class="text-3xl group-hover:scale-110 transition-transform duration-200 flex-shrink-0"
-              >{{ item.icon }}</span
+              class="text-3xl group-hover:scale-110 transition-transform duration-200 flex-shrink-0 text-gray-800 dark:text-white"
             >
+              <component :is="item.icon" />
+            </span>
             <span
               class="font-medium text-lg text-gray-700 dark:text-gray-200 group-hover:text-primary transition-colors duration-200"
               >{{ item.label }}</span
@@ -228,7 +257,7 @@
 
         <!-- Mobile Logout -->
         <div
-          class="p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 sticky bottom-0 backdrop-blur-sm"
+          class="p-4 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 sticky bottom-0 backdrop-blur-sm"
         >
           <div class="pb-safe">
             <button
@@ -236,9 +265,10 @@
               class="w-full flex items-center gap-4 px-4 py-4 rounded-xl hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-200 group"
             >
               <span
-                class="text-3xl group-hover:scale-110 transition-transform duration-200 flex-shrink-0"
-                >🚪</span
+                class="text-base flex-shrink-0 text-red-600 dark:text-red-400 group-hover:text-red-700 dark:group-hover:text-red-300 transition-colors"
               >
+                <Icon icon="mdi:logout" class="w-5 h-5" />
+              </span>
               <span
                 class="font-medium text-lg text-red-600 dark:text-red-400 group-hover:text-red-700 dark:group-hover:text-red-300 transition-colors duration-200"
                 >ออกจากระบบ</span
@@ -252,8 +282,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, nextTick, watch } from "vue";
+import { ref, onMounted, onUnmounted, nextTick, watch, h } from "vue";
 import { useAuthStore } from "~/stores/auth";
+import { Icon } from "@iconify/vue";
 
 const emit = defineEmits(["close"]);
 
@@ -265,14 +296,46 @@ const dropdownPosition = ref("left"); // 'left' or 'right'
 
 // Menu items data
 const menuItems = [
-  { icon: "💳", label: "กระเป๋าเงินนักอ่าน", path: "/wallet" },
-  { icon: "✏️", label: "หน้านักเขียน", path: "/writer" },
-  { icon: "📚", label: "ชั้นหนังสือ", path: "/bookshelf" },
-  { icon: "⏪", label: "ประวัติการอ่าน", path: "/history" },
-  { icon: "🕒", label: "ประวัติการซื้อ", path: "/purchase-history" },
-  { icon: "⚙️", label: "การตั้งค่า", path: "/settings" },
-  { icon: "👥", label: "แนะนำเพื่อน", path: "/invite" },
-  { icon: "💬", label: "ติดต่อแอดมิน", path: "/contact-admin" },
+  {
+    icon: h(Icon, { icon: "mdi:credit-card-outline", class: "w-5 h-5" }),
+    label: "กระเป๋าเงินนักอ่าน",
+    path: "/wallet",
+  },
+  {
+    icon: h(Icon, { icon: "mdi:pencil", class: "w-5 h-5" }),
+    label: "หน้านักเขียน",
+    path: "/writer",
+  },
+  {
+    icon: h(Icon, { icon: "mdi:bookshelf", class: "w-5 h-5" }),
+    label: "ชั้นหนังสือ",
+    path: "/bookshelf",
+  },
+  {
+    icon: h(Icon, { icon: "mdi:history", class: "w-5 h-5" }),
+    label: "ประวัติการอ่าน",
+    path: "/history",
+  },
+  {
+    icon: h(Icon, { icon: "mdi:clock-outline", class: "w-5 h-5" }),
+    label: "ประวัติการซื้อ",
+    path: "/purchase-history",
+  },
+  {
+    icon: h(Icon, { icon: "mdi:cog-outline", class: "w-5 h-5" }),
+    label: "การตั้งค่า",
+    path: "/settings",
+  },
+  {
+    icon: h(Icon, { icon: "mdi:account-multiple-plus", class: "w-5 h-5" }),
+    label: "แนะนำเพื่อน",
+    path: "/invite",
+  },
+  {
+    icon: h(Icon, { icon: "mdi:chat-question-outline", class: "w-5 h-5" }),
+    label: "ติดต่อแอดมิน",
+    path: "/contact-admin",
+  },
 ];
 
 // Check if mobile screen

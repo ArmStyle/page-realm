@@ -92,7 +92,7 @@ class AuthService {
         const mockUser: User = {
           id: '1',
           profileName: credentials.usernameOrEmail.includes('@') ? 'ผู้ใช้ใหม่' : credentials.usernameOrEmail,
-          profileImg: 'https://via.placeholder.com/40x40?text=U',
+          profileImg: 'https://placehold.co/40x40?text=U',
           username: credentials.usernameOrEmail.includes('@') ? credentials.usernameOrEmail.split('@')[0] : credentials.usernameOrEmail,
           email: credentials.usernameOrEmail.includes('@') ? credentials.usernameOrEmail : `${credentials.usernameOrEmail}@example.com`,
           coin: 1000
@@ -133,7 +133,7 @@ class AuthService {
     const mockUser: User = {
       id: '2',
       profileName: 'Google User',
-      profileImg: 'https://via.placeholder.com/40x40?text=G',
+      profileImg: 'https://placehold.co/40x40?text=G',
       username: 'googleuser',
       email: 'googleuser@gmail.com',
       coin: 500

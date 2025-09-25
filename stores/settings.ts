@@ -46,7 +46,7 @@ export const useSettingsStore = defineStore('settings', {
     },
 
     setLineHeight(height: number) {
-      this.lineHeight = Math.max(1.2, Math.min(2.5, height))
+      this.lineHeight = Math.max(1, Math.min(3, height))
       if (typeof window !== 'undefined') {
         document.documentElement.style.setProperty('--line-height', this.lineHeight.toString())
         localStorage.setItem('lineHeight', this.lineHeight.toString())

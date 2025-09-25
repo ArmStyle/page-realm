@@ -153,3 +153,10 @@
   --color-label: #d1d5db;
   --color-heading: #f3f4f6;
 }
+
+.nav-link {
+  @apply text-gray-600 dark:text-gray-300 font-medium flex items-center gap-2 px-2 py-1 rounded-lg transition-colors;
+}
+.nav-link:hover {
+  @apply text-primary;
+}
