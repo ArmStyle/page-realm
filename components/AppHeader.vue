@@ -62,14 +62,14 @@
 
         <!-- Right Side Controls -->
         <div class="flex items-center gap-3">
-          <NuxtLink to="/writer" class="nav-link">
+          <NuxtLink  v-if="authStore.isAuthenticated" to="/writer" class="nav-link">
             <Icon icon="mdi:pencil" class="w-5 h-5 mr-1 transition-colors" />
           </NuxtLink>
 
+          <!-- Notification Bell -->
+          <NotificationBell  v-if="authStore.isAuthenticated" />
           <!-- Quick Settings Dropdown -->
           <QuickSettings />
-          <!-- Notification Bell -->
-          <NotificationBell />
 
           <!-- User Menu -->
           <template v-if="authStore.isAuthenticated">
