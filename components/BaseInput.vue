@@ -44,27 +44,28 @@
       </div>
     </div>
 
-    <!-- Character Counter -->
-    <div v-if="showCounter && maxlength" class="mt-1 flex justify-end">
-      <span class="text-xs text-gray-500 dark:text-gray-400">
-        {{ String(modelValue).length }}/{{ maxlength }}
-      </span>
-    </div>
-
-    <!-- Error Message -->
-    <p
-      v-if="error"
-      class="mt-1 text-sm text-red-600 dark:text-red-400 eyecare:text-red-700"
-    >
-      {{ error }}
-    </p>
-
-    <!-- Help Text and Counter -->
+    <!-- Error Message & Character Counter on the same line -->
     <div
-      v-if="help"
-      class="mt-1 flex justify-between text-xs text-gray-500 dark:text-gray-400 eyecare:text-amber-600"
+      v-if="(error || help) || (showCounter && maxlength)"
+      class="mt-1 flex justify-between text-xs items-center"
     >
-      <span v-if="help && !error">{{ help }}</span>
+      <!-- Help Text (show only if no error) -->
+      <span
+        v-if="error"
+        class="text-red-600 dark:text-red-400 eyecare:text-red-700"
+        >{{ error }}</span
+      >
+      <div
+        v-else-if="help && !error"
+        class="mt-1 text-xs text-gray-500 dark:text-gray-400 eyecare:text-amber-600"
+      >
+        {{ help }}
+      </div>
+      <span
+        v-if="showCounter && maxlength"
+        class="text-gray-500 dark:text-gray-400 ml-auto"
+        >{{ String(modelValue).length }}/{{ maxlength }}</span
+      >
     </div>
   </div>
 </template>

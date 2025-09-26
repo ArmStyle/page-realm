@@ -11,15 +11,18 @@
         label="ชื่อตอน"
         :maxlength="120"
         required
-        placeholder="กรอกชื่อตอน (ไม่เกิน 120 ตัวอักษร)"
+        placeholder="กรอกชื่อตอน"
+        showCounter
+        :error="errors.title"
       />
 
-      <QuillEditor v-model="form.content" label="เนื้อหา" required />
+      <QuillEditor v-model="form.content" label="เนื้อหา" required :error="errors.content" />
       <BaseTextarea
         v-model="form.readerNote"
         label="ข้อความถึงนักอ่าน"
         :maxlength="200"
-        placeholder="ข้อความถึงนักอ่าน (ไม่เกิน 200 ตัวอักษร)"
+        placeholder="ข้อความถึงนักอ่าน"
+        showCounter
       />
       <div>
         <label class="block font-medium mb-1">สถานะ</label>
@@ -43,6 +46,7 @@
             label="เลือกวันและเวลาเผยแพร่"
             :min="minDateTime"
             required
+            :error="errors.scheduledAt"
           />
         </div>
       </div>
@@ -64,6 +68,7 @@
             min="1"
             label="จำนวนเหรียญที่ต้องใช้"
             required
+            :error="errors.coinAmount"
           />
         </div>
       </div>
@@ -86,6 +91,7 @@ import BaseInput from "~/components/BaseInput.vue";
 import BaseTextarea from "~/components/BaseTextarea.vue";
 import BaseButton from "~/components/BaseButton.vue";
 import QuillEditor from "~/components/QuillEditor.vue";
+import Swal from "sweetalert2";
 
 const props = defineProps({
   open: Boolean,
@@ -116,6 +122,7 @@ const defaultForm = {
 };
 
 const form = ref({ ...defaultForm });
+const errors = ref<{ title?: string; content?: string; readerNote?: string; scheduledAt?: string; coinAmount?: string }>({});
 
 watch(
   () => props.episode,
@@ -133,21 +140,42 @@ function handleClose() {
   emit("close");
 }
 
-function handleSubmit() {
-  // Validate scheduledAt if status is schedule
-  if (
-    form.value.status === "schedule" &&
-    form.value.scheduledAt <= minDateTime.value
-  ) {
-    alert("กรุณาเลือกวันและเวลาในอนาคต");
-    return;
+function validate() {
+  errors.value = {};
+  if (!form.value.title || !form.value.title.trim()) {
+    errors.value.title = "กรุณากรอกชื่อตอน";
+  } else if (form.value.title.length > 120) {
+    errors.value.title = "ชื่อตอนต้องไม่เกิน 120 ตัวอักษร";
   }
-  // Validate coin amount
-  if (
-    form.value.coinType === "coin" &&
-    (!form.value.coinAmount || form.value.coinAmount < 1)
-  ) {
-    alert("กรุณากำหนดจำนวนเหรียญให้ถูกต้อง");
+  if (!form.value.content || !form.value.content.trim()) {
+    errors.value.content = "กรุณากรอกเนื้อหา";
+  }
+  if (form.value.readerNote && form.value.readerNote.length > 200) {
+    errors.value.readerNote = "ข้อความถึงนักอ่านต้องไม่เกิน 200 ตัวอักษร";
+  }
+  if (form.value.status === "schedule") {
+    if (!form.value.scheduledAt) {
+      errors.value.scheduledAt = "กรุณาเลือกวันและเวลาเผยแพร่";
+    } else if (form.value.scheduledAt <= minDateTime.value) {
+      errors.value.scheduledAt = "กรุณาเลือกวันและเวลาในอนาคต";
+    }
+  }
+  if (form.value.coinType === "coin") {
+    if (!form.value.coinAmount || form.value.coinAmount < 1) {
+      errors.value.coinAmount = "กรุณากำหนดจำนวนเหรียญให้ถูกต้อง";
+    }
+  }
+}
+
+function handleSubmit() {
+  validate();
+  if (Object.keys(errors.value).length > 0) {
+    const firstError = Object.values(errors.value)[0];
+    Swal.fire({
+      icon: "warning",
+      title: firstError,
+      confirmButtonText: "ตกลง",
+    });
     return;
   }
   emit("save", { ...form.value });

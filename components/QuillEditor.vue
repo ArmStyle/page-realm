@@ -62,12 +62,9 @@ const quillOptions = {
   modules: {
     toolbar: [
       [{ header: [1, 2, 3, false] }],
-      ["bold", "italic", "underline", "strike"],
+      ["bold", "italic", "underline"],
       [{ list: "ordered" }, { list: "bullet" }],
-      [{ color: [] }, { background: [] }],
-      [{ align: [] }],
-      ["link"],
-      ["clean"],
+      ["image"],
     ],
   },
   placeholder: props.placeholder,
