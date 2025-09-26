@@ -3,7 +3,7 @@
     <label
       v-if="label"
       :for="id"
-      class="block text-sm font-medium text-gray-700 dark:text-gray-300 eyecare:text-amber-800 eyecare-dark:text-amber-200 mb-2"
+      class="block text-sm font-medium text-gray-700 dark:text-gray-300 eyecare:text-amber-800 mb-2"
     >
       {{ label }}
       <span v-if="required" class="text-red-500">*</span>
@@ -48,7 +48,7 @@
       </div>
 
       <div
-        class="flex justify-between mt-1 text-xs text-gray-500 dark:text-gray-400 eyecare:text-amber-600 eyecare-dark:text-amber-400"
+        class="flex justify-between mt-1 text-xs text-gray-500 dark:text-gray-400 eyecare:text-amber-600"
       >
         <span>{{ tags.length }}/{{ maxTags }} แท็ก</span>
         <span v-if="inputValue"
