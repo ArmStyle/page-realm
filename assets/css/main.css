@@ -1,128 +1,100 @@
-@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
-@import '@vueup/vue-quill/dist/vue-quill.snow.css';
-@import 'vue-multiselect/dist/vue-multiselect.css';
+@import url("https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap");
+@import "@vueup/vue-quill/dist/vue-quill.snow.css";
+@import "vue-multiselect/dist/vue-multiselect.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   body {
-    font-family: 'Sarabun', sans-serif;
+    font-family: "Sarabun", sans-serif;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 }
 
 @layer components {
-  input[type="checkbox"], input[type="radio"] {
+  input[type="checkbox"],
+  input[type="radio"] {
     @apply rounded !text-primary focus:ring-primary !border-primary checked:bg-primary checked:border-primary accent-primary;
   }
   .btn {
     @apply px-4 py-2 rounded-lg font-medium transition-all duration-200;
   }
-  
+
   .btn-primary {
     @apply bg-primary text-white hover:bg-primary-dark;
   }
-  
+
   .card {
     @apply bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700;
   }
-  
+
   .reading-content {
     line-height: var(--line-height, 1.6);
     font-size: var(--font-size, 1rem);
   }
-  
+
   /* Eye Care Light Mode Styles */
-  .eye-care-mode {
-    @apply !bg-eyecare-bg !text-eyecare-text;
-  }
-  
-  /* Eye Care Theme Utility Classes */
-  .bg-eyecare-bg {
-    background-color: #f5f3f0;
-  }
-  
-  .bg-eyecare-card {
-    background-color: #f9f7f4;
-  }
-  
-  .text-eyecare-text {
-    color: #2d3748;
-  }
-  
-  .text-eyecare-muted {
-    color: #4a5568;
-  }
-  
-  .border-eyecare-border {
-    border-color: #d4c5a9;
-  }
-  
-  .hover\\:bg-eyecare-border:hover {
-    background-color: #d4c5a9;
-  }
-  
   .eyecare .card,
   .eyecare .bg-white {
     background-color: #f9f7f4 !important;
     border-color: #d4c5a9 !important;
   }
-  
+
   .eyecare .bg-gray-50 {
     background-color: #f9f7f4 !important;
   }
-  
+
   .eyecare .bg-gray-100 {
     background-color: #f1ede6 !important;
   }
-  
+
   .eyecare .bg-gray-800 {
     background-color: #e6e2da !important;
   }
-  
+
   .eyecare .text-gray-800,
   .eyecare .text-gray-900 {
     color: #2d3748 !important;
   }
-  
+
   .eyecare .text-gray-600,
   .eyecare .text-gray-700 {
     color: #4a5568 !important;
   }
-  
+
   .eyecare .text-gray-400,
   .eyecare .text-gray-500 {
     color: #6b7280 !important;
   }
-  
+
   .eyecare .border-gray-200,
   .eyecare .border-gray-300 {
     border-color: #d4c5a9 !important;
   }
-  
+
   .eyecare .border-gray-600,
   .eyecare .border-gray-700 {
     border-color: #a1917a !important;
   }
-  
+
   .eyecare .hover\\:bg-gray-100:hover {
     background-color: #f1ede6 !important;
   }
-  
+
   .eyecare .hover\\:bg-gray-700:hover {
     background-color: #e6e2da !important;
   }
-  
+
   /* Content Layout Utilities */
   .content-wrapper {
     @apply max-w-[1310px] mx-auto px-4 sm:px-6 lg:px-8;
   }
-  
+
   .section-wrapper {
     @apply -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8;
   }
-  
+
   .full-width-section {
     @apply w-full relative;
   }

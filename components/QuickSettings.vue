@@ -83,10 +83,10 @@
 
               <!-- Eye Care Light Theme -->
               <button
-                @click="settingsStore.setTheme('eyecare-light')"
+                @click="settingsStore.setTheme('eyecare')"
                 :class="[
                   'flex flex-col items-center justify-center gap-1 py-2 sm:py-3 px-2 rounded-lg border-2 transition-all',
-                  settingsStore.theme === 'eyecare-light' 
+                  settingsStore.theme === 'eyecare' 
                     ? 'border-primary bg-primary text-white' 
                     : themeClasses.buttonBorder + ' hover:border-primary ' + themeClasses.text
                 ]"
@@ -199,7 +199,7 @@ const themeClasses = computed(() => {
   const theme = settingsStore.theme
   
   switch (theme) {
-    case 'eyecare-light':
+    case 'eyecare':
       return {
         text: 'text-eyecare-text',
         muted: 'text-eyecare-muted',
