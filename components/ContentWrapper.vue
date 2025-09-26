@@ -5,6 +5,4 @@
 </template>
 
 <script setup>
-// Content wrapper component for consistent max-width and responsive padding
-// Excludes header, footer, and hero sections
 </script>

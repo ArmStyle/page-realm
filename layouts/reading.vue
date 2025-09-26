@@ -1,5 +1,5 @@
 <template>
-  <div 
+  <div
     :class="[
       'min-h-screen transition-colors duration-300',
       settingsStore.isEyeCareMode 
@@ -27,7 +27,8 @@
             </NuxtLink>
             <div>
               <h1 class="text-lg font-semibold text-gray-800 dark:text-white">{{ novel.title }}</h1>
-              <p class="text-sm text-gray-600 dark:text-gray-400">ตอนที่ {{ currentChapter }} - {{ chapterTitle }}</p>
+              <p class="text-sm text-gray-600 dark:text-gray-400">
+ {{ currentChapter }} - {{ chapterTitle }}</p>
             </div>
           </div>
 
@@ -163,19 +164,10 @@
 
 <script setup>
 import { useSettingsStore } from '~/stores/settings'
-
-// Disable default layout for reading page
-definePageMeta({
-  layout: false
-})
-
 const settingsStore = useSettingsStore()
-
-// Initialize settings
 onMounted(() => {
   settingsStore.initSettings()
 })
-
 // Get data from page
 const novel = inject('novel', { title: 'เทพธิดาแห่งความมืด', author: 'นักเขียนลึกลับ' })
 const currentChapter = inject('currentChapter', ref(1))

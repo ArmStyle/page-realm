@@ -1,5 +1,5 @@
 <template>
-  <SectionWrapper bg-class="bg-gray-50 dark:bg-gray-900">
+  <SectionWrapper>
     <div class="flex items-center justify-between mb-3 md:mb-5">
       <div>
         <span class="text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-2">
