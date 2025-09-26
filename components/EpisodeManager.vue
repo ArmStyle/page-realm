@@ -6,7 +6,7 @@
         <BaseButton variant="secondary" @click="sortModalOpen = true"
           >เรียงตอน</BaseButton
         >
-        <BaseButton variant="primary" @click="addEpisode"
+        <BaseButton variant="primary" @click="openAddEpisode"
           >เพิ่มตอนใหม่</BaseButton
         >
       </div>
@@ -39,7 +39,12 @@
             <td class="px-4 py-2 dark:text-gray-100">{{ idx + 1 }}</td>
             <td class="px-4 py-2 dark:text-gray-100">{{ ep.title }}</td>
             <td class="px-4 py-2 text-center flex gap-2 justify-center">
-              <BaseButton variant="ghost" size="sm" class="flex items-center gap-1">
+              <BaseButton
+                variant="ghost"
+                size="sm"
+                class="flex items-center gap-1"
+                @click="openEditEpisode(ep)"
+              >
                 <Icon icon="mdi:pencil" class="w-5 h-5" />
               </BaseButton>
               <BaseButton variant="ghost" size="sm" class="flex items-center gap-1">
@@ -56,12 +61,18 @@
       @close="sortModalOpen = false"
       @save="handleSaveSorted"
     />
+    <EpisodeEditModal
+      :open="episodeModalOpen"
+      :episode="editingEpisode"
+      :isEdit="isEdit"
+      @close="episodeModalOpen = false"
+      @save="handleSaveEpisode"
+    />
   </Card>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
-import EpisodeSortModal from "~/components/EpisodeSortModal.vue";
 import BaseButton from "~/components/BaseButton.vue";
 import { Icon } from "@iconify/vue";
 
@@ -81,6 +92,21 @@ const episodes = ref<Episode[]>([
 ]);
 
 const sortModalOpen = ref(false);
+const episodeModalOpen = ref(false);
+const isEdit = ref(false);
+const editingEpisode = ref<any>(null);
+
+function openAddEpisode() {
+  isEdit.value = false;
+  editingEpisode.value = null;
+  episodeModalOpen.value = true;
+}
+
+function openEditEpisode(ep: any) {
+  isEdit.value = true;
+  editingEpisode.value = { ...ep };
+  episodeModalOpen.value = true;
+}
 
 function addEpisode() {
   const newId = `ep${episodes.value.length + 1}`;
@@ -92,5 +118,17 @@ function addEpisode() {
 
 function handleSaveSorted(newOrder: Episode[]) {
   episodes.value = [...newOrder];
+}
+
+function handleSaveEpisode(ep: any) {
+  if (isEdit.value && editingEpisode.value) {
+    // Edit mode: update episode in list
+    const idx = episodes.value.findIndex(e => e.id === editingEpisode.value.id);
+    if (idx !== -1) episodes.value[idx] = { ...episodes.value[idx], ...ep };
+  } else {
+    // Add mode: add new episode
+    const newId = `ep${episodes.value.length + 1}`;
+    episodes.value.push({ id: newId, ...ep });
+  }
 }
 </script>
