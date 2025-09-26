@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen">
-    <div class="container mx-auto px-4 py-8">
+    <div class="w-full md:max-w-[1310px] mx-auto p-0 md:px-4 md:py-8">
       <!-- Sidebar toggle button for mobile -->
       <button
         class="w-10 h-10 fixed z-30 bottom-6 left-6 lg:hidden bg-primary text-white rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-primary-dark"

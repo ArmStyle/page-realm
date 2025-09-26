@@ -1,34 +1,50 @@
 <template>
-  <div>
+  <Card>
     <div class="flex justify-between items-center mb-4">
-      <h2 class="text-lg font-semibold">จัดการตอน</h2>
+      <h2 class="text-lg font-semibold dark:text-gray-100">จัดการตอน</h2>
       <div class="flex gap-2">
-          <BaseButton variant="secondary" @click="sortModalOpen = true">เรียงตอน</BaseButton>
-          <BaseButton variant="primary" @click="addEpisode">เพิ่มตอนใหม่</BaseButton>
+        <BaseButton variant="secondary" @click="sortModalOpen = true"
+          >เรียงตอน</BaseButton
+        >
+        <BaseButton variant="primary" @click="addEpisode"
+          >เพิ่มตอนใหม่</BaseButton
+        >
       </div>
     </div>
-    <div v-if="episodes.length === 0" class="text-gray-400 text-center py-8">
+    <div
+      v-if="episodes.length === 0"
+      class="text-gray-400 dark:text-gray-400/70 text-center py-8"
+    >
       ยังไม่มีตอนในเรื่องนี้
     </div>
     <div v-else class="overflow-x-auto">
-      <table class="min-w-full bg-white rounded shadow text-sm">
+      <table
+        class="min-w-full bg-white dark:bg-gray-800 rounded shadow text-sm"
+      >
         <thead>
-          <tr class="bg-gray-50 text-gray-700">
+          <tr
+            class="bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-200"
+          >
             <th class="px-4 py-2 text-left">ลำดับ</th>
             <th class="px-4 py-2 text-left">ชื่อตอน</th>
-            <th class="px-4 py-2 text-center">จัดการ</th>
+            <th class="px-4 py-2 text-center"></th>
           </tr>
         </thead>
         <tbody>
           <tr
             v-for="(ep, idx) in episodes"
             :key="ep.id"
-            class="border-b hover:bg-gray-50"
+            class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-900/30"
           >
-            <td class="px-4 py-2">{{ idx + 1 }}</td>
-            <td class="px-4 py-2">{{ ep.title }}</td>
-            <td class="px-4 py-2 text-center">
-              <BaseButton variant="ghost" size="xs" disabled>ดู/แก้ไข</BaseButton>
+            <td class="px-4 py-2 dark:text-gray-100">{{ idx + 1 }}</td>
+            <td class="px-4 py-2 dark:text-gray-100">{{ ep.title }}</td>
+            <td class="px-4 py-2 text-center flex gap-2 justify-center">
+              <BaseButton variant="ghost" size="sm" class="flex items-center gap-1">
+                <Icon icon="mdi:pencil" class="w-5 h-5" />
+              </BaseButton>
+              <BaseButton variant="ghost" size="sm" class="flex items-center gap-1">
+                <Icon icon="mdi:eye" class="w-5 h-5" />
+              </BaseButton>
             </td>
           </tr>
         </tbody>
@@ -40,13 +56,14 @@
       @close="sortModalOpen = false"
       @save="handleSaveSorted"
     />
-  </div>
+  </Card>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 import EpisodeSortModal from "~/components/EpisodeSortModal.vue";
-import BaseButton from '~/components/BaseButton.vue';
+import BaseButton from "~/components/BaseButton.vue";
+import { Icon } from "@iconify/vue";
 
 interface Episode {
   id: string;

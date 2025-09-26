@@ -1,20 +1,42 @@
 <template>
   <WriterLayout>
     <ContentWrapper>
-      <div class="mb-6 flex items-center gap-2 text-sm text-gray-500">
-        <button class="text-primary hover:underline flex items-center gap-1" @click="goBack">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+      <div class="mt-2 mb-6 flex items-center gap-2 text-sm text-gray-500">
+        <button
+          class="text-primary hover:underline flex items-center gap-1"
+          @click="goBack"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-4 h-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
           <span>กลับหน้ารายการ</span>
         </button>
         <span class="mx-2">/</span>
-        <span class="font-medium text-gray-700">{{ work?.title || 'แก้ไขผลงาน' }}</span>
+        <span class="font-medium text-gray-700">{{
+          work?.title || "แก้ไขผลงาน"
+        }}</span>
       </div>
-      <div class="flex ">
+      <div class="flex mx-2">
         <button
           v-for="tab in tabs"
           :key="tab.key"
           class="px-4 py-2 -mb-px text-sm font-medium focus:outline-none transition border-b-2"
-          :class="activeTab === tab.key ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-primary'"
+          :class="
+            activeTab === tab.key
+              ? 'border-primary text-white bg-primary rounded-t'
+              : 'border-transparent text-gray-500 hover:text-primary'
+          "
           @click="activeTab = tab.key"
         >
           {{ tab.label }}
@@ -23,6 +45,7 @@
       <div v-if="activeTab === 'info'">
         <WorkForm
           v-if="work"
+          class="rounded-b"
           type="comic"
           :isEditMode="true"
           :modelValue="form"
@@ -31,7 +54,9 @@
           @success="onSuccess"
           @error="onError"
         />
-        <div v-else class="text-center py-10 text-gray-500">ไม่พบข้อมูลผลงาน</div>
+        <div v-else class="text-center py-10 text-gray-500">
+          ไม่พบข้อมูลผลงาน
+        </div>
       </div>
       <div v-else-if="activeTab === 'episodes'">
         <EpisodeManager :workId="workId" />
@@ -45,7 +70,7 @@ import { useRoute, useRouter } from "vue-router";
 import { ref, watchEffect } from "vue";
 import { useWorksStore } from "~/stores/works";
 import WorkForm from "~/components/WorkForm.vue";
-import EpisodeManager from '~/components/EpisodeManager.vue';
+import EpisodeManager from "~/components/EpisodeManager.vue";
 import type { WorkFormType } from "~/types/work-form";
 
 const route = useRoute();
@@ -78,10 +103,10 @@ if (!work.value) {
 
 const form = ref<WorkFormType | undefined>(undefined);
 const tabs = [
-  { label: 'ข้อมูล', key: 'info' },
-  { label: 'จัดการตอน', key: 'episodes' }
+  { label: "ข้อมูล", key: "info" },
+  { label: "จัดการตอน", key: "episodes" },
 ] as const;
-const activeTab = ref<typeof tabs[number]['key']>('info');
+const activeTab = ref<(typeof tabs)[number]["key"]>("info");
 
 watchEffect(() => {
   if (work.value) {
@@ -112,6 +137,6 @@ function onError(msg: string) {
   alert(msg);
 }
 function goBack() {
-  router.push('/writer');
+  router.push("/writer/novel");
 }
 </script>

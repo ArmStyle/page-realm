@@ -85,8 +85,8 @@
 
         <!-- Works Table -->
         <template v-else-if="filteredWorks.length > 0">
-          <div class="w-full overflow-x-auto rounded-xl">
-            <table class="w-full divide-y divide-gray-200 dark:divide-gray-700">
+          <div class="w-[calc(100vw_-_65px)] sm:w-[calc(100vw_-_100px)] md:w-full overflow-x-auto rounded-xl">
+            <table class="divide-y divide-gray-200 dark:divide-gray-700">
               <thead>
                 <tr class="bg-gray-50 dark:bg-gray-900">
                   <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-200 w-16">ปก</th>
