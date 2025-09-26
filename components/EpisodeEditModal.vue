@@ -15,8 +15,13 @@
         showCounter
         :error="errors.title"
       />
+      <template v-if="props.workType === 'comic'">
+        <ImageUploadManager v-model="form.images" :error="errors.images" />
+      </template>
+      <template v-else>
+        <QuillEditor v-model="form.content" label="เนื้อหา" required :error="errors.content" />
+      </template>
 
-      <QuillEditor v-model="form.content" label="เนื้อหา" required :error="errors.content" />
       <BaseTextarea
         v-model="form.readerNote"
         label="ข้อความถึงนักอ่าน"
@@ -86,17 +91,13 @@
 
 <script setup lang="ts">
 import { ref, computed, watch, defineProps, defineEmits } from "vue";
-import BaseModal from "~/components/BaseModal.vue";
-import BaseInput from "~/components/BaseInput.vue";
-import BaseTextarea from "~/components/BaseTextarea.vue";
-import BaseButton from "~/components/BaseButton.vue";
-import QuillEditor from "~/components/QuillEditor.vue";
 import Swal from "sweetalert2";
 
 const props = defineProps({
   open: Boolean,
   episode: Object,
   isEdit: Boolean,
+  workType: { type: String, default: "comic" }, // เพิ่ม workType เพื่อแยก novel/comic
 });
 const emit = defineEmits(["close", "save"]);
 
@@ -114,6 +115,7 @@ const minDateTime = computed(() => {
 const defaultForm = {
   title: "",
   content: "",
+  images: [], // เพิ่ม images สำหรับ comic
   readerNote: "",
   status: "publish",
   scheduledAt: "",
@@ -122,7 +124,7 @@ const defaultForm = {
 };
 
 const form = ref({ ...defaultForm });
-const errors = ref<{ title?: string; content?: string; readerNote?: string; scheduledAt?: string; coinAmount?: string }>({});
+const errors = ref<{ title?: string; content?: string; readerNote?: string; scheduledAt?: string; coinAmount?: string; images?: string }>({});
 
 watch(
   () => props.episode,
@@ -147,8 +149,14 @@ function validate() {
   } else if (form.value.title.length > 120) {
     errors.value.title = "ชื่อตอนต้องไม่เกิน 120 ตัวอักษร";
   }
-  if (!form.value.content || !form.value.content.trim()) {
-    errors.value.content = "กรุณากรอกเนื้อหา";
+  if (props.workType === "comic") {
+    if (!form.value.images || form.value.images.length === 0) {
+      errors.value.images = "กรุณาอัปโหลดรูปภาพ";
+    }
+  } else {
+    if (!form.value.content || !form.value.content.trim()) {
+      errors.value.content = "กรุณากรอกเนื้อหา";
+    }
   }
   if (form.value.readerNote && form.value.readerNote.length > 200) {
     errors.value.readerNote = "ข้อความถึงนักอ่านต้องไม่เกิน 200 ตัวอักษร";
