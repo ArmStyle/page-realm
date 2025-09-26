@@ -24,7 +24,7 @@
             class="flex items-center gap-3 hover:opacity-80 transition-opacity"
           >
             <div
-              class="w-10 h-10 bg-transparent rounded-xl flex items-center justify-center"
+              class="h-10 bg-transparent rounded-xl flex items-center justify-center"
             >
               <img
                 src="~/assets/img/logo.png"
@@ -45,20 +45,20 @@
               </p>
             </div>
           </NuxtLink>
+          <!-- Navigation -->
+          <nav class="hidden md:flex items-center gap-2 mx-2">
+            <NuxtLink
+              v-for="item in navigation"
+              :key="item.to"
+              :to="item.to"
+              class="nav-link"
+            >
+              <Icon :icon="item.icon" class="w-5 h-5 mr-1 transition-colors" />
+              {{ item.label }}
+            </NuxtLink>
+          </nav>
         </div>
 
-        <!-- Navigation -->
-        <nav class="hidden md:flex items-center gap-8">
-          <NuxtLink
-            v-for="item in navigation"
-            :key="item.to"
-            :to="item.to"
-            class="nav-link"
-          >
-            <Icon :icon="item.icon" class="w-5 h-5 mr-1 transition-colors" />
-            {{ item.label }}
-          </NuxtLink>
-        </nav>
 
         <!-- Right Side Controls -->
         <div class="flex items-center gap-3">
