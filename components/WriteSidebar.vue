@@ -37,6 +37,18 @@
         <span class="text-lg">✏️</span>
         <span>ผลงานการ์ตูน</span>
       </NuxtLink>
+      <NuxtLink
+        to="/writer/register"
+        class="flex items-center space-x-3 p-3 rounded-lg transition-colors"
+        :class="[
+          $route.path === '/writer/register'
+            ? 'text-primary bg-primary/10 dark:text-primary dark:bg-primary-dark/20'
+            : 'text-gray-700 hover:text-primary hover:bg-primary/10 dark:text-gray-200 dark:hover:text-primary dark:hover:bg-primary-dark/20',
+        ]"
+      >
+        <span class="text-lg">📝</span>
+        <span>ลงทะเบียนนักเขียน</span>
+      </NuxtLink>
     </nav>
 
     <!-- Help Section -->
