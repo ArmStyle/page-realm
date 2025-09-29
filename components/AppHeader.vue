@@ -112,10 +112,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, nextTick } from "vue";
+import { ref, onMounted, onUnmounted, nextTick, watch } from "vue";
 import { useAuthStore } from "~/stores/auth";
 import { useSettingsStore } from "~/stores/settings";
 import { Icon } from "@iconify/vue";
+import { useRoute } from "vue-router";
 
 const props = defineProps({
   quickSettingsVisible: {
@@ -124,6 +125,7 @@ const props = defineProps({
   },
 });
 const router = useRouter();
+const route = useRoute();
 const emit = defineEmits(["quickSettingsToggle"]);
 
 const authStore = useAuthStore();
@@ -175,22 +177,41 @@ function handleScroll() {
   lastScrollY.value = currentY;
 }
 
+function addScrollListener() {
+  if (route.path.startsWith('/read')) {
+    window.addEventListener("scroll", onScrollHandler);
+  }
+}
+function removeScrollListener() {
+  window.removeEventListener("scroll", onScrollHandler);
+}
+function onScrollHandler() {
+  if (!ticking) {
+    window.requestAnimationFrame(() => {
+      handleScroll();
+      ticking = false;
+    });
+    ticking = true;
+  }
+}
+
 onMounted(() => {
-  lastScrollY.value = window.scrollY; // set initial value on client only
-  window.addEventListener("scroll", () => {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        handleScroll();
-        ticking = false;
-      });
-      ticking = true;
-    }
-  });
+  lastScrollY.value = window.scrollY;
+  addScrollListener();
 });
 
 onUnmounted(() => {
-  window.removeEventListener("scroll", handleScroll);
+  removeScrollListener();
 });
+
+watch(
+  () => route.path,
+  () => {
+    removeScrollListener();
+    lastScrollY.value = window.scrollY;
+    addScrollListener();
+  }
+);
 </script>
 
 <style scoped>

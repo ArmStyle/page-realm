@@ -10,7 +10,7 @@
     <Transition name="fade">
       <div
         v-if="showQuickSettings"
-        class="absolute top-7 -right-[9rem] md:right-0 mt-2 z-50 quick-settings-panel"
+        class="absolute top-7 -right-[3rem] md:right-0 mt-2 z-50 quick-settings-panel"
         style="width: 20rem; min-width: 16rem;"
       >
         <div

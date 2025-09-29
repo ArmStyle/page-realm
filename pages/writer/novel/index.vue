@@ -12,13 +12,16 @@
           <h2 class="text-2xl font-bold text-gray-800 dark:text-white">
             ผลงานนิยาย
           </h2>
-          <button
+          <BaseButton
             @click="addNewWork"
-            class="btn-primary bg-gradient-to-r from-purple-400 to-indigo-400 dark:from-purple-700 dark:to-indigo-700 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-300 flex items-center space-x-2"
+            variant="primary"
+            class="bg-gradient-to-r from-purple-400 to-indigo-400 dark:from-purple-700 dark:to-indigo-700 px-6 py-2"
           >
-            <span>+</span>
-            <span>นิยายใหม่</span>
-          </button>
+            <template #icon>
+              <Icon icon="mdi:plus" class="w-5 h-5" />
+            </template>
+            นิยายใหม่
+          </BaseButton>
         </div>
 
         <!-- Filter Section (single row) -->
@@ -44,13 +47,16 @@
             class="flex-1 min-w-[120px]"
           />
 
-          <button
+          <BaseButton
             @click="applyFilters"
-            class="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 px-4 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors flex items-center space-x-2 min-w-[100px] mt-2 md:mt-0"
+            variant="light"
+            class="min-w-[100px] mt-2 md:mt-0"
           >
-            <span>🔍</span>
-            <span>กรอง</span>
-          </button>
+            <template #icon>
+              <Icon icon="mdi:magnify" class="w-5 h-5" />
+            </template>
+            กรอง
+          </BaseButton>
         </div>
 
         <!-- Works List or Empty State -->
@@ -67,7 +73,7 @@
           <div
             class="w-16 h-16 mx-auto mb-4 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center"
           >
-            <span class="text-2xl">⚠️</span>
+            <Icon icon="mdi:alert-circle-outline" class="text-2xl w-8 h-8 text-red-500 dark:text-red-300" />
           </div>
           <h3 class="text-xl font-bold text-gray-700 dark:text-red-200 mb-2">
             เกิดข้อผิดพลาด
@@ -75,12 +81,13 @@
           <p class="text-gray-600 dark:text-gray-300 mb-4 break-words">
             {{ novelsStore.error }}
           </p>
-          <button
+          <BaseButton
             @click="novelsStore.fetchNovels()"
-            class="bg-purple-500 dark:bg-purple-700 text-white px-6 py-2 rounded-lg hover:bg-purple-600 dark:hover:bg-purple-800 transition-colors"
+            variant="primary"
+            class="bg-purple-500 dark:bg-purple-700 px-6 py-2"
           >
             ลองใหม่
-          </button>
+          </BaseButton>
         </div>
 
         <!-- Works Table -->
@@ -109,7 +116,9 @@
                   <td class="px-4 py-3">
                     <div class="w-12 h-16 bg-gray-200 dark:bg-gray-800 rounded flex items-center justify-center overflow-hidden">
                       <img v-if="work.coverImage" :src="work.coverImage" :alt="work.title" class="w-full h-full object-cover" />
-                      <span v-else class="text-lg text-gray-400 dark:text-gray-500">📖</span>
+                      <span v-else class="text-lg text-gray-400 dark:text-gray-500">
+                        <Icon icon="mdi:book-open-variant" class="w-6 h-6" />
+                      </span>
                     </div>
                   </td>
                   <td class="px-4 py-3 font-medium text-gray-900 dark:text-white max-w-[180px] truncate">{{ work.title }}</td>
@@ -130,7 +139,7 @@
                   </td>
                   <td class="px-4 py-3 text-center">
                     <NuxtLink :to="`/writer/edit/${work.id}`" class="inline-flex items-center gap-2 px-3 py-1.5 rounded bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-medium shadow hover:from-indigo-600 hover:to-purple-600 transition-all duration-200 text-xs">
-                      <span>🔎</span>
+                      <Icon icon="mdi:eye-outline" class="w-4 h-4" />
                       <span>ดูรายละเอียด</span>
                     </NuxtLink>
                   </td>
@@ -145,7 +154,7 @@
           <div
             class="w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-6 bg-gradient-to-r from-purple-100 to-indigo-100 dark:from-purple-900 dark:to-indigo-900 rounded-full flex items-center justify-center"
           >
-            <span class="text-4xl sm:text-6xl">📖</span>
+            <Icon icon="mdi:book-open-variant" class="text-4xl sm:text-6xl w-16 h-16 sm:w-24 sm:h-24 text-purple-400 dark:text-purple-700" />
           </div>
           <h3 class="text-2xl font-bold text-gray-700 dark:text-white mb-4">
             ยังไม่มีผลงานนิยาย
@@ -153,13 +162,16 @@
           <p class="text-gray-500 dark:text-gray-300 mb-8 max-w-md mx-auto">
             เริ่มต้นเขียนนิยายเรื่องแรกของคุณ
           </p>
-          <button
+          <BaseButton
             @click="addNewWork"
-            class="btn-primary bg-gradient-to-r from-purple-400 to-indigo-400 dark:from-purple-700 dark:to-indigo-700 text-white px-8 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-300 flex items-center space-x-2 mx-auto"
+            variant="primary"
+            class="bg-gradient-to-r from-purple-400 to-indigo-400 dark:from-purple-700 dark:to-indigo-700 px-8 py-3 mx-auto"
           >
-            <span>+</span>
-            <span>นิยายใหม่</span>
-          </button>
+            <template #icon>
+              <Icon icon="mdi:plus" class="w-5 h-5" />
+            </template>
+            นิยายใหม่
+          </BaseButton>
         </div>
       </div>
     </ContentWrapper>
@@ -168,6 +180,8 @@
 
 <script setup>
 import { useWorksStore } from "~/stores/works";
+import BaseButton from "~/components/BaseButton.vue";
+import { Icon } from "@iconify/vue";
 
 definePageMeta({
   layout: "default",

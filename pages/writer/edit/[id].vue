@@ -1,32 +1,12 @@
 <template>
   <WriterLayout>
     <ContentWrapper>
-      <div class="mt-2 mb-6 flex items-center gap-2 text-sm text-gray-500">
-        <button
-          class="text-primary hover:underline flex items-center gap-1"
-          @click="goBack"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="w-4 h-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-          <span>กลับหน้ารายการ</span>
-        </button>
-        <span class="mx-2">/</span>
-        <span class="font-medium text-gray-700">{{
-          work?.title || "แก้ไขผลงาน"
-        }}</span>
-      </div>
+      <Breadcrumb
+        title="แก้ไขผลงาน"
+        :back-label="'กลับหน้ารายการ'"
+        :current="work?.title || 'แก้ไขผลงาน'"
+        @back="goBack"
+      />
       <div class="flex mx-2">
         <button
           v-for="tab in tabs"
@@ -71,6 +51,7 @@ import { ref, watchEffect } from "vue";
 import { useWorksStore } from "~/stores/works";
 import WorkForm from "~/components/WorkForm.vue";
 import EpisodeManager from "~/components/EpisodeManager.vue";
+import Breadcrumb from "~/components/Breadcrumb.vue";
 import type { WorkFormType } from "~/types/work-form";
 
 const route = useRoute();

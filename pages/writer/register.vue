@@ -2,7 +2,7 @@
   <WriterLayout>
     <ContentWrapper>
       <!-- ส่วนที่ 1: ข้อมูลส่วนตัว -->
-      <div class="bg-white rounded-lg shadow p-6 mb-8">
+      <Card>
         <h2 class="text-lg font-bold mb-2">สำนาบัตรประชาชน</h2>
         <p class="text-sm text-gray-500 mb-4">
           สามารถอัปโหลดที่เห็นรายละเอียดตัวอักษรและรูปภาพได้ชัดเจน
@@ -10,24 +10,34 @@
           <span class="text-red-500">(กรุณาเซ็นสำเนาถูกต้องกำกับ)</span>
         </p>
         <div
-          class="border-2 border-dashed border-orange-300 rounded-lg flex flex-col items-center justify-center py-8 mb-4 cursor-pointer hover:bg-orange-50"
+          class="border-2 border-dashed border-primary/60 rounded-lg flex flex-col items-center justify-center py-8 mb-4 cursor-pointer"
           @click="triggerIdCardInput"
         >
-          <Icon :icon="'mdi:upload'" class="h-8 w-8 text-orange-400 mb-2" />
+          <Icon :icon="'mdi:upload'" class="h-8 w-8 text-primary mb-2" />
           <input
             type="file"
             class="hidden"
             @change="onFileChange('idCard', $event)"
             ref="idCardInputRef"
           />
-          <span class="text-orange-400 text-sm"
+          <span class="text-primary text-sm"
             >เลือกไฟล์ หรือ ลากไฟล์มาวาง</span
           >
-          <div v-if="errors.idCardFile" class="text-red-500 text-xs mt-2">{{ errors.idCardFile }}</div>
+          <div v-if="errors.idCardFile" class="text-red-500 text-xs mt-2">
+            {{ errors.idCardFile }}
+          </div>
         </div>
         <div class="grid grid-cols-1 gap-4">
-          <BaseInput label="ชื่อ-นามสกุล" v-model="form.fullName" :error="errors.fullName" />
-          <BaseInput label="เบอร์โทรศัพท์" v-model="form.phone" :error="errors.phone" />
+          <BaseInput
+            label="ชื่อ-นามสกุล"
+            v-model="form.fullName"
+            :error="errors.fullName"
+          />
+          <BaseInput
+            label="เบอร์โทรศัพท์"
+            v-model="form.phone"
+            :error="errors.phone"
+          />
           <BaseInput
             label="เลขบัตรประจำตัวประชาชน"
             v-model="form.idCardNumber"
@@ -56,7 +66,7 @@
           />
         </div>
         <div class="divider my-6">
-            <div class="flex-1 border-t border-gray-300"></div>
+          <div class="flex-1 border-t border-gray-300"></div>
         </div>
         <!-- ส่วนที่ 2: สมุดบัญชี -->
         <h2 class="text-lg font-bold mb-2">หน้าสมุดบัญชี</h2>
@@ -65,20 +75,22 @@
           ขนาดรูปไม่เกิน 2 MB
         </p>
         <div
-          class="border-2 border-dashed border-orange-300 rounded-lg flex flex-col items-center justify-center py-8 mb-4 cursor-pointer hover:bg-orange-50"
+          class="border-2 border-dashed border-primary/60 rounded-lg flex flex-col items-center justify-center py-8 mb-4 cursor-pointer"
           @click="triggerBankBookInput"
         >
-          <Icon :icon="'mdi:upload'" class="h-8 w-8 text-orange-400 mb-2" />
+          <Icon :icon="'mdi:upload'" class="h-8 w-8 text-primary mb-2" />
           <input
             type="file"
             class="hidden"
             @change="onFileChange('bankBook', $event)"
             ref="bankBookInputRef"
           />
-          <span class="text-orange-400 text-sm"
+          <span class="text-primary text-sm"
             >เลือกไฟล์ หรือ ลากไฟล์มาวาง</span
           >
-          <div v-if="errors.bankBookFile" class="text-red-500 text-xs mt-2">{{ errors.bankBookFile }}</div>
+          <div v-if="errors.bankBookFile" class="text-red-500 text-xs mt-2">
+            {{ errors.bankBookFile }}
+          </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <BaseSelect
@@ -87,11 +99,31 @@
             :options="bankOptions"
             :error="errors.bank"
           />
-          <BaseInput label="ประเภทบัญชี" v-model="form.bankType" :error="errors.bankType" />
-          <BaseInput label="ชื่อสาขา" v-model="form.branchName" :error="errors.branchName" />
-          <BaseInput label="รหัสสาขา" v-model="form.branchCode" :error="errors.branchCode" />
-          <BaseInput label="หมายเลขบัญชี" v-model="form.accountNumber" :error="errors.accountNumber" />
-          <BaseInput label="ชื่อเจ้าของบัญชี" v-model="form.accountName" :error="errors.accountName" />
+          <BaseInput
+            label="ประเภทบัญชี"
+            v-model="form.bankType"
+            :error="errors.bankType"
+          />
+          <BaseInput
+            label="ชื่อสาขา"
+            v-model="form.branchName"
+            :error="errors.branchName"
+          />
+          <BaseInput
+            label="รหัสสาขา"
+            v-model="form.branchCode"
+            :error="errors.branchCode"
+          />
+          <BaseInput
+            label="หมายเลขบัญชี"
+            v-model="form.accountNumber"
+            :error="errors.accountNumber"
+          />
+          <BaseInput
+            label="ชื่อเจ้าของบัญชี"
+            v-model="form.accountName"
+            :error="errors.accountName"
+          />
         </div>
         <div class="flex items-center mt-4">
           <input
@@ -105,7 +137,9 @@
             ในการลงทะเบียน</span
           >
         </div>
-        <div v-if="errors.acceptTerms" class="text-red-500 text-xs mt-2">{{ errors.acceptTerms }}</div>
+        <div v-if="errors.acceptTerms" class="text-red-500 text-xs mt-2">
+          {{ errors.acceptTerms }}
+        </div>
         <div class="flex justify-end mt-6">
           <BaseButton
             color="primary"
@@ -114,14 +148,14 @@
             >บันทึก</BaseButton
           >
         </div>
-      </div>
+      </Card>
     </ContentWrapper>
   </WriterLayout>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, watch } from "vue";
-import { Icon } from '@iconify/vue';
+import { Icon } from "@iconify/vue";
 
 const idCardInputRef = ref<HTMLInputElement | null>(null);
 const bankBookInputRef = ref<HTMLInputElement | null>(null);
@@ -155,21 +189,21 @@ const form = reactive({
 
 type ErrorFields = typeof form;
 const errors: Record<keyof ErrorFields, string> = reactive({
-  fullName: '',
-  phone: '',
-  idCardNumber: '',
-  idCardAddress: '',
-  sameAddress: '', // ไม่ต้อง validate จริง
-  documentAddress: '',
-  idCardFile: '',
-  bank: '',
-  bankType: '',
-  branchName: '',
-  branchCode: '',
-  accountNumber: '',
-  accountName: '',
-  bankBookFile: '',
-  acceptTerms: '',
+  fullName: "",
+  phone: "",
+  idCardNumber: "",
+  idCardAddress: "",
+  sameAddress: "", // ไม่ต้อง validate จริง
+  documentAddress: "",
+  idCardFile: "",
+  bank: "",
+  bankType: "",
+  branchName: "",
+  branchCode: "",
+  accountNumber: "",
+  accountName: "",
+  bankBookFile: "",
+  acceptTerms: "",
 });
 
 const bankOptions = [
@@ -201,24 +235,72 @@ watch(
 function validate() {
   let valid = true;
   // reset
-  (Object.keys(errors) as (keyof typeof errors)[]).forEach(k => errors[k] = '');
+  (Object.keys(errors) as (keyof typeof errors)[]).forEach(
+    (k) => (errors[k] = "")
+  );
 
-  if (!form.fullName) { errors.fullName = 'กรุณากรอกชื่อ-นามสกุล'; valid = false; }
-  if (!form.phone) { errors.phone = 'กรุณากรอกเบอร์โทรศัพท์'; valid = false; }
-  else if (!/^0[0-9]{9}$/.test(form.phone)) { errors.phone = 'เบอร์โทรศัพท์ไม่ถูกต้อง'; valid = false; }
-  if (!form.idCardNumber) { errors.idCardNumber = 'กรุณากรอกเลขบัตรประชาชน'; valid = false; }
-  else if (!/^\d{13}$/.test(form.idCardNumber)) { errors.idCardNumber = 'เลขบัตรประชาชนไม่ถูกต้อง'; valid = false; }
-  if (!form.idCardAddress) { errors.idCardAddress = 'กรุณากรอกที่อยู่ตามบัตร'; valid = false; }
-  if (!form.sameAddress && !form.documentAddress) { errors.documentAddress = 'กรุณากรอกที่อยู่สำหรับจัดส่งเอกสาร'; valid = false; }
-  if (!form.idCardFile) { errors.idCardFile = 'กรุณาอัปโหลดไฟล์บัตรประชาชน'; valid = false; }
-  if (!form.bank) { errors.bank = 'กรุณาเลือกธนาคาร'; valid = false; }
-  if (!form.bankType) { errors.bankType = 'กรุณากรอกประเภทบัญชี'; valid = false; }
-  if (!form.branchName) { errors.branchName = 'กรุณากรอกชื่อสาขา'; valid = false; }
-  if (!form.branchCode) { errors.branchCode = 'กรุณากรอกรหัสสาขา'; valid = false; }
-  if (!form.accountNumber) { errors.accountNumber = 'กรุณากรอกหมายเลขบัญชี'; valid = false; }
-  if (!form.accountName) { errors.accountName = 'กรุณากรอกชื่อเจ้าของบัญชี'; valid = false; }
-  if (!form.bankBookFile) { errors.bankBookFile = 'กรุณาอัปโหลดไฟล์สมุดบัญชี'; valid = false; }
-  if (!form.acceptTerms) { errors.acceptTerms = 'กรุณายอมรับเงื่อนไขการใช้งาน'; valid = false; }
+  if (!form.fullName) {
+    errors.fullName = "กรุณากรอกชื่อ-นามสกุล";
+    valid = false;
+  }
+  if (!form.phone) {
+    errors.phone = "กรุณากรอกเบอร์โทรศัพท์";
+    valid = false;
+  } else if (!/^0[0-9]{9}$/.test(form.phone)) {
+    errors.phone = "เบอร์โทรศัพท์ไม่ถูกต้อง";
+    valid = false;
+  }
+  if (!form.idCardNumber) {
+    errors.idCardNumber = "กรุณากรอกเลขบัตรประชาชน";
+    valid = false;
+  } else if (!/^\d{13}$/.test(form.idCardNumber)) {
+    errors.idCardNumber = "เลขบัตรประชาชนไม่ถูกต้อง";
+    valid = false;
+  }
+  if (!form.idCardAddress) {
+    errors.idCardAddress = "กรุณากรอกที่อยู่ตามบัตร";
+    valid = false;
+  }
+  if (!form.sameAddress && !form.documentAddress) {
+    errors.documentAddress = "กรุณากรอกที่อยู่สำหรับจัดส่งเอกสาร";
+    valid = false;
+  }
+  if (!form.idCardFile) {
+    errors.idCardFile = "กรุณาอัปโหลดไฟล์บัตรประชาชน";
+    valid = false;
+  }
+  if (!form.bank) {
+    errors.bank = "กรุณาเลือกธนาคาร";
+    valid = false;
+  }
+  if (!form.bankType) {
+    errors.bankType = "กรุณากรอกประเภทบัญชี";
+    valid = false;
+  }
+  if (!form.branchName) {
+    errors.branchName = "กรุณากรอกชื่อสาขา";
+    valid = false;
+  }
+  if (!form.branchCode) {
+    errors.branchCode = "กรุณากรอกรหัสสาขา";
+    valid = false;
+  }
+  if (!form.accountNumber) {
+    errors.accountNumber = "กรุณากรอกหมายเลขบัญชี";
+    valid = false;
+  }
+  if (!form.accountName) {
+    errors.accountName = "กรุณากรอกชื่อเจ้าของบัญชี";
+    valid = false;
+  }
+  if (!form.bankBookFile) {
+    errors.bankBookFile = "กรุณาอัปโหลดไฟล์สมุดบัญชี";
+    valid = false;
+  }
+  if (!form.acceptTerms) {
+    errors.acceptTerms = "กรุณายอมรับเงื่อนไขการใช้งาน";
+    valid = false;
+  }
   return valid;
 }
 
@@ -229,8 +311,4 @@ function submit() {
 }
 </script>
 
-<style scoped>
-.bg-white {
-  background: #fff;
-}
-</style>
+<style scoped></style>
