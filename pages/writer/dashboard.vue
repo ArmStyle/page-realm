@@ -5,112 +5,100 @@
       class="w-full max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 overflow-x-auto"
     >
       <!-- Dashboard Header -->
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 sm:p-6 mb-6 w-full">
-        <h2 class="text-2xl text-gray-800 dark:text-white font-bold mb-6">
-          รายงานสถิติ
-        </h2>
-
-        <!-- Overview Stats -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-6">
-          <div
-            class="p-4 stats-card bg-gradient-to-r from-orange-100 to-pink-100 dark:from-orange-900 dark:to-pink-900 rounded-xl min-w-0"
-          >
-            <div class="flex items-center justify-between">
-              <div>
-                <h3
-                  class="text-lg font-semibold text-gray-700 dark:text-orange-100"
-                >
-                  ผลงานทั้งหมด
-                </h3>
-                <p
-                  class="text-3xl font-bold text-orange-600 dark:text-orange-300 mt-2"
-                >
-                  {{ totalWorks }}
-                </p>
-                <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">
-                  เรื่อง
-                </p>
-              </div>
-              <div
-                class="w-12 h-12 sm:w-16 sm:h-16 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center"
+      <Card class="mb-6">
+        <div class="mb-6">
+          <h2 class="text-2xl text-gray-800 dark:text-white font-bold mb-6">
+            รายงานสถิติ
+          </h2>
+          <div v-for="group in statGroups" :key="group.label" class="mb-2">
+            <div class="flex items-center gap-2 mb-2">
+              <Icon
+                :icon="group.icon"
+                :class="
+                  group.label === 'นิยาย'
+                    ? 'text-xl text-indigo-500'
+                    : 'text-xl text-pink-500'
+                "
+              />
+              <span
+                :class="
+                  group.label === 'นิยาย'
+                    ? 'text-lg font-semibold text-indigo-700 dark:text-indigo-200'
+                    : 'text-lg font-semibold text-pink-700 dark:text-pink-200'
+                "
+                >{{ group.label }}</span
               >
-                <span class="text-xl sm:text-2xl">📚</span>
-              </div>
             </div>
-          </div>
-
-          <div
-            class="p-4 stats-card bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-xl min-w-0"
-          >
-            <div class="flex items-center justify-between">
-              <div>
-                <h3
-                  class="text-lg font-semibold text-gray-700 dark:text-blue-100"
-                >
-                  ยอดวิวรวม
-                </h3>
-                <p
-                  class="text-3xl font-bold text-blue-600 dark:text-blue-300 mt-2"
-                >
-                  {{ totalViews.toLocaleString() }}
-                </p>
-                <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">
-                  ครั้ง
-                </p>
-              </div>
+            <div
+              class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4 md:gap-6 mb-6"
+            >
               <div
-                class="w-12 h-12 sm:w-16 sm:h-16 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center"
+                v-for="stat in group.stats"
+                :key="stat.label"
+                :class="
+                  group.label === 'นิยาย'
+                    ? 'p-4  bg-white dark:bg-gray-800 border border-indigo-100 dark:border-indigo-700 rounded-xl flex flex-col items-center'
+                    : 'p-4  bg-white dark:bg-gray-800 border border-pink-100 dark:border-pink-700 rounded-xl flex flex-col items-center'
+                "
               >
-                <span class="text-xl sm:text-2xl">👁️</span>
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="p-4 stats-card bg-gradient-to-r from-green-100 to-teal-100 dark:from-green-900 dark:to-teal-900 rounded-xl min-w-0"
-          >
-            <div class="flex items-center justify-between">
-              <div>
-                <h3
-                  class="text-lg font-semibold text-gray-700 dark:text-green-100"
+                <Icon
+                  :icon="stat.icon"
+                  class="text-3xl mb-2"
+                  :class="
+                    group.label === 'นิยาย'
+                      ? 'text-indigo-400 dark:text-indigo-200'
+                      : 'text-pink-400 dark:text-pink-200'
+                  "
+                />
+                <div
+                  class="text-base font-semibold text-gray-700 dark:text-white"
                 >
-                  ผู้ติดตามรวม
-                </h3>
-                <p
-                  class="text-3xl font-bold text-green-600 dark:text-green-300 mt-2"
+                  {{ stat.label }}
+                </div>
+                <div
+                  class="text-2xl font-bold"
+                  :class="
+                    group.label === 'นิยาย'
+                      ? 'text-indigo-400 dark:text-indigo-200'
+                      : 'text-pink-400 dark:text-pink-200'
+                  "
                 >
-                  {{ totalFollowers.toLocaleString() }}
-                </p>
-                <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">คน</p>
-              </div>
-              <div
-                class="w-12 h-12 sm:w-16 sm:h-16 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center"
-              >
-                <span class="text-xl sm:text-2xl">❤️</span>
+                  <template v-if="stat.isCurrency"
+                    >฿{{ stat.value.toLocaleString() }}</template
+                  >
+                  <template v-else-if="stat.isNumber">{{
+                    stat.value.toLocaleString()
+                  }}</template>
+                  <template v-else>{{ stat.value }}</template>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </Card>
 
       <!-- Charts Section -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6">
         <!-- Views Chart -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 sm:p-6 w-full">
+        <div
+          class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 sm:p-6 w-full"
+        >
           <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">
             ยอดวิวรายวัน
           </h3>
           <div
             class="h-64 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900 dark:to-purple-900 rounded-lg flex items-center justify-center"
           >
-            <p class="text-gray-500 dark:text-gray-300">
+            <p class="text-gray-800 dark:text-gray-300">
               กราฟยอดวิว (ใน development)
             </p>
           </div>
         </div>
 
         <!-- Popular Works -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 sm:p-6 w-full">
+        <div
+          class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 sm:p-6 w-full"
+        >
           <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">
             ผลงานยอดนิยม
           </h3>
@@ -122,7 +110,7 @@
             >
               <div class="flex items-center space-x-3">
                 <div
-                  class="w-8 h-8 bg-orange-200 dark:bg-orange-900 rounded text-center leading-8 text-sm font-bold"
+                  class="w-8 h-8 bg-orange-200 dark:bg-orange-900 dark:text-white rounded text-center leading-8 text-sm font-bold"
                 >
                   {{ work.rank }}
                 </div>
@@ -147,7 +135,9 @@
       </div>
 
       <!-- Recent Activity -->
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 sm:p-6 mb-6 w-full">
+      <div
+        class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 sm:p-6 mb-6 w-full"
+      >
         <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">
           กิจกรรมล่าสุด
         </h3>
@@ -176,12 +166,16 @@
 </template>
 
 <script setup>
+import { Icon } from "@iconify/vue";
+
 definePageMeta({
   layout: "default",
 });
 
 // Mock data for dashboard
 const totalWorks = ref(12);
+const totalNovels = ref(7);
+const totalComics = ref(5);
 const totalViews = ref(150420);
 const totalFollowers = ref(3240);
 
@@ -216,6 +210,45 @@ const recentActivities = ref([
   },
 ]);
 
+const statGroups = [
+  {
+    label: "นิยาย",
+    icon: "mdi:book-open-variant",
+    color: "purple",
+    stats: [
+      { label: "จำนวนเรื่อง", value: 7, icon: "mdi:book-open-variant" },
+      { label: "จำนวนตอน", value: 80, icon: "mdi:format-list-numbered" },
+      { label: "ยอดวิว", value: 90000, icon: "mdi:eye", isNumber: true },
+      { label: "คนชื่นชอบ", value: 1200, icon: "mdi:heart", isNumber: true },
+      { label: "Bookmark", value: 800, icon: "mdi:bookmark", isNumber: true },
+      {
+        label: "ยอดขายรวม",
+        value: 15000,
+        icon: "mdi:cash-multiple",
+        isCurrency: true,
+      },
+    ],
+  },
+  {
+    label: "การ์ตูน",
+    icon: "mdi:palette",
+    color: "pink",
+    stats: [
+      { label: "จำนวนเรื่อง", value: 5, icon: "mdi:palette" },
+      { label: "จำนวนตอน", value: 40, icon: "mdi:format-list-numbered" },
+      { label: "ยอดวิว", value: 60420, icon: "mdi:eye", isNumber: true },
+      { label: "คนชื่นชอบ", value: 900, icon: "mdi:heart", isNumber: true },
+      { label: "Bookmark", value: 600, icon: "mdi:bookmark", isNumber: true },
+      {
+        label: "ยอดขายรวม",
+        value: 8000,
+        icon: "mdi:cash-multiple",
+        isCurrency: true,
+      },
+    ],
+  },
+];
+
 const formatDate = (date) => {
   const now = new Date();
   const diff = now - date;
@@ -233,14 +266,4 @@ const formatDate = (date) => {
 };
 </script>
 
-<style scoped>
-.stats-card {
-  transition: all 0.3s ease;
-  min-width: 0;
-}
-
-.stats-card:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-</style>
+<style scoped></style>
