@@ -15,7 +15,7 @@
           <BaseButton
             @click="addNewWork"
             variant="primary"
-            class="bg-gradient-to-r from-purple-400 to-indigo-400 dark:from-purple-700 dark:to-indigo-700 px-6 py-2"
+            class="bg-gradient-to-r from-purple-400 to-indigo-400 dark:from-purple-500 dark:to-indigo-500 px-6 py-2"
           >
             <template #icon>
               <Icon icon="mdi:plus" class="w-5 h-5" />
@@ -50,7 +50,7 @@
           <BaseButton
             @click="applyFilters"
             variant="light"
-            class="min-w-[100px] mt-2 md:mt-0"
+            class="min-w-[100px] mt-2 md:mt-0 h-[48px]"
           >
             <template #icon>
               <Icon icon="mdi:magnify" class="w-5 h-5" />
@@ -73,7 +73,10 @@
           <div
             class="w-16 h-16 mx-auto mb-4 bg-red-100 dark:bg-red-900 rounded-full flex items-center justify-center"
           >
-            <Icon icon="mdi:alert-circle-outline" class="text-2xl w-8 h-8 text-red-500 dark:text-red-300" />
+            <Icon
+              icon="mdi:alert-circle-outline"
+              class="text-2xl w-8 h-8 text-red-500 dark:text-red-300"
+            />
           </div>
           <h3 class="text-xl font-bold text-gray-700 dark:text-red-200 mb-2">
             เกิดข้อผิดพลาด
@@ -92,19 +95,17 @@
 
         <!-- Works Table -->
         <template v-else-if="filteredWorks.length > 0">
-          <div class="w-[calc(100vw_-_65px)] sm:w-[calc(100vw_-_100px)] md:w-full overflow-x-auto rounded-xl">
-            <table class="divide-y divide-gray-200 dark:divide-gray-700">
+          <div
+            class="w-[calc(100vw_-_65px)] sm:w-[calc(100vw_-_100px)] md:w-full overflow-x-auto rounded-xl"
+          >
+            <table class="w-full divide-y divide-gray-200 dark:divide-gray-700">
               <thead>
-                <tr class="bg-gray-50 dark:bg-gray-900">
-                  <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-200 w-16">ปก</th>
-                  <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-200">ชื่อเรื่อง</th>
-                  <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 dark:text-gray-200">แท็ก</th>
-                  <th class="px-4 py-3 text-center text-xs font-semibold text-gray-700 dark:text-gray-200">ตอน</th>
-                  <th class="px-4 py-3 text-center text-xs font-semibold text-gray-700 dark:text-gray-200">วิว</th>
-                  <th class="px-4 py-3 text-center text-xs font-semibold text-gray-700 dark:text-gray-200">ถูกใจ</th>
-                  <th class="px-4 py-3 text-center text-xs font-semibold text-gray-700 dark:text-gray-200">อัปเดต</th>
-                  <th class="px-4 py-3 text-center text-xs font-semibold text-gray-700 dark:text-gray-200">สถานะ</th>
-                  <th class="px-4 py-3 text-center text-xs font-semibold text-gray-700 dark:text-gray-200"></th>
+                <tr>
+                  <th class="px-4 py-3 text-left font-semibold w-16">ปก</th>
+                  <th class="px-4 py-3 text-left font-semibold min-w-[250px]">ชื่อเรื่อง</th>
+                  <th class="px-4 py-3 text-center font-semibold min-w-[90px]">อัปเดต</th>
+                  <th class="px-4 py-3 text-center font-semibold min-w-[100px]">สถานะ</th>
+                  <th class="px-4 py-3 text-center font-semibold min-w-[270px]"></th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
@@ -114,34 +115,60 @@
                   class="hover:bg-gray-50 dark:hover:bg-gray-900 transition"
                 >
                   <td class="px-4 py-3">
-                    <div class="w-12 h-16 bg-gray-200 dark:bg-gray-800 rounded flex items-center justify-center overflow-hidden">
-                      <img v-if="work.coverImage" :src="work.coverImage" :alt="work.title" class="w-full h-full object-cover" />
-                      <span v-else class="text-lg text-gray-400 dark:text-gray-500">
+                    <div
+                      class="w-12 h-16 bg-gray-200 dark:bg-gray-800 rounded flex items-center justify-center overflow-hidden"
+                    >
+                      <img
+                        v-if="work.coverImage"
+                        :src="work.coverImage"
+                        :alt="work.title"
+                        class="w-full h-full object-cover"
+                      />
+                      <span
+                        v-else
+                        class="text-lg text-gray-400 dark:text-gray-500"
+                      >
                         <Icon icon="mdi:book-open-variant" class="w-6 h-6" />
                       </span>
                     </div>
                   </td>
-                  <td class="px-4 py-3 font-medium text-gray-900 dark:text-white max-w-[180px] truncate">{{ work.title }}</td>
-                  <td class="px-4 py-3">
-                    <div class="flex flex-wrap gap-1">
-                      <span v-for="tag in work.tags.slice(0, 3)" :key="tag" class="bg-purple-200 dark:bg-purple-800 text-purple-700 dark:text-purple-200 px-2 py-0.5 rounded text-xs truncate">{{ tag }}</span>
-                      <span v-if="work.tags.length > 3" class="text-gray-500 dark:text-gray-400 text-xs px-2 py-0.5">+{{ work.tags.length - 3 }}</span>
-                    </div>
+                  <td
+                    class="px-4 py-3 font-medium text-gray-900 dark:text-white max-w-[180px] truncate"
+                  >
+                    {{ work.title }}
                   </td>
-                  <td class="px-4 py-3 text-center">{{ work.chapterCount }}</td>
-                  <td class="px-4 py-3 text-center">{{ work.viewCount.toLocaleString() }}</td>
-                  <td class="px-4 py-3 text-center">{{ work.favoriteCount.toLocaleString() }}</td>
-                  <td class="px-4 py-3 text-center">{{ formatDate(work.updatedAt) }}</td>
                   <td class="px-4 py-3 text-center">
-                    <span :class="['px-2 py-1 rounded-full text-xs font-semibold', getPublishStatusColor(work.publishStatus)]">
+                    {{ formatDate(work.updatedAt) }}
+                  </td>
+                  <td class="px-4 py-3 text-center">
+                    <span
+                      :class="[
+                        'px-2 py-1 rounded-full text-xs font-semibold',
+                        getPublishStatusColor(work.publishStatus),
+                      ]"
+                    >
                       {{ getPublishStatusText(work.publishStatus) }}
                     </span>
                   </td>
-                  <td class="px-4 py-3 text-center">
-                    <NuxtLink :to="`/writer/edit/${work.id}`" class="inline-flex items-center gap-2 px-3 py-1.5 rounded bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-medium shadow hover:from-indigo-600 hover:to-purple-600 transition-all duration-200 text-xs">
-                      <Icon icon="mdi:eye-outline" class="w-4 h-4" />
+                  <td class="px-4 py-3 text-center space-x-2">
+                    <BaseButton
+                      @click="router.push(`/writer/edit/${work.id}`)"
+                      class="flex justify-center items-center gap-1 px-3 py-1"
+                    >
+                      <template #icon>
+                        <Icon icon="mdi:eye" class="w-5 h-5" />
+                      </template>
                       <span>ดูรายละเอียด</span>
-                    </NuxtLink>
+                    </BaseButton>
+                    <BaseButton
+                      @click="router.push(`/writer/edit/${work.id}`)"
+                      class="flex justify-center items-center gap-1 px-3 py-1"
+                    >
+                      <template #icon>
+                        <Icon icon="mdi:pencil" class="w-5 h-5" />
+                      </template>
+                      <span>แก้ไข</span>
+                    </BaseButton>
                   </td>
                 </tr>
               </tbody>
@@ -154,7 +181,10 @@
           <div
             class="w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-6 bg-gradient-to-r from-purple-100 to-indigo-100 dark:from-purple-900 dark:to-indigo-900 rounded-full flex items-center justify-center"
           >
-            <Icon icon="mdi:book-open-variant" class="text-4xl sm:text-6xl w-16 h-16 sm:w-24 sm:h-24 text-purple-400 dark:text-purple-700" />
+            <Icon
+              icon="mdi:book-open-variant"
+              class="text-4xl sm:text-6xl w-16 h-16 sm:w-24 sm:h-24 text-purple-400 dark:text-purple-700"
+            />
           </div>
           <h3 class="text-2xl font-bold text-gray-700 dark:text-white mb-4">
             ยังไม่มีผลงานนิยาย

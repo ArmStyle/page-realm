@@ -34,7 +34,7 @@
     <slot v-else name="icon" />
 
     <!-- Text Content -->
-    <span v-if="$slots.default || text">
+    <span v-if="$slots.default || text" class="text-white">
       <slot>{{ loading && loadingText ? loadingText : text }}</slot>
     </span>
 

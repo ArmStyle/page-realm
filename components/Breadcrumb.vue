@@ -4,7 +4,7 @@
   </h1>
   <nav class="mt-2 mb-6 flex items-center gap-2 text-sm text-gray-500">
     <button
-      class="text-primary hover:underline flex items-center gap-1"
+      class="hover:underline flex items-center gap-1"
       @click="$emit('back')"
     >
       <IconifyIcon icon="mdi:arrow-left" class="w-4 h-4" />
