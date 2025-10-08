@@ -1,13 +1,20 @@
 import { defineStore } from 'pinia'
 import { navigateTo, useNuxtApp } from 'nuxt/app'
+import Cookies from 'js-cookie'
 
 export interface User {
-  id: string
-  profileName: string
-  profileImg: string
+  id: number
   username: string
+  displayname: string
   email: string
-  coin: number
+  coins: number
+  avatar: string | null
+  role_id: number
+  role_name: string
+  role_description: string
+  created_at: string
+  updated_at: string
+  avatar_url: string
 }
 
 export interface AuthState {
@@ -15,6 +22,7 @@ export interface AuthState {
   isLoggedIn: boolean
   isLoading: boolean
   error: string | null
+  initialized: boolean
 }
 
 export const useAuthStore = defineStore('auth', {
@@ -22,19 +30,20 @@ export const useAuthStore = defineStore('auth', {
     user: null,
     isLoggedIn: false,
     isLoading: false,
-    error: null
+    error: null,
+    initialized: false
   }),
 
   getters: {
     currentUser: (state) => state.user,
     isAuthenticated: (state) => state.isLoggedIn && !!state.user,
-    userCoin: (state) => state.user?.coin || 0,
-    userProfileImg: (state) => state.user?.profileImg || '/default-avatar.png'
+    userCoins: (state) => state.user?.coins || 0,
+    userRole: (state) => state.user?.role_name || 'User'
   },
 
   actions: {
-    // Login with username/email and password
-    async login(credentials: { usernameOrEmail: string; password: string }) {
+    // Login with email and password
+    async login(credentials: { login: string; password: string }) {
       this.isLoading = true
       this.error = null
       
@@ -46,16 +55,12 @@ export const useAuthStore = defineStore('auth', {
           this.user = response.user
           this.isLoggedIn = true
           
-          // Save to localStorage
-          if (typeof window !== 'undefined') {
-            localStorage.setItem('auth_token', response.token)
-            localStorage.setItem('user', JSON.stringify(response.user))
-          }
-          
           // Redirect to intended page or home
           await navigateTo(response.redirectTo || '/')
+          return { success: true, message: response.message }
         } else {
           this.error = response.message || 'เข้าสู่ระบบไม่สำเร็จ'
+          return { success: false, message: this.error }
         }
       } catch (error: any) {
         this.error = error.message || 'เกิดข้อผิดพลาดในการเข้าสู่ระบบ'
@@ -65,109 +70,116 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
-    // Login with Google
-    async loginWithGoogle() {
-      this.isLoading = true
-      this.error = null
-      
+    // Get user profile from server
+    async fetchUserProfile() {
       try {
         const { $authService } = useNuxtApp()
-        const response = await $authService.loginWithGoogle()
+        const response = await $authService.getUserProfile()
         
-        if (response.success && response.user && response.token) {
+        if (response.success && response.user) {
           this.user = response.user
           this.isLoggedIn = true
-          
-          // Save to localStorage
-          if (typeof window !== 'undefined') {
-            localStorage.setItem('auth_token', response.token)
-            localStorage.setItem('user', JSON.stringify(response.user))
-          }
-          
-          await navigateTo(response.redirectTo || '/')
+          return { success: true, user: response.user }
         } else {
-          this.error = response.message || 'เข้าสู่ระบบด้วย Google ไม่สำเร็จ'
+          this.logout()
+          return { success: false, message: response.message }
         }
       } catch (error: any) {
-        this.error = error.message || 'เกิดข้อผิดพลาดในการเข้าสู่ระบบด้วย Google'
-        console.error('Google login error:', error)
-      } finally {
-        this.isLoading = false
+        console.error('Profile fetch error:', error)
+        this.logout()
+        return { success: false, message: 'ไม่สามารถดึงข้อมูลผู้ใช้ได้' }
       }
     },
 
-    // Register
-    async register(userData: {
-      username: string
-      email: string
-      password: string
-      confirmPassword: string
-      recaptcha: string
-    }) {
-      this.isLoading = true
-      this.error = null
-      
+    // Update user profile
+    async updateProfile(data: { username?: string; email?: string }) {
       try {
         const { $authService } = useNuxtApp()
-        const response = await $authService.register(userData)
+        const response = await $authService.updateProfile(data)
         
-        if (response.success) {
-          // Auto login after successful registration
-          await this.login({
-            usernameOrEmail: userData.username,
-            password: userData.password
-          })
+        if (response.success && response.user) {
+          this.user = response.user
+          return { success: true, message: response.message }
         } else {
-          this.error = response.message || 'สมัครสมาชิกไม่สำเร็จ'
+          return { success: false, message: response.message }
         }
       } catch (error: any) {
-        this.error = error.message || 'เกิดข้อผิดพลาดในการสมัครสมาชิก'
-        console.error('Registration error:', error)
-      } finally {
-        this.isLoading = false
+        console.error('Profile update error:', error)
+        return { success: false, message: 'ไม่สามารถอัปเดตข้อมูลได้' }
       }
     },
 
     // Logout
-    logout() {
+    async logout() {
+      try {
+        const { $authService } = useNuxtApp()
+        await $authService.logout()
+      } catch (error) {
+        console.warn('Logout API call failed:', error)
+      }
+      
+      // Clear local state
       this.user = null
       this.isLoggedIn = false
       this.error = null
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem('auth_token')
-        localStorage.removeItem('user')
-      }
-      navigateTo('/')
+      
+      // Navigate to login page
+      await navigateTo('/')
     },
 
-    // Initialize auth state from localStorage
-    initAuth() {
-      if (typeof window !== 'undefined') {
-        const token = localStorage.getItem('auth_token')
-        const userData = localStorage.getItem('user')
+    // Initialize auth state from cookies
+    async initAuth() {
+      if (this.initialized || typeof window === 'undefined') {
+        return
+      }
+
+      this.initialized = true
+      
+      try {
+        const { $authService } = useNuxtApp()
+        const user = $authService.getUserFromCookie()
+        const token = $authService.getTokenFromCookie()
         
-        if (token && userData) {
+        if (token && user) {
+          // Set user from cookie first
+          this.user = user
+          this.isLoggedIn = true
+          
+          // Verify token with server in the background
           try {
-            this.user = JSON.parse(userData)
-            this.isLoggedIn = true
+            const verifyResponse = await $authService.verifyToken()
+            if (!verifyResponse.success) {
+              // Token is invalid, clear auth
+              this.clearAuth()
+            } else if (verifyResponse.user) {
+              // Update with fresh user data
+              this.user = verifyResponse.user
+            }
           } catch (error) {
-            console.error('Error parsing stored user data:', error)
+            // If verification fails, clear auth
+            console.warn('Token verification failed:', error)
             this.clearAuth()
           }
+        } else {
+          this.clearAuth()
         }
+      } catch (error) {
+        console.error('Error initializing auth:', error)
+        this.clearAuth()
       }
     },
 
     // Clear auth state
     clearAuth() {
+      console.log('clearAuth() called')
       this.user = null
       this.isLoggedIn = false
       this.error = null
+      this.initialized = false
       
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem('auth_token')
-        localStorage.removeItem('user')
-      }
+      // Clear cookies
+      Cookies.remove('auth_token')
+      Cookies.remove('user')
     },
 
     // Update user profile
@@ -181,13 +193,15 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
-    // Update user coin
-    updateCoin(amount: number) {
+    // Update user coins
+    updateCoins(amount: number) {
       if (this.user) {
-        this.user.coin = amount
+        this.user.coins = amount
         
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('user', JSON.stringify(this.user))
+        // Update cookie with new data
+        const token = Cookies.get('auth_token')
+        if (token) {
+          Cookies.set('user', JSON.stringify(this.user), { expires: 7 })
         }
       }
     },

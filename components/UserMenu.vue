@@ -5,8 +5,8 @@
       class="relative w-10 h-10 rounded-full overflow-hidden border-2 border-transparent hover:border-primary transition-all duration-200 shadow-md hover:shadow-lg"
     >
       <img
-        v-if="authStore.userProfileImg"
-        :src="authStore.userProfileImg"
+        v-if="authStore.user?.avatar_url"
+        :src="authStore.user.avatar_url"
         alt="avatar"
         class="w-full h-full object-cover"
       />
@@ -48,8 +48,8 @@
         >
           <div class="flex items-center gap-3">
             <img
-              v-if="authStore.userProfileImg"
-              :src="authStore.userProfileImg"
+              v-if="authStore.user?.avatar_url"
+              :src="authStore.user.avatar_url"
               alt="avatar"
               class="w-12 h-12 rounded-full border-3 border-white shadow-lg"
             />
@@ -66,7 +66,7 @@
               <h3
                 class="font-bold text-base text-gray-800 dark:text-white truncate"
               >
-                {{ authStore.user?.profileName }}
+                {{ authStore.user?.displayname || authStore.user?.username }}
               </h3>
               <p class="text-xs text-gray-500 dark:text-gray-400 truncate">
                 @{{ authStore.user?.username }}
@@ -82,7 +82,7 @@
               >
                 <Icon icon="mdi:coin" class="w-4 h-4" />
                 <span class="text-sm"
-                  >{{ authStore.userCoin.toFixed(2) }} เหรียญ</span
+                  >{{ authStore.userCoins.toFixed(2) }} เหรียญ</span
                 >
               </span>
               <button
@@ -188,8 +188,8 @@
         >
           <div class="flex items-center gap-4">
             <img
-              v-if="authStore.userProfileImg"
-              :src="authStore.userProfileImg"
+              v-if="authStore.user?.avatar_url"
+              :src="authStore.user.avatar_url"
               alt="avatar"
               class="w-20 h-20 rounded-full border-3 border-white shadow-lg"
             />
@@ -206,7 +206,7 @@
               <h3
                 class="font-bold text-2xl text-gray-800 dark:text-white truncate"
               >
-                {{ authStore.user?.profileName }}
+                {{ authStore.user?.displayname || authStore.user?.username }}
               </h3>
               <p class="text-base text-gray-500 dark:text-gray-400 truncate">
                 @{{ authStore.user?.username }}
@@ -222,7 +222,7 @@
               >
                 <Icon icon="mdi:coin" class="w-8 h-8" />
                 <span class="text-xl"
-                  >{{ authStore.userCoin.toFixed(2) }} เหรียญ</span
+                  >{{ authStore.userCoins.toFixed(2) }} เหรียญ</span
                 >
               </span>
               <button
@@ -444,6 +444,7 @@ const calculateScrollbarWidth = () => {
 
 // Close menus when clicking outside
 onMounted(() => {
+  console.log("user menu mounted", authStore.user);
   checkMobile();
   calculateScrollbarWidth();
   window.addEventListener("resize", () => {

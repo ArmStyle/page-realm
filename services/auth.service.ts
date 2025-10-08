@@ -1,7 +1,8 @@
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 export interface LoginCredentials {
-  usernameOrEmail: string
+  login: string
   password: string
 }
 
@@ -9,52 +10,75 @@ export interface RegisterData {
   username: string
   email: string
   password: string
-  confirmPassword: string
-  recaptcha: string
 }
 
 export interface User {
-  id: string
-  profileName: string
-  profileImg: string
+  id: number
   username: string
+  displayname: string
   email: string
-  coin: number
+  coins: number
+  avatar: string | null
+  role_id: number
+  role_name: string
+  role_description: string
+  created_at: string
+  updated_at: string
+  avatar_url: string
 }
 
 export interface AuthResponse {
-  success: boolean
-  message?: string
-  user?: User
-  token?: string
-  redirectTo?: string
+  success: boolean;
+  message?: string;
+  user?: User;
+  token?: string;
+  redirectTo?: string;
+}
+
+export interface ProfileUpdateData {
+  username?: string;
+  email?: string;
 }
 
 class AuthService {
   private api = axios.create({
-    baseURL: 'https://jsonplaceholder.typicode.com', // Mock API base URL
+    baseURL: "",
     timeout: 10000,
     headers: {
-      'Content-Type': 'application/json'
-    }
-  })
+      "Content-Type": "application/json",
+    },
+  });
 
   constructor() {
+    // Set base URL from runtime config or environment
+    if (typeof window !== "undefined") {
+      try {
+        const config = useRuntimeConfig();
+        this.api.defaults.baseURL = config.public.apiBaseUrl as string;
+      } catch (error) {
+        // Fallback to hardcoded URL if runtime config is not available
+        this.api.defaults.baseURL =
+          "https://mistpageapi-production.up.railway.app/api";
+      }
+    } else {
+      // Server-side fallback
+      this.api.defaults.baseURL =
+        "https://mistpageapi-production.up.railway.app/api";
+    }
+
     // Add request interceptor to include auth token
     this.api.interceptors.request.use(
       (config) => {
-        if (typeof window !== 'undefined') {
-          const token = localStorage.getItem('auth_token')
-          if (token) {
-            config.headers.Authorization = `Bearer ${token}`
-          }
+        const token = Cookies.get("auth_token");
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
         }
-        return config
+        return config;
       },
       (error) => {
-        return Promise.reject(error)
+        return Promise.reject(error);
       }
-    )
+    );
 
     // Add response interceptor for error handling
     this.api.interceptors.response.use(
@@ -62,150 +86,205 @@ class AuthService {
       (error) => {
         if (error.response?.status === 401) {
           // Token expired or invalid, clear auth
-          if (typeof window !== 'undefined') {
-            localStorage.removeItem('auth_token')
-            localStorage.removeItem('user')
-            window.location.href = '/login'
+          this.clearAuthData();
+          if (typeof window !== "undefined") {
+            console.log('401 error - redirecting to home page');
+            window.location.href = "/";
           }
         }
-        return Promise.reject(error)
+        return Promise.reject(error);
       }
-    )
+    );
   }
 
-  // Mock login function (replace with real API)
+  // Clear authentication data
+  private clearAuthData() {
+    Cookies.remove("auth_token");
+    Cookies.remove("user");
+  }
+
+  // Save authentication data
+  private saveAuthData(user: User, token: string) {
+    // Save for 7 days
+    const expires = 7;
+    Cookies.set("auth_token", token, { expires });
+    Cookies.set("user", JSON.stringify(user), { expires });
+  }
+
+  // Login function
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
     try {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
-      // Mock validation
-      if (!credentials.usernameOrEmail || !credentials.password) {
+      const { data } = await this.api.post("/auth/login", credentials);
+
+      if (data.success) {
+        this.saveAuthData(data.data.user, data.data.token);
+
+        return {
+          success: true,
+          user: data.data.user,
+          token: data.data.token,
+          message: "เข้าสู่ระบบสำเร็จ",
+        };
+      } else {
         return {
           success: false,
-          message: 'กรุณากรอก username/email และ password'
-        }
+          message: "ข้อมูลการเข้าสู่ระบบไม่ถูกต้อง",
+        };
       }
+    } catch (error: any) {
+      return {
+        success: false,
+        message:
+          error.response?.data?.message || "เกิดข้อผิดพลาดในการเข้าสู่ระบบ",
+      };
+    }
+  }
 
-      // Mock successful login
-      if (credentials.password === 'password123') {
-        const mockUser: User = {
-          id: '1',
-          profileName: credentials.usernameOrEmail.includes('@') ? 'ผู้ใช้ใหม่' : credentials.usernameOrEmail,
-          profileImg: 'https://placehold.co/40x40?text=U',
-          username: credentials.usernameOrEmail.includes('@') ? credentials.usernameOrEmail.split('@')[0] : credentials.usernameOrEmail,
-          email: credentials.usernameOrEmail.includes('@') ? credentials.usernameOrEmail : `${credentials.usernameOrEmail}@example.com`,
-          coin: 1000
+  // Logout function
+  async logout(): Promise<AuthResponse> {
+    try {
+      // Call logout endpoint if needed
+      await this.api.post("/auth/logout");
+    } catch (error) {
+      // Continue with logout even if API call fails
+      console.warn("Logout API call failed:", error);
+    }
+
+    // Clear local auth data
+    this.clearAuthData();
+
+    return {
+      success: true,
+      message: "ออกจากระบบสำเร็จ",
+    };
+  }
+
+  // Get current user profile
+  async getUserProfile(): Promise<AuthResponse> {
+    try {
+      const { data } = await this.api.get("/users/profile");
+
+      if (data.success && data.data.user) {
+        // Update cookie with fresh user data
+        const token = Cookies.get("auth_token");
+        if (token) {
+          this.saveAuthData(data.data.user, token);
         }
 
         return {
           success: true,
-          user: mockUser,
-          token: 'mock_jwt_token_' + Date.now(),
-          message: 'เข้าสู่ระบบสำเร็จ'
-        }
+          user: data.data.user,
+        };
       } else {
         return {
           success: false,
-          message: 'username/email หรือ password ไม่ถูกต้อง'
-        }
+          message: data.message || "ไม่สามารถดึงข้อมูลผู้ใช้ได้",
+        };
       }
     } catch (error: any) {
       return {
         success: false,
-        message: error.message || 'เกิดข้อผิดพลาดในการเข้าสู่ระบบ'
+        message:
+          error.response?.data?.message || "เกิดข้อผิดพลาดในการดึงข้อมูลผู้ใช้",
+      };
+    }
+  }
+
+  // Update user profile
+  async updateProfile(data: ProfileUpdateData): Promise<AuthResponse> {
+    try {
+      const { data: responseData } = await this.api.put("/users/profile", data);
+
+      if (responseData.success && responseData.data.user) {
+        // Update cookie with updated user data
+        const token = Cookies.get("auth_token");
+        if (token) {
+          this.saveAuthData(responseData.data.user, token);
+        }
+
+        return {
+          success: true,
+          user: responseData.data.user,
+          message: responseData.message || "อัปเดตข้อมูลสำเร็จ",
+        };
+      } else {
+        return {
+          success: false,
+          message: responseData.message || "ไม่สามารถอัปเดตข้อมูลได้",
+        };
       }
-    }
-  }
-
-  // Mock logout function
-  async logout(): Promise<AuthResponse> {
-    await new Promise(resolve => setTimeout(resolve, 500))
-    return {
-      success: true,
-      message: 'ออกจากระบบสำเร็จ'
-    }
-  }
-
-  // Mock Google login
-  async loginWithGoogle(): Promise<AuthResponse> {
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    const mockUser: User = {
-      id: '2',
-      profileName: 'Google User',
-      profileImg: 'https://placehold.co/40x40?text=G',
-      username: 'googleuser',
-      email: 'googleuser@gmail.com',
-      coin: 500
-    }
-    return {
-      success: true,
-      user: mockUser,
-      token: 'mock_google_token_' + Date.now(),
-      message: 'เข้าสู่ระบบด้วย Google สำเร็จ'
-    }
-  }
-
-  // Mock register function
-  async register(data: RegisterData): Promise<AuthResponse> {
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    if (!data.username || !data.email || !data.password || !data.confirmPassword || !data.recaptcha) {
+    } catch (error: any) {
       return {
         success: false,
-        message: 'กรุณากรอกข้อมูลให้ครบถ้วน'
-      }
-    }
-    if (data.password !== data.confirmPassword) {
-      return {
-        success: false,
-        message: 'รหัสผ่านไม่ตรงกัน'
-      }
-    }
-    // Mock success
-    return {
-      success: true,
-      message: 'สมัครสมาชิกสำเร็จ'
+        message:
+          error.response?.data?.message || "เกิดข้อผิดพลาดในการอัปเดตข้อมูล",
+      };
     }
   }
 
-  // Verify token (mock)
+  // Get user from cookie
+  getUserFromCookie(): User | null {
+    try {
+      const userStr = Cookies.get("user");
+      console.log('getUserFromCookie - userStr:', userStr ? 'found' : 'not found');
+      return userStr ? JSON.parse(userStr) : null;
+    } catch (error) {
+      console.error("Error parsing user from cookie:", error);
+      return null;
+    }
+  }
+
+  // Get token from cookie
+  getTokenFromCookie(): string | null {
+    const token = Cookies.get("auth_token") || null;
+    console.log('getTokenFromCookie - token:', token ? 'found' : 'not found');
+    return token;
+  }
+
+  // Check if user is authenticated
+  isAuthenticated(): boolean {
+    const token = this.getTokenFromCookie();
+    const user = this.getUserFromCookie();
+    return !!(token && user);
+  }
+
+  // Verify token with server
   async verifyToken(): Promise<AuthResponse> {
     try {
-      const token = typeof window !== 'undefined' ? localStorage.getItem('auth_token') : null
-      
+      const token = this.getTokenFromCookie();
+
       if (!token) {
         return {
           success: false,
-          message: 'ไม่พบ token'
-        }
+          message: "ไม่พบ token",
+        };
       }
 
-      // Simulate token verification
-      await new Promise(resolve => setTimeout(resolve, 500))
-      
-      // Mock token validation
-      if (token.startsWith('mock_')) {
-        const userData = typeof window !== 'undefined' ? localStorage.getItem('user') : null
-        
-        if (userData) {
-          return {
-            success: true,
-            user: JSON.parse(userData)
-          }
-        }
-      }
+      // Get fresh user data from server
+      const profileResponse = await this.getUserProfile();
 
-      return {
-        success: false,
-        message: 'Token ไม่ถูกต้อง'
+      if (profileResponse.success && profileResponse.user) {
+        return {
+          success: true,
+          user: profileResponse.user,
+        };
+      } else {
+        // Token is invalid, clear auth data
+        this.clearAuthData();
+        return {
+          success: false,
+          message: "Token ไม่ถูกต้อง",
+        };
       }
     } catch (error: any) {
+      // Token is invalid, clear auth data
+      this.clearAuthData();
       return {
         success: false,
-        message: error.message || 'เกิดข้อผิดพลาดในการตรวจสอบ token'
-      }
+        message: "Token ไม่ถูกต้อง",
+      };
     }
   }
 }
 
-export default AuthService
+export default AuthService;

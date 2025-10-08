@@ -3,9 +3,16 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     '@nuxtjs/tailwindcss',
-    '@pinia/nuxt'
+    '@pinia/nuxt',
+    '@vueuse/nuxt'
   ],
   css: ['~/assets/css/main.css'],
+  runtimeConfig: {
+    public: {
+      apiBaseUrl: process.env.NUXT_PUBLIC_API_BASE_URL || 'https://mistpageapi-production.up.railway.app/api',
+      appName: process.env.NUXT_PUBLIC_APP_NAME || 'PageRealm'
+    }
+  },
   app: {
     head: {
       title: 'PageRealm - อ่านมังงะและนิยายออนไลน์',

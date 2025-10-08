@@ -15,8 +15,13 @@
 
 <script setup>
 import { useSettingsStore } from "~/stores/settings";
+import { useAuthStore } from "~/stores/auth";
+
 const settingsStore = useSettingsStore();
-onMounted(() => {
+const authStore = useAuthStore();
+
+onMounted(async () => {
   settingsStore.initSettings();
+  await authStore.initAuth();
 });
 </script>
