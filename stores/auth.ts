@@ -23,6 +23,7 @@ export interface AuthState {
   isLoading: boolean
   error: string | null
   initialized: boolean
+  lastLoginTime: number | null
 }
 
 export const useAuthStore = defineStore('auth', {
@@ -31,7 +32,8 @@ export const useAuthStore = defineStore('auth', {
     isLoggedIn: false,
     isLoading: false,
     error: null,
-    initialized: false
+    initialized: false,
+    lastLoginTime: null
   }),
 
   getters: {
@@ -54,6 +56,7 @@ export const useAuthStore = defineStore('auth', {
         if (response.success && response.user && response.token) {
           this.user = response.user
           this.isLoggedIn = true
+          this.lastLoginTime = Date.now()
           
           // Redirect to intended page or home
           await navigateTo(response.redirectTo || '/')
@@ -65,6 +68,7 @@ export const useAuthStore = defineStore('auth', {
       } catch (error: any) {
         this.error = error.message || 'เกิดข้อผิดพลาดในการเข้าสู่ระบบ'
         console.error('Login error:', error)
+        return { success: false, message: this.error }
       } finally {
         this.isLoading = false
       }
@@ -145,20 +149,26 @@ export const useAuthStore = defineStore('auth', {
           this.user = user
           this.isLoggedIn = true
           
-          // Verify token with server in the background
-          try {
-            const verifyResponse = await $authService.verifyToken()
-            if (!verifyResponse.success) {
-              // Token is invalid, clear auth
+          // ไม่ต้อง verify token ถ้าเพิ่ง login ไปไม่เกิน 5 นาที (300,000 ms)
+          const timeSinceLogin = this.lastLoginTime ? Date.now() - this.lastLoginTime : Infinity
+          const shouldSkipVerify = timeSinceLogin < 300000 // 5 minutes
+          
+          if (!shouldSkipVerify) {
+            // Verify token with server in the background
+            try {
+              const verifyResponse = await $authService.verifyToken()
+              if (!verifyResponse.success) {
+                // Token is invalid, clear auth
+                this.clearAuth()
+              } else if (verifyResponse.user) {
+                // Update with fresh user data
+                this.user = verifyResponse.user
+              }
+            } catch (error) {
+              // If verification fails, clear auth
+              console.warn('Token verification failed:', error)
               this.clearAuth()
-            } else if (verifyResponse.user) {
-              // Update with fresh user data
-              this.user = verifyResponse.user
             }
-          } catch (error) {
-            // If verification fails, clear auth
-            console.warn('Token verification failed:', error)
-            this.clearAuth()
           }
         } else {
           this.clearAuth()
@@ -176,6 +186,7 @@ export const useAuthStore = defineStore('auth', {
       this.isLoggedIn = false
       this.error = null
       this.initialized = false
+      this.lastLoginTime = null
       
       // Clear cookies
       Cookies.remove('auth_token')

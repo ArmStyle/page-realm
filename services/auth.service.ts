@@ -85,11 +85,16 @@ class AuthService {
       (response) => response,
       (error) => {
         if (error.response?.status === 401) {
-          // Token expired or invalid, clear auth
-          this.clearAuthData();
-          if (typeof window !== "undefined") {
-            console.log('401 error - redirecting to home page');
-            window.location.href = "/";
+          // Check if this is a login request - if so, don't redirect
+          const isLoginRequest = error.config?.url?.includes('/auth/login');
+          
+          if (!isLoginRequest) {
+            // Token expired or invalid, clear auth and redirect
+            this.clearAuthData();
+            if (typeof window !== "undefined") {
+              console.log('401 error - redirecting to home page');
+              window.location.href = "/";
+            }
           }
         }
         return Promise.reject(error);
