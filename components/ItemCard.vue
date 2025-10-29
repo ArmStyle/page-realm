@@ -35,7 +35,7 @@
     <!-- Content -->
     <div class="p-2 sm:p-3">
       <!-- Title -->
-      <NuxtLink :to="`/detail/${item.slug || item.id}`">
+      <NuxtLink :to="`/${item.slug || item.id}`">
         <h3 class="font-semibold text-gray-800 dark:text-white text-xs sm:text-sm mb-1 line-clamp-2 group-hover:text-primary transition-colors leading-tight cursor-pointer">
           {{ item.title }}
         </h3>
@@ -64,7 +64,7 @@
       <!-- Action Button - Smaller -->
       <div class="flex gap-1">
         <NuxtLink 
-          :to="`/detail/${item.slug || item.id}`"
+          :to="`/${item.slug || item.id}`"
           class="flex-1 text-center bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 py-1.5 rounded-md transition-colors text-xs font-medium"
         >
           รายละเอียด

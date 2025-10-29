@@ -159,7 +159,7 @@ const isEnd = ref(false)
 
 // Navigation function
 const navigateToNovel = (slug) => {
-  navigateTo(`/detail/${slug}`)
+  navigateTo(`/${slug}`)
 }
 
 // Handle swiper events to update navigation button states

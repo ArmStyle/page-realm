@@ -105,7 +105,7 @@ const computedSubtitle = computed(() => {
 // Methods
 const navigateToDetail = (slug) => {
   emit('itemClick', slug)
-  navigateTo(`/detail/${slug}`)
+  navigateTo(`/${slug}`)
 }
 
 const formatLastUpdate = (date) => {

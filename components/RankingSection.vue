@@ -199,7 +199,7 @@ const getRankingStyle = (rank) => {
 }
 
 const navigateToDetail = (slug) => {
-  navigateTo(`/detail/${slug}`)
+  navigateTo(`/${slug}`)
 }
 </script>
 

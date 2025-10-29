@@ -56,659 +56,95 @@
       <RecommendSwipe
         title="การ์ตูนยอดฮิต...ตลอดกาล"
         subtitle="เรื่องราวที่ทุกคนหลงใหล อ่านแล้วติดตามต่อ"
-        :novels="popularNovels"
+        :novels="popularManga"
       />
 
       <!-- Ranking Section -->
-      <RankingSection
+      <!-- <RankingSection
         :top-novels="topNovels"
         :top-manga="topManga"
         :top-new-releases="topNewReleases"
-      />
+      /> -->
 
       <!-- Last Update Section -->
-      <LastUpdateSection
+      <!-- <LastUpdateSection
         :items="lastUpdates"
         :show-load-more="true"
         :loading="false"
         @load-more="handleLoadMore"
         @item-click="handleItemClick"
         @refresh="handleRefresh"
-      />
+      /> -->
 
 
     </ContentWrapper>
   </div>
 </template>
 
-<script setup>
-// Sample data matching the pagerealm.vercel.app structure
-const popularNovels = [
-  {
-    id: 1,
-    title: "เทพธิดาแห่งความมืด",
-    author: "นักเขียนลึกลับ",
-    category: "แฟนตาซี",
-    rating: 4.8,
-    chapters: 125,
-    views: "89K",
-    slug: "goddess-of-darkness",
-    isNew: true,
-    cover:
-      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=250&h=350&fit=crop",
-  },
-  {
-    id: 2,
-    title: "รักนี้ในโลกมายากล",
-    author: "ปากกาทอง",
-    category: "โรแมนซ์",
-    rating: 4.6,
-    chapters: 89,
-    views: "156K",
-    slug: "love-in-magic-world",
-    cover:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=250&h=350&fit=crop",
-  },
-  {
-    id: 3,
-    title: "ดาบพิฆาตมาร",
-    author: "อาจารย์ดาบ",
-    category: "แอคชั่น",
-    rating: 4.9,
-    chapters: 203,
-    views: "92K",
-    slug: "demon-slayer-sword",
-    cover:
-      "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=250&h=350&fit=crop",
-  },
-  {
-    id: 4,
-    title: "นักสืบเมืองปริศนา",
-    author: "เชอร์ล็อคไทย",
-    category: "สืบสวน",
-    rating: 4.7,
-    chapters: 76,
-    views: "178K",
-    slug: "mystery-city-detective",
-    cover:
-      "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=250&h=350&fit=crop",
-  },
-  {
-    id: 5,
-    title: "มหาศึกนักรบเวทย์",
-    author: "นักเขียนเวทมนตร์",
-    category: "แฟนตาซี",
-    rating: 4.5,
-    chapters: 156,
-    views: "143K",
-    slug: "magic-warrior-battle",
-    cover:
-      "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=250&h=350&fit=crop",
-  },
-  {
-    id: 6,
-    title: "จักรพรรดิแห่งดาว",
-    author: "อวกาศนิยาย",
-    category: "ไซไฟ",
-    rating: 4.7,
-    chapters: 298,
-    views: "267K",
-    slug: "star-emperor",
-    cover:
-      "https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=250&h=350&fit=crop",
-  },
-  {
-    id: 7,
-    title: "นางฟ้าผู้พิทักษ์",
-    author: "นักเขียนสวรรค์",
-    category: "แฟนตาซี",
-    rating: 4.4,
-    chapters: 94,
-    views: "78K",
-    slug: "guardian-angel",
-    cover:
-      "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=250&h=350&fit=crop",
-  },
-  {
-    id: 8,
-    title: "ยอดนักสู้มิติคู่ขนาน",
-    author: "มิติเขียน",
-    category: "ไซไฟ",
-    rating: 4.6,
-    chapters: 167,
-    views: "134K",
-    slug: "parallel-dimension-fighter",
-    cover:
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=250&h=350&fit=crop",
-  },
-  {
-    id: 9,
-    title: "นักเวทย์หน้าใส",
-    author: "เวทมนต์คิวท์",
-    category: "แฟนตาซี",
-    rating: 4.3,
-    chapters: 67,
-    views: "95K",
-    slug: "cute-wizard",
-    isNew: true,
-    cover:
-      "https://images.unsplash.com/photo-1578662015886-3683d21bfe50?w=250&h=350&fit=crop",
-  },
-  {
-    id: 10,
-    title: "ราชินีแห่งความตาย",
-    author: "ปีศาจเขียน",
-    category: "สยองขวัญ",
-    rating: 4.8,
-    chapters: 112,
-    views: "201K",
-    slug: "queen-of-death",
-    cover:
-      "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=250&h=350&fit=crop",
-  },
-  {
-    id: 11,
-    title: "ฮีโร่แห่งอะคาเดมี",
-    author: "โรงเรียนเขียน",
-    category: "แอคชั่น",
-    rating: 4.6,
-    chapters: 189,
-    views: "176K",
-    slug: "academy-hero",
-    cover:
-      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=250&h=350&fit=crop",
-  },
-  {
-    id: 12,
-    title: "เจ้าหญิงพิทักษ์ป่า",
-    author: "ธรรมชาติเขียน",
-    category: "แฟนตาซี",
-    rating: 4.5,
-    chapters: 145,
-    views: "118K",
-    slug: "forest-guardian-princess",
-    isNew: true,
-    cover:
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=250&h=350&fit=crop",
-  },
-  {
-    id: 13,
-    title: "ฮีโร่แห่งอนาคต",
-    author: "ไซไฟเขียน",
-    category: "ไซไฟ",
-    rating: 4.7,
-    chapters: 134,
-    views: "167K",
-    slug: "future-hero",
-    cover:
-      "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=250&h=350&fit=crop",
-  },
-  {
-    id: 14,
-    title: "นักสู้ดวงดาว",
-    author: "ดาวเขียน",
-    category: "แอคชั่น",
-    rating: 4.4,
-    chapters: 98,
-    views: "89K",
-    slug: "star-fighter",
-    cover:
-      "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=250&h=350&fit=crop",
-  },
-  {
-    id: 15,
-    title: "ราชาแห่งแสง",
-    author: "แสงเขียน",
-    category: "แฟนตาซี",
-    rating: 4.8,
-    chapters: 211,
-    views: "234K",
-    slug: "king-of-light",
-    isNew: true,
-    cover:
-      "https://images.unsplash.com/photo-1578662015886-3683d21bfe50?w=250&h=350&fit=crop",
-  },
-  {
-    id: 16,
-    title: "เทพีแห่งน้ำแข็ง",
-    author: "น้ำแข็งเขียน",
-    category: "แฟนตาซี",
-    rating: 4.6,
-    chapters: 156,
-    views: "145K",
-    slug: "ice-goddess",
-    cover:
-      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=250&h=350&fit=crop",
-  },
-  {
-    id: 17,
-    title: "รักแรกในโลกเกม",
-    author: "เกมเมอร์เขียน",
-    category: "โรแมนซ์",
-    rating: 4.3,
-    chapters: 87,
-    views: "123K",
-    slug: "first-love-in-game-world",
-    cover:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=250&h=350&fit=crop",
-  },
-  {
-    id: 18,
-    title: "เวทมนตร์แห่งมิติ",
-    author: "มิติเวทย์",
-    category: "แฟนตาซี",
-    rating: 4.5,
-    chapters: 178,
-    views: "189K",
-    slug: "dimension-magic",
-    cover:
-      "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=250&h=350&fit=crop",
-  },
-  {
-    id: 19,
-    title: "นักฆ่าแห่งเงา",
-    author: "เงาเขียน",
-    category: "แอคชั่น",
-    rating: 4.7,
-    chapters: 143,
-    views: "167K",
-    slug: "shadow-assassin",
-    cover:
-      "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=250&h=350&fit=crop",
-  },
-  {
-    id: 20,
-    title: "ดาบเทพแห่งสวรรค์",
-    author: "สวรรค์เขียน",
-    category: "แฟนตาซี",
-    rating: 4.9,
-    chapters: 267,
-    views: "298K",
-    slug: "heaven-divine-sword",
-    cover:
-      "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=250&h=350&fit=crop",
-  },
-  {
-    id: 21,
-    title: "จักรพรรดินีแห่งไฟ",
-    author: "ไฟเขียน",
-    category: "แฟนตาซี",
-    rating: 4.6,
-    chapters: 189,
-    views: "234K",
-    slug: "fire-empress",
-    isNew: true,
-    cover:
-      "https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=250&h=350&fit=crop",
-  },
-  {
-    id: 22,
-    title: "ปีศาจน้อยผู้น่ารัก",
-    author: "ปีศาจคิวท์",
-    category: "แฟนตาซี",
-    rating: 4.4,
-    chapters: 76,
-    views: "89K",
-    slug: "cute-little-demon",
-    cover:
-      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=250&h=350&fit=crop",
-  },
-  {
-    id: 23,
-    title: "กษัตริย์แห่งเวลา",
-    author: "เวลาเขียน",
-    category: "ไซไฟ",
-    rating: 4.8,
-    chapters: 198,
-    views: "276K",
-    slug: "time-king",
-    cover:
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=250&h=350&fit=crop",
-  },
-  {
-    id: 24,
-    title: "นางฟ้าแห่งดนตรี",
-    author: "ดนตรีเขียน",
-    category: "โรแมนซ์",
-    rating: 4.5,
-    chapters: 123,
-    views: "156K",
-    slug: "music-angel",
-    cover:
-      "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=250&h=350&fit=crop",
-  },
-  {
-    id: 25,
-    title: "มหาเวทย์แห่งความมืด",
-    author: "ความมืดเขียน",
-    category: "แฟนตาซี",
-    rating: 4.7,
-    chapters: 234,
-    views: "298K",
-    slug: "dark-archmage",
-    cover:
-      "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=250&h=350&fit=crop",
-  },
-  {
-    id: 26,
-    title: "ฮีโร่โรงเรียนมายากล",
-    author: "โรงเรียนเขียน",
-    category: "แฟนตาซี",
-    rating: 4.6,
-    chapters: 167,
-    views: "189K",
-    slug: "magic-school-hero",
-    isNew: true,
-    cover:
-      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=250&h=350&fit=crop",
-  },
-  {
-    id: 27,
-    title: "นักรบแห่งฟ้าผ่า",
-    author: "ฟ้าผ่าเขียน",
-    category: "แอคชั่น",
-    rating: 4.5,
-    chapters: 145,
-    views: "167K",
-    slug: "lightning-warrior",
-    cover:
-      "https://images.unsplash.com/photo-1578662015886-3683d21bfe50?w=250&h=350&fit=crop",
-  },
-  {
-    id: 28,
-    title: "เจ้าหญิงแห่งทะเล",
-    author: "ทะเลเขียน",
-    category: "แฟนตาซี",
-    rating: 4.4,
-    chapters: 98,
-    views: "123K",
-    slug: "sea-princess",
-    cover:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=250&h=350&fit=crop",
-  },
-  {
-    id: 29,
-    title: "ยอดนักสู้แห่งจักรวาล",
-    author: "จักรวาลเขียน",
-    category: "ไซไฟ",
-    rating: 4.8,
-    chapters: 278,
-    views: "345K",
-    slug: "universe-fighter",
-    cover:
-      "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=250&h=350&fit=crop",
-  },
-  {
-    id: 30,
-    title: "มังกรทองแห่งตำนาน",
-    author: "มังกรเขียน",
-    category: "แฟนตาซี",
-    rating: 4.9,
-    chapters: 312,
-    views: "567K",
-    slug: "golden-dragon-legend",
-    isNew: true,
-    cover:
-      "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=250&h=350&fit=crop",
-  },
-];
+<script setup lang="ts">
+import type { Series } from '~/types/series'
 
-const categories = [
-  { name: "แฟนตาซี", emoji: "🔮", count: 1247, slug: "fantasy" },
-  { name: "โรแมนซ์", emoji: "💕", count: 892, slug: "romance" },
-  { name: "แอคชั่น", emoji: "⚔️", count: 634, slug: "action" },
-  { name: "สืบสวน", emoji: "🔍", count: 423, slug: "mystery" },
-  { name: "ไซไฟ", emoji: "🚀", count: 567, slug: "scifi" },
-  { name: "สยองขวัญ", emoji: "👻", count: 298, slug: "horror" },
-];
+// ใช้ composable สำหรับ popular novels
+const { 
+  series: popularNovelsData, 
+  loading: loadingNovels,
+  fetchPopularSeries: fetchPopularNovels 
+} = useSeries()
 
-// Top 5 Novels for ranking
-const topNovels = [
-  {
-    id: 1,
-    title: "เทพธิดาแห่งความมืด",
-    author: "นักเขียนลึกลับ",
-    rating: 4.8,
-    views: "89K",
-    slug: "goddess-of-darkness",
-    cover: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=250&h=350&fit=crop",
-  },
-  {
-    id: 20,
-    title: "ดาบเทพแห่งสวรรค์",
-    author: "สวรรค์เขียน",
-    rating: 4.9,
-    views: "298K",
-    slug: "heaven-divine-sword",
-    cover: "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=250&h=350&fit=crop",
-  },
-  {
-    id: 29,
-    title: "ยอดนักสู้แห่งจักรวาล",
-    author: "จักรวาลเขียน",
-    rating: 4.8,
-    views: "345K",
-    slug: "universe-fighter",
-    cover: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=250&h=350&fit=crop",
-  },
-  {
-    id: 19,
-    title: "นักฆ่าแห่งเงา",
-    author: "เงาเขียน",
-    rating: 4.7,
-    views: "167K",
-    slug: "shadow-assassin",
-    cover: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=250&h=350&fit=crop",
-  },
-  {
-    id: 6,
-    title: "จักรพรรดิแห่งดาว",
-    author: "อวกาศนิยาย",
-    rating: 4.7,
-    views: "267K",
-    slug: "star-emperor",
-    cover: "https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=250&h=350&fit=crop",
-  },
-];
+// ใช้ composable สำหรับ popular manga
+const { 
+  series: popularMangaData, 
+  loading: loadingManga,
+  fetchPopularSeries: fetchPopularManga 
+} = useSeries()
 
-// Top 5 Manga for ranking
-const topManga = [
-  {
-    id: 31,
-    title: "นักสู้ซามูไรโบราณ",
-    author: "มังงะซึยาม่า",
-    rating: 4.9,
-    views: "456K",
-    slug: "ancient-samurai-warrior",
-    cover: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=250&h=350&fit=crop",
-  },
-  {
-    id: 32,
-    title: "เทพีการ์ตูนสีชมพู",
-    author: "มังงะคิวท์",
-    rating: 4.8,
-    views: "389K",
-    slug: "pink-manga-goddess",
-    cover: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=250&h=350&fit=crop",
-  },
-  {
-    id: 33,
-    title: "มหาศึกนินจาแห่งอนาคต",
-    author: "นินจะเมกะ",
-    rating: 4.7,
-    views: "234K",
-    slug: "future-ninja-battle",
-    cover: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=250&h=350&fit=crop",
-  },
-  {
-    id: 34,
-    title: "โรงเรียนยอดฮีโร่",
-    author: "สคูลมังงะ",
-    rating: 4.6,
-    views: "312K",
-    slug: "hero-academy-school",
-    cover: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=250&h=350&fit=crop",
-  },
-  {
-    id: 35,
-    title: "ราชินีแห่งมนตรา",
-    author: "แฟนตาซีมังงะ",
-    rating: 4.5,
-    views: "278K",
-    slug: "magic-queen",
-    cover: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=250&h=350&fit=crop",
-  },
-];
+// Transform API data to component format
+const transformSeries = (seriesItem: Series) => {
+  try {
+    return {
+      id: seriesItem.id,
+      title: seriesItem.title,
+      author: seriesItem.author_name,
+      category: seriesItem.category_name,
+      rating: seriesItem.rating,
+      chapters: seriesItem.chapter_count,
+      // views: seriesItem.views >= 1000 
+      //   ? `${(seriesItem.views / 1000).toFixed(0)}K` 
+      //   : seriesItem.views.toString(),
+      slug: seriesItem.id.toString(), // ใช้ ID แทน slug หรือสร้าง slug จาก title
+      isNew: false, // สามารถเช็คจาก created_at ได้
+      cover: seriesItem.cover_image_url,
+    }
+  } catch (error) {
+    return null
+  }
+}
 
-// Top 5 New Releases
-const topNewReleases = [
-  {
-    id: 30,
-    title: "มังกรทองแห่งตำนาน",
-    author: "มังกรเขียน",
-    rating: 4.9,
-    views: "567K",
-    slug: "golden-dragon-legend",
-    cover: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=250&h=350&fit=crop",
-  },
-  {
-    id: 26,
-    title: "ฮีโร่โรงเรียนมายากล",
-    author: "โรงเรียนเขียน",
-    rating: 4.6,
-    views: "189K",
-    slug: "magic-school-hero",
-    cover: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=250&h=350&fit=crop",
-  },
-  {
-    id: 21,
-    title: "จักรพรรดินีแห่งไฟ",
-    author: "ไฟเขียน",
-    rating: 4.6,
-    views: "234K",
-    slug: "fire-empress",
-    cover: "https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=250&h=350&fit=crop",
-  },
-  {
-    id: 15,
-    title: "ราชาแห่งแสง",
-    author: "แสงเขียน",
-    rating: 4.8,
-    views: "234K",
-    slug: "king-of-light",
-    cover: "https://images.unsplash.com/photo-1578662015886-3683d21bfe50?w=250&h=350&fit=crop",
-  },
-  {
-    id: 12,
-    title: "เจ้าหญิงพิทักษ์ป่า",
-    author: "ธรรมชาติเขียน",
-    rating: 4.5,
-    views: "118K",
-    slug: "forest-guardian-princess",
-    cover: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=250&h=350&fit=crop",
-  },
-];
+// Computed properties for transformed data
+const popularNovels = computed(() => 
+  popularNovelsData.value
+    .map(transformSeries)
+    .filter(item => item !== null)
+)
 
-// Last 10 Updates
-const lastUpdates = [
-  {
-    id: 1,
-    title: "เทพธิดาแห่งความมืด",
-    author: "นักเขียนลึกลับ",
-    slug: "goddess-of-darkness",
-    latestChapter: 125,
-    updateTime: "2 ชม.",
-    cover: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=250&h=350&fit=crop",
-  },
-  {
-    id: 30,
-    title: "มังกรทองแห่งตำนาน",
-    author: "มังกรเขียน",
-    slug: "golden-dragon-legend",
-    latestChapter: 312,
-    updateTime: "4 ชม.",
-    cover: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=250&h=350&fit=crop",
-  },
-  {
-    id: 20,
-    title: "ดาบเทพแห่งสวรรค์",
-    author: "สวรรค์เขียน",
-    slug: "heaven-divine-sword",
-    latestChapter: 267,
-    updateTime: "6 ชม.",
-    cover: "https://images.unsplash.com/photo-1618336753974-aae8e04506aa?w=250&h=350&fit=crop",
-  },
-  {
-    id: 29,
-    title: "ยอดนักสู้แห่งจักรวาล",
-    author: "จักรวาลเขียน",
-    slug: "universe-fighter",
-    latestChapter: 278,
-    updateTime: "8 ชม.",
-    cover: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=250&h=350&fit=crop",
-  },
-  {
-    id: 31,
-    title: "นักสู้ซามูไรโบราณ",
-    author: "มังงะซึยาม่า",
-    slug: "ancient-samurai-warrior",
-    latestChapter: 89,
-    updateTime: "12 ชม.",
-    cover: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=250&h=350&fit=crop",
-  },
-  {
-    id: 21,
-    title: "จักรพรรดินีแห่งไฟ",
-    author: "ไฟเขียน",
-    slug: "fire-empress",
-    latestChapter: 189,
-    updateTime: "14 ชม.",
-    cover: "https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=250&h=350&fit=crop",
-  },
-  {
-    id: 19,
-    title: "นักฆ่าแห่งเงา",
-    author: "เงาเขียน",
-    slug: "shadow-assassin",
-    latestChapter: 143,
-    updateTime: "18 ชม.",
-    cover: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=250&h=350&fit=crop",
-  },
-  {
-    id: 32,
-    title: "เทพีการ์ตูนสีชมพู",
-    author: "มังงะคิวท์",
-    slug: "pink-manga-goddess",
-    latestChapter: 56,
-    updateTime: "1 วัน",
-    cover: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=250&h=350&fit=crop",
-  },
-  {
-    id: 26,
-    title: "ฮีโร่โรงเรียนมายากล",
-    author: "โรงเรียนเขียน",
-    slug: "magic-school-hero",
-    latestChapter: 167,
-    updateTime: "1 วัน",
-    cover: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=250&h=350&fit=crop",
-  },
-  {
-    id: 15,
-    title: "ราชาแห่งแสง",
-    author: "แสงเขียน",
-    slug: "king-of-light",
-    latestChapter: 211,
-    updateTime: "2 วัน",
-    cover: "https://images.unsplash.com/photo-1578662015886-3683d21bfe50?w=250&h=350&fit=crop",
-  },
-];
+const popularManga = computed(() => 
+  popularMangaData.value
+    .map(transformSeries)
+    .filter(item => item !== null)
+)
+
+// Load data on mount
+onMounted(async () => {
+  await fetchPopularNovels(15, 'novel')
+  await fetchPopularManga(15, 'manga')
+})
 
 // Navigation functions
-const navigateToNovel = (slug) => {
+const navigateToNovel = (slug: string) => {
   navigateTo(`/read/${slug}`);
 };
 
-const navigateToCategory = (slug) => {
+const navigateToCategory = (slug: string) => {
   navigateTo(`/category/${slug}`);
 };
 
@@ -718,7 +154,7 @@ const handleLoadMore = () => {
   console.log('Loading more updates...');
 };
 
-const handleItemClick = (slug) => {
+const handleItemClick = (slug: string) => {
   console.log('Item clicked:', slug);
   // Additional tracking or actions
 };

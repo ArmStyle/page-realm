@@ -311,7 +311,7 @@
                 :key="related.id"
                 class="flex gap-3 group"
               >
-                <NuxtLink :to="`/detail/${related.slug}`" class="flex-shrink-0">
+                <NuxtLink :to="`/${related.slug}`" class="flex-shrink-0">
                   <img 
                     :src="related.cover" 
                     :alt="related.title"
@@ -320,7 +320,7 @@
                 </NuxtLink>
                 <div class="flex-1 min-w-0">
                   <NuxtLink 
-                    :to="`/detail/${related.slug}`"
+                    :to="`/${related.slug}`"
                     class="font-medium text-sm text-gray-900 dark:text-white group-hover:text-primary transition-colors line-clamp-2 leading-tight"
                   >
                     {{ related.title }}
